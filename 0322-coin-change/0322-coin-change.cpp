@@ -27,11 +27,14 @@ public:
             for (const auto coin : coins) {
 
                 if (idx - coin < 0) {
-                    min_pre = std::min(min_pre, none);
+                    continue;
                 }
-                else {
-                    min_pre = std::min(min_pre, list_res[idx - coin]);
+                
+                if (list_res[idx - coin] == none) {
+                    continue;
                 }
+                
+                min_pre = std::min(min_pre, list_res[idx - coin]);
             }
 
             if (min_pre != none) {
