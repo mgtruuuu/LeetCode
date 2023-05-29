@@ -30,10 +30,6 @@ public:
                     continue;
                 }
                 
-                if (list_res[idx - coin] == none) {
-                    continue;
-                }
-                
                 min_pre = std::min(min_pre, list_res[idx - coin]);
             }
 
