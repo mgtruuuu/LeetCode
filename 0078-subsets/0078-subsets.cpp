@@ -1,5 +1,33 @@
 class Solution {
 public:
+    
+    void recursive(const std::vector<int>& nums, const std::size_t idx, std::vector<int>& sub,
+                      std::vector<std::vector<int>>& list_sub)
+    {
+        if (idx == nums.size()) {
+            list_sub.push_back(sub);
+
+            return;
+        }
+
+        recursive(nums, idx + 1, sub, list_sub);
+
+        sub.push_back(nums[idx]);
+        recursive(nums, idx + 1, sub, list_sub);
+        sub.pop_back();
+    }
+
+    vector<vector<int>> subsets(vector<int>& nums)
+    {
+        std::vector<int> sub;
+        std::vector<std::vector<int>> list_sub;
+
+        recursive(nums, 0, sub, list_sub);
+
+        return list_sub;
+    }
+    
+    
 /*  wrong...
     void iterative(const std::vector<int>& nums, const std::size_t idx, std::stack<std::size_t>& stack,
                    std::vector<std::size_t>& markers, std::vector<std::vector<int>>& list_sub)
@@ -46,33 +74,4 @@ public:
         return list_sub;
     }
 */
-
-
-    
-    
-    void recursive(const std::vector<int>& nums, const std::size_t idx, std::vector<int>& sub,
-                      std::vector<std::vector<int>>& list_sub)
-    {
-        if (idx == nums.size()) {
-            list_sub.push_back(sub);
-
-            return;
-        }
-
-        recursive(nums, idx + 1, sub, list_sub);
-
-        sub.push_back(nums[idx]);
-        recursive(nums, idx + 1, sub, list_sub);
-        sub.pop_back();
-    }
-
-    vector<vector<int>> subsets(vector<int>& nums)
-    {
-        std::vector<int> sub;
-        std::vector<std::vector<int>> list_sub;
-
-        recursive(nums, 0, sub, list_sub);
-
-        return list_sub;
-    }
 };
