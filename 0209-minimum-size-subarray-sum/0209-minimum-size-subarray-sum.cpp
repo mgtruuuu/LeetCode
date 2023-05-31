@@ -3,8 +3,6 @@ public:
     int minSubArrayLen(int target, vector<int>& nums) {
         
         auto length_min = static_cast<int>(nums.size() + 1);
-        
-       
         auto sum = 0;
         auto left = 0;
         
@@ -27,6 +25,7 @@ public:
             
             length_min = std::min(length_min, right - left + 1);      
         }
+        
         
         if (length_min == static_cast<int>(nums.size()) + 1) {
             return 0;
