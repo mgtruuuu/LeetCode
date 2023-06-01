@@ -11,12 +11,16 @@ class Solution {
 
         for (const auto& ch : ransomNote) {
 
-            if (hash_char2count.find(ch) != hash_char2count.end() && hash_char2count[ch] > 0) {
-                --hash_char2count[ch];
-            }
-            else {
+            if (hash_char2count[ch]-- == 0) {
                 return false;
             }
+
+            // // if (hash_char2count.find(ch) != hash_char2count.end() && hash_char2count[ch] > 0) {
+            // //     --hash_char2count[ch];
+            // // }
+            // // else {
+            // //     return false;
+            // // }
         }
 
         return true;
