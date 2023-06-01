@@ -2,21 +2,18 @@ class Solution {
   public:
     vector<string> summaryRanges(vector<int>& nums)
     {
-        if (nums.empty() == true) {
-            return {};
-        }
-
         std::vector<std::string> res;
 
-        auto ptr = nums.begin() + 1;
+        if (nums.empty() == true) {
+            return res;
+        }
 
         auto interval_first = *nums.begin();
         auto interval_last = *nums.begin();
-        while (ptr != nums.end()) {
 
-            if (interval_last + 1 == *ptr) {
+        for (std::size_t idx = 1; idx != nums.size(); ++idx) {
+            if (interval_last + 1 == nums[idx]) {
                 ++interval_last;
-                ++ptr;
             }
             else {
                 std::string interval;
@@ -27,9 +24,8 @@ class Solution {
                 }
                 res.push_back(interval);
 
-                interval_first = *ptr;
-                interval_last = *ptr;
-                ++ptr;
+                interval_first = nums[idx];
+                interval_last = nums[idx];
             }
         }
 
