@@ -35,7 +35,6 @@ class Solution {
 
         auto* p_branch = res;
 
-        //while (p_list1 != nullptr || p_list2 != nullptr) {
         while (true) {
             if (p_list1 == nullptr) {
                 p_branch->next = p_list2;
