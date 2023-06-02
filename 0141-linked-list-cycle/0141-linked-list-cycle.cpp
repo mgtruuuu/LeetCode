@@ -15,11 +15,13 @@ class Solution {
             return false;
         }
 
-        auto* fast = head;
-        auto* slow = head;
+        const auto* fast = head;
+        const auto* slow = head;
+
+        constexpr auto n_fast = 2;
 
         do {
-            for (int i = 0; i != 2; ++i) {
+            for (auto i = 0; i != n_fast; ++i) {
                 fast = fast->next;
                 if (fast == nullptr) {
                     return false;
