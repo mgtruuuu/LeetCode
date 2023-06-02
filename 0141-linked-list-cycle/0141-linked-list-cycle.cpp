@@ -19,8 +19,6 @@ class Solution {
         auto* slow = head;
 
         do {
-            // fast = fast->next->next;
-
             for (int i = 0; i != 2; ++i) {
                 fast = fast->next;
                 if (fast == nullptr) {
@@ -36,3 +34,26 @@ class Solution {
     }
 };
 
+// class Solution {
+//   public:
+//     bool hasCycle(ListNode* head)
+//     {
+//         if (head == nullptr) {
+//             return false;
+//         }
+
+//         std::set<ListNode*> nodes;
+//         ListNode* next_node = head;
+
+//         do {
+//             if (nodes.find(next_node) != nodes.end()) {
+//                 return true;
+//             }
+//             else {
+
+//             }
+//         } while (next_node != nullptr);
+
+//         return false;
+//     }
+// };
