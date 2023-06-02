@@ -29,7 +29,6 @@ class Solution {
         }
 
         memcpy(nums1.data(), nums2.data(), sizeof(int) * (std::distance(nums2.begin(), p_nums2) + 1));
-        
         // while (nums2.begin() <= p_nums2) {
         //     *p_marker = *p_nums2;
         //     --p_nums2;
