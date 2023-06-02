@@ -6,6 +6,7 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
+
 class Solution {
   public:
     bool hasCycle(ListNode* head)
@@ -14,19 +15,24 @@ class Solution {
             return false;
         }
 
-        std::unordered_set<ListNode*> nodes;
-        ListNode* next_node = head;
+        auto* fast = head;
+        auto* slow = head;
 
         do {
-            if (nodes.find(next_node) != nodes.end()) {
-                return true;
-            }
-            else {
-                nodes.insert(next_node);
-                next_node = next_node->next;
-            }
-        } while (next_node != nullptr);
+            // fast = fast->next->next;
 
-        return false;
+            for (int i = 0; i != 2; ++i) {
+                fast = fast->next;
+                if (fast == nullptr) {
+                    return false;
+                }
+            }
+
+            slow = slow->next;
+
+        } while (fast != slow);
+
+        return true;
     }
 };
+
