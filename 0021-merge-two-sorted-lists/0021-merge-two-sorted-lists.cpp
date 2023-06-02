@@ -40,15 +40,11 @@ class Solution {
                 p_branch->next = p_list2;
 
                 break;
-                // p_branch = p_branch->next;
-                // p_list2 = p_list2->next;
             }
             else if (p_list2 == nullptr) {
                 p_branch->next = p_list1;
 
                 break;
-                // p_branch = p_branch->next;
-                // p_list1 = p_list1->next;
             }
             else {
                 if (p_list1->val <= p_list2->val) {
