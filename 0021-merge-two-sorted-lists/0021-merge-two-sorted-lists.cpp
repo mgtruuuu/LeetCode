@@ -15,7 +15,7 @@ class Solution {
         if (list1 == nullptr) {
             return list2;
         }
-        
+
         if (list2 == nullptr) {
             return list1;
         }
@@ -35,28 +35,29 @@ class Solution {
 
         auto* p_branch = res;
 
-        while (p_list1 != nullptr || p_list2 != nullptr) {
+        //while (p_list1 != nullptr || p_list2 != nullptr) {
+        while (true) {
             if (p_list1 == nullptr) {
                 p_branch->next = p_list2;
 
                 break;
             }
-            else if (p_list2 == nullptr) {
+
+            if (p_list2 == nullptr) {
                 p_branch->next = p_list1;
 
                 break;
             }
+
+            if (p_list1->val <= p_list2->val) {
+                p_branch->next = p_list1;
+                p_branch = p_branch->next;
+                p_list1 = p_list1->next;
+            }
             else {
-                if (p_list1->val <= p_list2->val) {
-                    p_branch->next = p_list1;
-                    p_branch = p_branch->next;
-                    p_list1 = p_list1->next;
-                }
-                else {
-                    p_branch->next = p_list2;
-                    p_branch = p_branch->next;
-                    p_list2 = p_list2->next;
-                }
+                p_branch->next = p_list2;
+                p_branch = p_branch->next;
+                p_list2 = p_list2->next;
             }
         }
 
