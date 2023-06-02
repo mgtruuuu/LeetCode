@@ -13,13 +13,11 @@ class Solution {
         if (head == nullptr) {
             return false;
         }
-        
+
         std::set<ListNode*> nodes;
+        ListNode* next_node = head;
 
-        nodes.insert(head);
-        auto* next_node = head->next;
-        while (next_node != nullptr) {
-
+        do {
             if (nodes.find(next_node) != nodes.end()) {
                 return true;
             }
@@ -27,7 +25,7 @@ class Solution {
                 nodes.insert(next_node);
                 next_node = next_node->next;
             }
-        }
+        } while (next_node != nullptr);
 
         return false;
     }
