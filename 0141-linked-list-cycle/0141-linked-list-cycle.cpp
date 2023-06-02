@@ -14,7 +14,7 @@ class Solution {
             return false;
         }
 
-        std::set<ListNode*> nodes;
+        std::unordered_set<ListNode*> nodes;
         ListNode* next_node = head;
 
         do {
