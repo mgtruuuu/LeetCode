@@ -2,15 +2,32 @@ class Solution {
   public:
     int trailingZeroes(int n)
     {
-        auto ans = 0;
-        auto i = 0;
-        for (i = 5; n / i >= 1; i *= 5) {
-            ans += (n / i);
+        auto count = 0;
+        while (n / 5 >= 1) {
+            count += (n / 5);
+            n = n / 5;
         }
-
-        return ans;
+        return count;
     }
 };
+
+
+
+// // class Solution {
+// //   public:
+// //     int trailingZeroes(int n)
+// //     {
+// //         auto ans = 0;
+// //         auto i = 0;
+// //         for (i = 5; n / i >= 1; i *= 5) {
+// //             ans += (n / i);
+// //         }
+
+// //         return ans;
+// //     }
+// // };
+
+
 
 // // class Solution {
 // //   public:
