@@ -2,13 +2,11 @@ class Solution {
   public:
     int singleNumber(vector<int>& arr)
     {
-        const auto size_arr = arr.size();
-
-        for (std::size_t idx = 0; idx != size_arr - 1; ++idx) {
-            arr[idx + 1] = arr[idx] ^ arr[idx + 1];
+        for (std::size_t idx = 1; idx != arr.size(); ++idx) {
+            arr[0] ^= arr[idx];
         }
 
-        return arr[size_arr - 1];
+        return arr[0];
     }
 };
 
