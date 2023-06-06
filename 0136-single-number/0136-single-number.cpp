@@ -2,14 +2,13 @@ class Solution {
   public:
     int singleNumber(vector<int>& arr)
     {
-        const auto size_arr = arr.size(); // extracting the size of the array
+        const auto size_arr = arr.size();
 
-        // traverse from the array
         for (std::size_t idx = 0; idx != size_arr - 1; ++idx) {
-            arr[idx + 1] = arr[idx] ^ arr[idx + 1]; // (prev answer xor current index)
+            arr[idx + 1] = arr[idx] ^ arr[idx + 1];
         }
 
-        return arr[size_arr - 1]; // return left over element
+        return arr[size_arr - 1];
     }
 };
 
