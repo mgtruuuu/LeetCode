@@ -4,19 +4,30 @@ class Solution {
     {
         int bits[32]{};
 
+std::cout << "dummy" << std::endl;
+        
         for (const auto& num : nums) {
+
             auto num_bitset = num;
+            std::size_t idx = 0;
 
-            for (std::size_t j = 0; j != 32; ++j) {
+            while (num_bitset != 0) {
 
+std::cout << "num_bitset : " << num_bitset << std::endl;                    
+std::cout << idx << std::endl;       
+                
                 if (num_bitset & 1) {
-                    ++bits[j];
+                    ++bits[idx];
                 }
 
-                num_bitset >>= 1;
+                ++idx;
+                
+                num_bitset = static_cast<int>(static_cast<unsigned int>(num_bitset) >> 1);
             }
         }
 
+std::cout << "dummy" << std::endl;
+        
         auto res = 0; // 0b0000'0000'0000'0000'0000'0000'0000'0000
         for (std::size_t idx = 0; idx != 32; ++idx) {
 
@@ -25,6 +36,8 @@ class Solution {
             }
         }
 
+std::cout << "dummy" << std::endl;
+        
         return res;
     }
 };
