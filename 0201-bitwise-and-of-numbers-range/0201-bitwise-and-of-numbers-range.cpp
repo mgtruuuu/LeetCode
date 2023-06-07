@@ -1,27 +1,3 @@
-int getExponent(int num, const int base = 2)
-{
-    auto exponent = -1;
-
-    while (num != 0) {
-        num /= base;
-
-        ++exponent;
-    }
-
-    return exponent;
-}
-
-int getPower(int base, const int exp)
-{
-    auto res = 1;
-
-    for (auto i = 0; i != exp; ++i) {
-        res *= base;
-    }
-
-    return res;
-}
-
 class Solution {
   public:
     int rangeBitwiseAnd(int left, int right)
@@ -52,6 +28,30 @@ class Solution {
             if (right_bit.test(idx) == true) {
                 break;
             }
+        }
+
+        return res;
+    }
+    
+    int getExponent(int num, const int base = 2)
+    {
+        auto exponent = -1;
+
+        while (num != 0) {
+            num /= base;
+
+            ++exponent;
+        }
+
+        return exponent;
+    }
+
+    int getPower(int base, const int exp)
+    {
+        auto res = 1;
+
+        for (auto i = 0; i != exp; ++i) {
+            res *= base;
         }
 
         return res;
