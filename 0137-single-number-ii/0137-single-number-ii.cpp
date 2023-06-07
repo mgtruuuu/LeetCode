@@ -3,8 +3,6 @@ class Solution {
     int singleNumber(vector<int>& nums)
     {
         int bits[32]{};
-
-std::cout << "dummy" << std::endl;
         
         for (const auto& num : nums) {
 
@@ -12,10 +10,7 @@ std::cout << "dummy" << std::endl;
             std::size_t idx = 0;
 
             while (num_bitset != 0) {
-
-std::cout << "num_bitset : " << num_bitset << std::endl;                    
-std::cout << idx << std::endl;       
-                
+  
                 if (num_bitset & 1) {
                     ++bits[idx];
                 }
@@ -25,18 +20,14 @@ std::cout << idx << std::endl;
                 num_bitset = static_cast<int>(static_cast<unsigned int>(num_bitset) >> 1);
             }
         }
-
-std::cout << "dummy" << std::endl;
         
         auto res = 0; // 0b0000'0000'0000'0000'0000'0000'0000'0000
         for (std::size_t idx = 0; idx != 32; ++idx) {
 
             if (bits[idx] % 3 != 0) {
-                res |= (1 << idx);
+                res |= static_cast<int>(1 << idx);
             }
         }
-
-std::cout << "dummy" << std::endl;
         
         return res;
     }
