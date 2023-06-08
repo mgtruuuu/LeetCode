@@ -6,7 +6,7 @@ class Solution {
             return 1.0;
         }
         else if (n > 0) {
-            return myPowHelper(x, n);
+            return myPowHelper(x, static_cast<uint32_t>(n));
         }
         else if (n != -2147483648) {
             return 1.0 / myPowHelper(x, static_cast<uint32_t>(-n));
@@ -20,14 +20,14 @@ class Solution {
     {
         auto res = 1.0;
 
-        do {
+        while (n != 0) {
             if (n & 1) {
                 res *= x;
             }
 
             n >>= 1;
             x *= x;
-        } while (n != 0);
+        }
 
         return res;
     }
