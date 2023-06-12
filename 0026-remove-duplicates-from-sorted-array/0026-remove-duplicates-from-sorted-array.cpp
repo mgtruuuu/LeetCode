@@ -2,41 +2,22 @@ class Solution {
   public:
     int removeDuplicates(vector<int>& nums)
     {
-        const auto len_nums = static_cast<int>(nums.size());
+        auto idx_lhs = 1;
+        std::size_t idx_rhs = 0;
+        auto current_num = nums[idx_rhs];
 
-        auto current_num = nums[0];
-        auto p_left = 0;
-        auto p_right = 0;
+        for (idx_rhs = 1; idx_rhs != nums.size(); ++idx_rhs) {
 
-        do {
-            if (p_right == len_nums - 1) {
-                return 1;
+            if (nums[idx_rhs] == current_num) {
+                continue;
             }
 
-            ++p_right;
-        } while (nums[p_right] == current_num);
-
-        p_left = 1;
-        std::swap(nums[p_left], nums[p_right]);
-        current_num = nums[p_left];
-        ++p_left;
-        ++p_right;
-
-        while (p_right != len_nums) {
-            while (nums[p_right] == current_num) {
-                ++p_right;
-
-                if (p_right == static_cast<int>(nums.size())) {
-                    return p_left;
-                }
-            }
-
-            std::swap(nums[p_left], nums[p_right]);
-            current_num = nums[p_left];
-            ++p_left;
-            ++p_right;
+            current_num = nums[idx_rhs];
+            std::swap(nums[idx_lhs], nums[idx_rhs]);
+            ++idx_lhs;
         }
 
-        return p_left;
+        return idx_lhs;
+        
     }
 };
