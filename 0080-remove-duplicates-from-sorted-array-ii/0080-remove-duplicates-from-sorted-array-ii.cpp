@@ -10,7 +10,7 @@ class Solution {
 
         auto idx_lhs = std::size_t(2);
         while (idx_lhs != len_nums) {
-            if (nums[idx_lhs - 2] == nums[idx_lhs - 1] && nums[idx_lhs - 1] == nums[idx_lhs]) {
+            if (nums[idx_lhs - 2] == nums[idx_lhs]) {
                 break;
             }
 
