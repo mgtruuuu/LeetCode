@@ -2,7 +2,6 @@ class Solution {
   public:
     int lengthOfLastWord(string s)
     {
-
         auto idx_rhs = s.size() - 1;
         while (s[idx_rhs] == ' ') {
 
