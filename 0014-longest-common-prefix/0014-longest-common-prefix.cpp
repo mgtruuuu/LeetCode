@@ -6,6 +6,11 @@ class Solution {
 
         for (auto idx_zero = 0; idx_zero != strs.front().size(); ++idx_zero) {
             for (auto idx_strs = std::size_t(1); idx_strs != strs.size(); ++idx_strs) {
+
+                if (idx_zero == strs[idx_strs].size()) {
+                    return res;
+                }
+
                 if (strs.front()[idx_zero] != strs[idx_strs][idx_zero]) {
                     return res;
                 }
