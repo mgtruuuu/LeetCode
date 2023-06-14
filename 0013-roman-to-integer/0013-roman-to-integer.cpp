@@ -2,79 +2,58 @@ class Solution {
   public:
     int romanToInt(string s)
     {
-        std::unordered_map<char, int> hash;
-        hash['M'] = 1000;
-        hash['D'] = 500;
-        hash['C'] = 100;
-        hash['L'] = 50;
-        hash['X'] = 10;
-        hash['V'] = 5;
-        hash['I'] = 1;
-
-        auto was_hundred = false;
-        auto was_ten = false;
-        auto was_one = false;
-
         auto res = 0;
-        for (const auto& c : s) {
-            if (was_hundred == true && c == 'M') {
-                res -= 100;
-                res += 900;
+        auto before_ch = '0';
+        for (const auto& ch : s) {
+            switch (ch) {
+            case 'M':
+                res += 1000;
+                if (before_ch == 'C') {
+                    res -= 200;
+                }
+                break;
 
-                was_hundred = false;
-                continue;
-            }
-            else if (was_hundred == true && c == 'D') {
-                res -= 100;
-                res += 400;
+            case 'D':
+                res += 500;
+                if (before_ch == 'C') {
+                    res -= 200;
+                }
+                break;
 
-                was_hundred = false;
-                continue;
-            }
+            case 'C':
+                res += 100;
+                if (before_ch == 'X') {
+                    res -= 20;
+                }
+                break;
 
-            if (was_ten == true && c == 'C') {
-                res -= 10;
-                res += 90;
+            case 'L':
+                res += 50;
+                if (before_ch == 'X') {
+                    res -= 20;
+                }
+                break;
 
-                was_ten = false;
-                continue;
-            }
-            else if (was_ten == true && c == 'L') {
-                res -= 10;
-                res += 40;
+            case 'X':
+                res += 10;
+                if (before_ch == 'I') {
+                    res -= 2;
+                }
+                break;
 
-                was_ten = false;
-                continue;
-            }
+            case 'V':
+                res += 5;
+                if (before_ch == 'I') {
+                    res -= 2;
+                }
+                break;
 
-            if (was_one == true && c == 'X') {
-                res -= 1;
-                res += 9;
-
-                was_one = false;
-                continue;
-            }
-            else if (was_one == true && c == 'V') {
-                res -= 1;
-                res += 4;
-
-                was_one = false;
-                continue;
-            }
-
-            res += hash[c];
-
-            if (c == 'C') {
-                was_hundred = true;
+            case 'I':
+                res += 1;
+                break;
             }
 
-            if (c == 'X') {
-                was_ten = true;
-            }
-
-            if (c == 'I') {
-                was_one = true;
-            }
+            before_ch = ch;
         }
 
         return res;
