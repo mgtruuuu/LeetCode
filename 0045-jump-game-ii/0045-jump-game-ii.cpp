@@ -4,17 +4,8 @@ class Solution {
     {
         auto len_nums = nums.size();
 
-        if (len_nums == 1) {
-            return 0;
-        }
-
         std::vector<int> counts(len_nums, 10000);
         counts[0] = 0;
-
-        // const auto idx_end = (nums[0] + 1 < len_nums) ? nums[0] + 1 : len_nums;
-        // for (auto idx = 1; idx != idx_end; ++idx) {
-        //     counts[idx] = 1;
-        // }
 
         for (auto idx = std::size_t(0); idx != len_nums - 1; ++idx) {
 
