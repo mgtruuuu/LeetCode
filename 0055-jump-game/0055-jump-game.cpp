@@ -6,15 +6,17 @@ class Solution {
             return true;
         }
 
-        if (nums[0] == 0) {
+        auto temp = nums[0];
+
+        if (temp == 0) {
             return false;
         }
 
         for (auto idx = std::size_t(1); idx != nums.size() - 1; ++idx) {
 
-            nums[idx] = std::max(nums[idx], nums[idx - 1] - 1);
+            temp = std::max(nums[idx], temp - 1);
 
-            if (nums[idx] == 0) {
+            if (temp == 0) {
                 return false;
             }
         }
