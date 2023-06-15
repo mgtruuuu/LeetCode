@@ -8,18 +8,15 @@ class Solution {
             return 0;
         }
 
-        if (nums[0] == 0) {
-            return false;
-        }
-
         std::vector<int> counts(len_nums, 10000);
+        counts[0] = 0;
 
-        const auto idx_end = (nums[0] + 1 < len_nums) ? nums[0] + 1 : len_nums;
-        for (auto idx = 1; idx != idx_end; ++idx) {
-            counts[idx] = 1;
-        }
+        // const auto idx_end = (nums[0] + 1 < len_nums) ? nums[0] + 1 : len_nums;
+        // for (auto idx = 1; idx != idx_end; ++idx) {
+        //     counts[idx] = 1;
+        // }
 
-        for (auto idx = std::size_t(1); idx != len_nums - 1; ++idx) {
+        for (auto idx = std::size_t(0); idx != len_nums - 1; ++idx) {
 
             const auto inner_end = (idx + 1 + nums[idx] < len_nums) ? idx + 1 + nums[idx] : len_nums;
 
