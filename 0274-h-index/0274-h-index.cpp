@@ -6,8 +6,8 @@ class Solution {
         auto counts = std::vector<int>(len_citations + 1, 0);
 
         for (auto idx = std::size_t(0); idx != len_citations; ++idx) {
-            const auto min_citation = std::min(citations[idx], static_cast<int>(len_citations));
-            ++counts[min_citation];
+            const auto citation = static_cast<std::size_t>(citations[idx]);
+            ++counts[citation < len_citations ? citation : len_citations];
         }
 
         auto accum = 0;
