@@ -2,13 +2,15 @@ class Solution {
   public:
     int canCompleteCircuit(vector<int>& gas, vector<int>& cost)
     {
+        const auto len = static_cast<int>(gas.size());
+
         auto curr_gain = 0;
         auto total_gain = 0;
-        
+
         auto answer = 0;
 
-        for (int i = 0; i < gas.size(); ++i) {
-            
+        for (auto i = 0; i < len; ++i) {
+
             // gain[i] = gas[i] - cost[i]
             total_gain += gas[i] - cost[i];
             curr_gain += gas[i] - cost[i];
@@ -21,6 +23,6 @@ class Solution {
             }
         }
 
-        return total_gain >= 0 ? answer : -1;
+        return (total_gain >= 0 ? answer : -1);
     }
 };
