@@ -1,21 +1,18 @@
-#include <cstring>
-#include <iostream>
-
-// Fills lps[] for given pattern pat[0..M-1]
-void computeLPSArray(char* pat, int M, int* lps)
+std::vector<int> computeLPSArray(const std::string& pat)
 {
-    // length of the previous longest prefix suffix
-    int len = 0;
-
+    auto lps = std::vector<int>(pat.size());
     lps[0] = 0; // lps[0] is always 0
 
+    // length of the previous longest prefix suffix
+    auto len = std::size_t(0);
+
     // the loop calculates lps[i] for i = 1 to M-1
-    int i = 1;
-    while (i < M) {
+    auto i = std::size_t(1);
+    while (i != pat.size()) {
         if (pat[i] == pat[len]) {
-            len++;
+            ++len;
             lps[i] = len;
-            i++;
+            ++i;
         }
         else // (pat[i] != pat[len])
         {
@@ -31,61 +28,65 @@ void computeLPSArray(char* pat, int M, int* lps)
             else // if (len == 0)
             {
                 lps[i] = 0;
-                i++;
+                ++i;
             }
         }
     }
+
+    return lps;
 }
 
-// Prints occurrences of txt[] in pat[]
-int KMPSearch(char* pat, char* txt)
+
+std::size_t KMPSearch(const std::string& pat, const std::string& txt)
 {
-    int M = strlen(pat);
-    int N = strlen(txt);
+    const auto len_pat = pat.size();
+    const auto len_txt = txt.size();
 
-    // create lps[] that will hold the longest prefix suffix
-    // values for pattern
-    int lps[M];
+    // Create lps[] that will hold the longest prefix suffix values for pattern
+    const auto lps = computeLPSArray(pat);
 
-    // Preprocess the pattern (calculate lps[] array)
-    computeLPSArray(pat, M, lps);
-
-    int i = 0; // index for txt[]
-    int j = 0; // index for pat[]
-    while ((N - i) >= (M - j)) {
-        if (pat[j] == txt[i]) {
-            j++;
-            i++;
+    auto idx_txt = std::size_t(0);
+    auto idx_pat = std::size_t(0);
+    while ((len_txt - idx_txt) >= (len_pat - idx_pat)) {
+        if (pat[idx_pat] == txt[idx_txt]) {
+            ++idx_pat;
+            ++idx_txt;
         }
 
-        if (j == M) {
-            // printf("Found pattern at index %d\n", i - j);
+        if (idx_pat == len_pat) {
+            // printf("Found pattern at index %d\n", idx_txt - idx_pat);
+            // idx_pat = lps[idx_pat - 1];
 
-            // j = lps[j - 1];
-
-            return i - j;
+            return idx_txt - idx_pat;
         }
 
         // mismatch after j matches
-        else if (i < N && pat[j] != txt[i]) {
+        else if (idx_txt < len_txt && pat[idx_pat] != txt[idx_txt]) {
             // Do not match lps[0..lps[j-1]] characters,
             // they will match anyway
-            if (j != 0)
-                j = lps[j - 1];
-            else
-                ++i;
+            if (idx_pat != 0) {
+                idx_pat = lps[idx_pat - 1];
+            }
+            else {
+                ++idx_txt;
+            }
         }
     }
 
-    return -1;
+    return len_txt;
 }
 
-
-
-
 class Solution {
-public:
-    int strStr(string haystack, string needle) {
-        return KMPSearch(needle.data(), haystack.data());
+  public:
+    int strStr(string haystack, string needle)
+    {
+        const auto idx = KMPSearch(needle, haystack);
+
+        if (idx != haystack.size()) {
+            return static_cast<int>(idx);
+        }
+        else {
+            return -1;
+        }
     }
 };
