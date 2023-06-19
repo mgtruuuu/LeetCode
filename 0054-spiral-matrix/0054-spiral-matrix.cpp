@@ -5,7 +5,6 @@ class Solution {
         const auto n_row = static_cast<int>(matrix.size());
         const auto n_col = static_cast<int>(matrix.front().size());
 
-        //const auto [min, max] = std::minmax_element(n_row, n_col);
         const auto min = std::min(n_row, n_col);
         const auto half_min = min / 2;
         const auto remainder = min % 2;
@@ -32,7 +31,7 @@ class Solution {
         }
 
         if (remainder == 1) {
-            if (n_row < n_col) {
+            if (is_wide_matrix == true) {
                 for (auto u = half_min; u != n_col - half_min; ++u) {
                     res.push_back(matrix[half_min][u]);
                 }
