@@ -5,8 +5,6 @@ class Solution {
         const auto len_s = static_cast<int>(s.size());
         const auto value = getLPS(s).back();
 
-        std::cout << value << std::endl;
-
         if (value != 0 && len_s % (len_s - value) == 0) {
             return true;
         }
