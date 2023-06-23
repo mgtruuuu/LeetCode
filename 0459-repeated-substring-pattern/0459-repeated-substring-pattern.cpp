@@ -3,7 +3,7 @@ class Solution {
     bool repeatedSubstringPattern(string s)
     {
         const auto len_s = static_cast<int>(s.size());
-        const auto value = getLPS(s).back();
+        const auto value = getLPSLastElement(s);
 
         if (value != 0 && len_s % (len_s - value) == 0) {
             return true;
@@ -16,39 +16,50 @@ class Solution {
     std::vector<int> getLPS(const std::string& arr)
     {
         auto lps = std::vector<int>(arr.size());
-
         lps[0] = 0;
 
-        for (auto idx = std::size_t(1); idx != arr.size(); ++idx) {
-            if (arr[lps[idx - 1]] == arr[idx]) {
-                lps[idx] = lps[idx - 1] + 1;
+        auto len = 0; // length of the previous longest prefix suffix
 
-                continue;
+        auto idx = std::size_t(1);
+        while (idx != arr.size()) {
+            if (arr[len] == arr[idx]) {
+                lps[idx++] = ++len;
             }
-
-            auto count = lps[idx - 1];
-
-            while (count != 0) {
-                auto check = true;
-                auto idx_rhs = idx;
-                for (auto idx_lhs = count; idx_lhs-- != 0;) {
-                    if (arr[idx_lhs] != arr[idx_rhs--]) {
-                        check = false;
-
-                        break;
-                    }
+            else {
+                if (len != 0) {
+                    len = lps[len - 1];
                 }
-
-                if (check == true) {
-                    break;
+                else {
+                    lps[idx++] = 0;
                 }
-
-                --count;
             }
-
-            lps[idx] = count;
         }
 
         return lps;
+    }
+    
+    int getLPSLastElement(const std::string& arr)
+    {
+        auto lps = std::vector<int>(arr.size());
+        lps[0] = 0;
+
+        auto len = 0; // length of the previous longest prefix suffix
+
+        auto idx = std::size_t(1);
+        while (idx != arr.size()) {
+            if (arr[len] == arr[idx]) {
+                lps[idx++] = ++len;
+            }
+            else {
+                if (len != 0) {
+                    len = lps[len - 1];
+                }
+                else {
+                    lps[idx++] = 0;
+                }
+            }
+        }
+
+        return lps.back();
     }
 };
