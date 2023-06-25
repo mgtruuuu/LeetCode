@@ -42,7 +42,7 @@ class Solution {
             }
         }
 
-        if ((x != 0 || y != 0) && dir == 0) {
+        if (dir == 0 && (x != 0 || y != 0)) {
             return false;
         }
         else {
