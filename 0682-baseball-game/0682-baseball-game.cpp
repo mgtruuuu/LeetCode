@@ -7,15 +7,7 @@ class Solution {
 
         for (const auto& op_str : operations) {
 
-            const auto& ch = op_str.front();
-
-            if (isdigit(ch) != 0 || ch == '-') {
-                nums.push_back(std::stoi(op_str));
-
-                continue;
-            }
-
-            switch (ch) {
+            switch (op_str.front()) {
             case '+':
                 nums.push_back(nums[nums.size() - 1] + nums[nums.size() - 2]);
                 break;
@@ -24,8 +16,12 @@ class Solution {
                 nums.resize(nums.size() - 1);
                 break;
 
-            default: // case 'D'
+            case 'D':
                 nums.push_back(2 * nums[nums.size() - 1]);
+                break;
+                    
+            default:
+                nums.push_back(std::stoi(op_str));
                 break;
             }
         }
