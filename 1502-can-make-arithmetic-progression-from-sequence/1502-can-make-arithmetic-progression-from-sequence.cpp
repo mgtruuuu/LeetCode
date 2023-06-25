@@ -2,31 +2,36 @@ class Solution {
   public:
     bool canMakeArithmeticProgression(vector<int>& arr)
     {
-        std::set<int> arr_set;
-        for (const auto& ele : arr) {
-            arr_set.insert(ele);
-        }
+        const auto len_arr = static_cast<int>(arr.size());
 
-        if (arr_set.size() == 1) {
-            return true;
-        }
-        else if (arr_set.size() < arr.size()) {
+        const auto [p_min, p_max] = std::minmax_element(std::begin(arr), std::end(arr));
+        const auto min = *p_min;
+        const auto max = *p_max;
+
+        if ((max - min) % (len_arr - 1) != 0) {
             return false;
         }
 
-        auto p = arr_set.begin();
-        auto prev = p;
-        const auto difference = *(++p) - *prev;
-        ++p;
-        ++prev;
+        const auto diff = (max - min) / (len_arr - 1);
 
-        while (p != arr_set.end()) {
-            if (*p - *prev != difference) {
+        auto idx = 0;
+        while (idx != len_arr) {
+
+            if (arr[idx] == min + idx * diff) {
+                ++idx;
+            }
+            else if ((arr[idx] - min) % diff != 0) {
                 return false;
             }
+            else {
+                const auto idx_new = (arr[idx] - min) / diff;
 
-            ++p;
-            ++prev;
+                if (arr[idx] == arr[idx_new]) {
+                    return false;
+                }
+
+                std::swap(arr[idx], arr[idx_new]);
+            }
         }
 
         return true;
