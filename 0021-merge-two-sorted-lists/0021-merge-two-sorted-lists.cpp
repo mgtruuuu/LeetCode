@@ -8,6 +8,7 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+
 class Solution {
   public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2)
@@ -35,6 +36,7 @@ class Solution {
 
         auto* p_branch = res;
 
+        
         while (true) {
             if (p_list1 == nullptr) {
                 p_branch->next = p_list2;
