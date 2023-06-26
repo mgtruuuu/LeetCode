@@ -16,8 +16,8 @@ class Solution {
             return nullptr;
         }
 
-        ListNode* node_new_next = head;
-        ListNode* node_new = node_new_next->next;
+        auto* node_new_next = head;
+        auto* node_new = node_new_next->next;
         node_new_next->next = nullptr;
 
         while (node_new != nullptr) {
