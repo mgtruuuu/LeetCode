@@ -2,7 +2,7 @@ class Solution {
 public:
     bool lemonadeChange(vector<int>& bills) {
         
-        int num_changes[3] = {0, 0, 0};
+        int num_changes[2] = {0, 0};
         
         for (const auto& bill : bills) {
             
@@ -18,19 +18,16 @@ public:
                 break;
 
             case 20:
-                if (num_changes[0] == 0 || 5 * num_changes[0] + 10 * num_changes[1] < 15) {
-                    return false;
+                if (num_changes[0] != 0 && num_changes[1] != 0) {
+                    --num_changes[0];
+                    --num_changes[1];                    
                 }
-                    
-                if (num_changes[0] == 0) {
+                else if (num_changes[0] >= 3) {
                     num_changes[0] -= 3;
                 }
                 else {
-                    --num_changes[0];
-                    --num_changes[1];
+                    return false;                    
                 }
-                    
-                ++num_changes[2];
                     
                 break;
 
