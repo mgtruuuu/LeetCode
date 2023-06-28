@@ -6,21 +6,20 @@ class Solution {
         nums.insert(n);
 
         while (true) {
-            std::vector<int> digits;
+
+            auto sum = 0;
             while (n != 0) {
-                digits.push_back(n % 10);
+                sum += (n % 10) * (n % 10);
                 n /= 10;
             }
 
-            for (const auto& digit : digits) {
-                n += digit * digit;
-            }
-
+            n = sum;
             if (nums.find(n) != nums.end()) {
                 break;
             }
-
-            nums.insert(n);
+            else {
+                nums.insert(n);    
+            }
         }
 
         if (n == 1) {
