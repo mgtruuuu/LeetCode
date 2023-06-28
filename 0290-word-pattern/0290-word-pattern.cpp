@@ -12,17 +12,18 @@ class Solution {
                 continue;
             }
 
+            const auto substr_s = s.substr(idx_head, idx_tail - idx_head);
             if (char2str.find(pattern[count]) == char2str.end()) {
 
                 for (const auto& [k, v] : char2str) {
-                    if (v == s.substr(idx_head, idx_tail - idx_head)) {
+                    if (v == substr_s) {
                         return false;
                     }
                 }
 
-                char2str[pattern[count]] = s.substr(idx_head, idx_tail - idx_head);
+                char2str[pattern[count]] = substr_s;
             }
-            else if (char2str[pattern[count]] != s.substr(idx_head, idx_tail - idx_head)) {
+            else if (char2str[pattern[count]] != substr_s) {
                 return false;
             }
 
