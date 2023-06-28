@@ -4,7 +4,7 @@ class Solution {
     {
         std::unordered_map<char, std::string> char2str;
 
-        auto count = 0;
+        auto count = std::size_t(0);
         auto idx_head = std::size_t(0);
         for (auto idx_tail = std::size_t(0); idx_tail != s.size() + 1; ++idx_tail) {
 
@@ -31,7 +31,7 @@ class Solution {
             ++count;
         }
 
-        if (count == static_cast<int>(pattern.size())) {
+        if (count == pattern.size()) {
             return true;
         }
         else {
