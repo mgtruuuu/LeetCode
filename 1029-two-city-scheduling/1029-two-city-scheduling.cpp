@@ -8,13 +8,8 @@ class Solution {
 
         auto sum = 0;
 
-        auto idx = std::size_t(0);
-        for (; idx != costs.size() / 2; ++idx) {
-            sum += costs[idx].front();
-        }
-
-        for (; idx != costs.size(); ++idx) {
-            sum += costs[idx].back();
+        for (auto idx = std::size_t(0); idx != costs.size() / 2; ++idx) {
+            sum += costs[idx].front() + costs[idx + costs.size() / 2].back();
         }
 
         return sum;
