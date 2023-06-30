@@ -8,6 +8,7 @@ public:
         auto max = 0;
         auto res = 0;
         for (auto idx = std::size_t(0); idx != len; ++idx) {
+            
             if (prev_color != colors[idx]) {
                 prev_color = colors[idx];
                 max = neededTime[idx];
