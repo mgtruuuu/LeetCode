@@ -3,12 +3,7 @@ class Solution {
     int findMinArrowShots(vector<vector<int>>& points)
     {
         std::sort(points.begin(), points.end(), [](const std::vector<int>& a, const std::vector<int>& b) {
-            if (a.back() != b.back()) {
-                return a.back() < b.back();
-            }
-            else {
-                return a.front() < b.front();
-            }
+            return a.back() < b.back();
         });
 
         auto prev_back = points.front().back();
