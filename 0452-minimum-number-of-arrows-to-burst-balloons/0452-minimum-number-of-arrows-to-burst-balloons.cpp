@@ -11,17 +11,18 @@ class Solution {
             }
         });
 
-        std::vector<int> ends;
-        ends.push_back(points.front().back());
+        auto prev_back = points.front().back();
+        auto count = 1;
         for (auto idx = std::size_t(1); idx != points.size(); ++idx) {
 
-            if (ends.back() == points[idx].back() || points[idx].front() <= ends.back()) {
+            if (prev_back == points[idx].back() || points[idx].front() <= prev_back) {
                 continue;
             }
 
-            ends.push_back(points[idx].back());
+            prev_back = points[idx].back();
+            ++count;
         }
 
-        return static_cast<int>(ends.size());
+        return count;
     }
 };
