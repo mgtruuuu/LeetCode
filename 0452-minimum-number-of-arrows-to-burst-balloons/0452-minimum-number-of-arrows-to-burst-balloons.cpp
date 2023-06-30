@@ -15,7 +15,7 @@ class Solution {
         auto count = 1;
         for (auto idx = std::size_t(1); idx != points.size(); ++idx) {
 
-            if (prev_back == points[idx].back() || points[idx].front() <= prev_back) {
+            if (points[idx].front() <= prev_back) {
                 continue;
             }
 
