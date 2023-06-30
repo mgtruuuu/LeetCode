@@ -9,19 +9,17 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
-public:
-    int recFcn(TreeNode* node, const int depth) {
 
-        if (node == nullptr) {
-            return depth;
+
+
+class Solution {
+  public:
+    int maxDepth(TreeNode* root)
+    {
+        if (root == nullptr) {
+            return 0;
         }
-            
-        return std::max(recFcn(node->left, depth + 1), recFcn(node->right, depth + 1));
-    }
-    
-    int maxDepth(TreeNode* root) {
-        
-        return recFcn(root, 0);
+
+        return std::max(maxDepth(root->left) + 1, maxDepth(root->right) + 1);
     }
 };
