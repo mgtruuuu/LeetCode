@@ -15,12 +15,10 @@ class Solution {
             if (newInterval.front() <= intervals[idx_new_front].back()) {
                 break;
             }
-            else {
 
-                res.push_back(intervals[idx_new_front]);
+            res.push_back(intervals[idx_new_front]);
 
-                ++idx_new_front;
-            }
+            ++idx_new_front;
         }
 
         if (idx_new_front == intervals.size()) {
@@ -35,23 +33,19 @@ class Solution {
             if (newInterval.back() < intervals[idx_new_back].front()) {
                 break;
             }
-            else {
-                ++idx_new_back;
-            }
-        }
 
-        if (idx_new_back == 0) {
-            res.push_back(newInterval);
-            for (const auto& interval : intervals) {
-                res.push_back(interval);
-            }
-            return res;
+            ++idx_new_back;
         }
 
         --idx_new_back;
+        if (idx_new_back == -1) {
+            res.push_back(newInterval);
+        }
+        else {
+            res.push_back(std::vector<int>{ std::min(newInterval.front(), intervals[idx_new_front].front()),
+                                            std::max(newInterval.back(), intervals[idx_new_back].back()) });
+        }
 
-        res.push_back(std::vector<int>{ std::min(newInterval.front(), intervals[idx_new_front].front()),
-                                        std::max(newInterval.back(), intervals[idx_new_back].back()) });
         for (auto idx = idx_new_back + 1; idx != intervals.size(); ++idx) {
             res.push_back(intervals[idx]);
         }
