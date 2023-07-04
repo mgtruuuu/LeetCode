@@ -23,8 +23,6 @@ class Solution {
 
             res.push_back(r + static_cast<int>('0'));
         }
-
-std::cout << res << std::endl;        
         
         if (is_positive == true) {
             for (auto idx = std::size_t(0); idx != res.size() / 2; ++idx) {
