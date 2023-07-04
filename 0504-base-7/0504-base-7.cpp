@@ -5,24 +5,20 @@ class Solution {
         std::string res;
         auto is_positive = true;
         
-        if (num == 0) {
-            return "0";
-        }
-        else if (num < 0) {
+        if (num < 0) {
             is_positive = false;
             res.push_back('-');
             
             num = -num;
         }
 
-        while (num != 0) {
-
+        do {
             auto r = num;
             num /= 7;
             r -= 7 * num;
 
-            res.push_back(r + static_cast<int>('0'));
-        }
+            res.push_back(r + static_cast<int>('0'));            
+        } while (num != 0);
         
         if (is_positive == true) {
             for (auto idx = std::size_t(0); idx != res.size() / 2; ++idx) {
