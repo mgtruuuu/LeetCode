@@ -22,15 +22,16 @@ class UndergroundSystem {
             station_2_avg[station_combined] = { t - id_2_start_info[id].second, 1 };
         }
         else {
-            station_2_avg[station_combined].first += t - id_2_start_info[id].second;
+            station_2_avg[station_combined].first += (t - id_2_start_info[id].second);
             ++station_2_avg[station_combined].second;
         }
     }
 
     double getAverageTime(string startStation, string endStation)
     {
-        return static_cast<double>(station_2_avg[(startStation + "_" + endStation)].first) /
-               station_2_avg[(startStation + "_" + endStation)].second;
+        const auto& avg = station_2_avg[(startStation + "_" + endStation)];
+
+        return static_cast<double>(avg.first) / avg.second;
     }
 };
 
