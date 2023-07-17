@@ -25,6 +25,8 @@ class UndergroundSystem {
             station_2_avg[station_combined].first += (t - id_2_start_info[id].second);
             ++station_2_avg[station_combined].second;
         }
+        
+        id_2_start_info.erase(id);
     }
 
     double getAverageTime(string startStation, string endStation)
