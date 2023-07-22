@@ -11,7 +11,8 @@ class Solution {
         if (n == std::numeric_limits<int>::min()) {
             return 1.0 / myPow(x * x, static_cast<int>(static_cast<uint32_t>(n) >> 1));
         }
-        else if (n < 0) {
+        
+        if (n < 0) {
             n = static_cast<int>((n ^ 0xFFFFFFFF) + 1);
             x = 1.0 / x;
         }
