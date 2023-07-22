@@ -24,7 +24,6 @@ class Solution {
             // If 'n' is odd we multiply result with 'x' and reduce 'n' by '1'.
             if (n & 1) {
                 result *= x;
-                n -= 1;
             }
 
             // We square 'x' and reduce 'n' by half, x^n => (x^2)^(n/2).
