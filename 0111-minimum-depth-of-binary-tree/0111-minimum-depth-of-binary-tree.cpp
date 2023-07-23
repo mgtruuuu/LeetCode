@@ -12,11 +12,8 @@
 
 
 
-
-
-
-///*
-// Approach 2: BFS
+/*
+// Approach 1: BFS
 class Solution {
   public:
     int minDepth(TreeNode* root)
@@ -57,11 +54,11 @@ class Solution {
         return -1;
     }
 };
-//*/
+*/
 
 
-/*
-// Approach 3: Recursion
+
+// Approach 2: DFS
 class Solution {
   public:
     int minDepth(TreeNode* root)
@@ -81,4 +78,3 @@ class Solution {
         return std::min(minDepth(root->right), minDepth(root->left)) + 1;
     }
 };
-*/
