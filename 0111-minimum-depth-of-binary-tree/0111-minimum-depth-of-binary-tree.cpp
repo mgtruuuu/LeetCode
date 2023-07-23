@@ -13,6 +13,9 @@
 
 
 
+
+
+///*
 // Approach 2: BFS
 class Solution {
   public:
@@ -31,20 +34,21 @@ class Solution {
 
             while (len_q-- != 0) {
                 const auto* node = q.front();
-                q.pop();
-
-                // Since we added nodes without checking null, we need to skip them here.
-                if (node == nullptr) {
-                    continue;
-                }
 
                 // The first leaf would be at minimum depth, hence return it.
                 if (node->left == nullptr && node->right == nullptr) {
                     return depth;
                 }
+                
+                q.pop();
 
-                q.push(node->left);
-                q.push(node->right);
+                if (node->left != nullptr) {
+                    q.push(node->left);    
+                }
+                
+                if (node->right != nullptr) {
+                    q.push(node->right);
+                }
             }
 
             ++depth;
@@ -53,6 +57,7 @@ class Solution {
         return -1;
     }
 };
+//*/
 
 
 /*
