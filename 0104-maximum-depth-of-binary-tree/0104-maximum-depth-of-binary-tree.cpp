@@ -12,6 +12,45 @@
 
 // Approach 1: Tail Recursion + BFS
 class Solution {
+  public:
+    int maxDepth(TreeNode* root)
+    {
+        if (root == nullptr) {
+            return 0;
+        }
+
+        std::queue<TreeNode*> q;
+        q.push(root);
+        auto max_depth = 0;
+
+        while (q.empty() == false) {
+
+            ++max_depth;
+            auto len_q = q.size();
+
+            while (len_q-- != 0) {
+                const auto* node = q.front();
+                q.pop();
+
+                if (node->left != nullptr) {
+                    q.push(node->left);
+                }
+
+                if (node->right != nullptr) {
+                    q.push(node->right);
+                }
+            }
+        }
+
+        return max_depth;
+    }
+};
+
+
+
+/*
+// Approach 1: Tail Recursion + BFS
+class Solution {
   private:
     // The queue that contains the next nodes to visit,
     // along with the level/depth that each node is located.
@@ -65,6 +104,7 @@ class Solution {
         return next_maxDepth();
     }
 };
+*/
 
 
 /*
