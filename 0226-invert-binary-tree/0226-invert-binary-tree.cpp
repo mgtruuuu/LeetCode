@@ -36,7 +36,6 @@ class Solution {
 
 // Approach 2: Iterative
 class Solution {
-
   public:
     TreeNode* invertTree(TreeNode* root)
     {
