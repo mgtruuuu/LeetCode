@@ -1,37 +1,36 @@
 class BrowserHistory {
-    vector<string> visitedURLs;
-    int currURL, lastURL;
-public:
-    BrowserHistory(string homepage) {
-        // 'homepage' is the first visited URL.
-        visitedURLs.push_back(homepage);
-        currURL = 0; 
-        lastURL = 0;
-    }
+  private:
+    std::vector<std::string> homepages;
+    int idx_curr;
     
-    void visit(string url) {
-        currURL += 1;
-        if (visitedURLs.size() > currURL) {
-            // We have enough space in our array to overwrite an old 'url' entry with new one.
-            visitedURLs[currURL] = url;
-        } else {
-            // We have to insert a new 'url' entry at the end.
-            visitedURLs.push_back(url);
-        }
-        // This 'url' will be last URL if we try to go forward.
-        lastURL = currURL;
+  public:
+    BrowserHistory(string homepage)
+    {
+        homepages.clear();
+        
+        idx_curr = -1;
+        visit(std::move(homepage));
     }
-    
-    string back(int steps) {
-        // Move 'currURL' pointer in left direction.
-        currURL = max(0, currURL - steps);
-        return visitedURLs[currURL];
+
+    void visit(string url)
+    {
+        homepages.resize(idx_curr + 2);
+        homepages[idx_curr + 1] = std::move(url);
+        ++idx_curr;
     }
-    
-    string forward(int steps) {
-        // Move 'currURL' pointer in right direction.
-        currURL = min(lastURL, currURL + steps);
-        return visitedURLs[currURL];
+
+    string back(int steps)
+    {
+        idx_curr = std::max(0, idx_curr - steps);
+            
+        return homepages[idx_curr];
+    }
+
+    string forward(int steps)
+    {   
+        idx_curr = std::min(static_cast<int>(homepages.size()) - 1, idx_curr + steps);
+        
+        return homepages[idx_curr];
     }
 };
 
