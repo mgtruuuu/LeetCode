@@ -11,31 +11,19 @@
  */
 class Solution {
 
-  private:
-    std::stack<TreeNode*> s;
-    
-    void invertTreeHelper(TreeNode* root) {
+  public:
+    TreeNode* invertTree(TreeNode* root) {
         
         if (root == nullptr) {
-            return;
-        }
-        
-        if (root->left == nullptr && root->right == nullptr) {
-            return;
+            return root;
         }
         
         auto* temp = root->left;
         root->left = root->right;
         root->right = temp;
         
-        invertTreeHelper(root->left);
-        invertTreeHelper(root->right);
-    }
-    
-  public:
-    TreeNode* invertTree(TreeNode* root) {
-        
-        invertTreeHelper(root);
+        invertTree(root->left);
+        invertTree(root->right);
         
         return root;
     }
