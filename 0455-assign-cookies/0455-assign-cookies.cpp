@@ -2,6 +2,29 @@ class Solution {
   public:
     int findContentChildren(vector<int>& g, vector<int>& s)
     {
+        std::sort(s.begin(), s.end());
+        std::sort(g.begin(), g.end());
+
+        auto res = 0;
+
+        auto idx_g = 0;
+        for (auto idx_s = 0; idx_s < static_cast<int>(s.size()); ++idx_s) {
+            if (idx_g != g.size() && g[idx_g] <= s[idx_s]) {
+                ++idx_g;
+                ++res;
+            }
+        }
+
+        return res;
+    }
+};
+
+
+/*
+class Solution {
+  public:
+    int findContentChildren(vector<int>& g, vector<int>& s)
+    {
         std::sort(g.begin(), g.end());
         std::sort(s.begin(), s.end());
 
@@ -22,7 +45,7 @@ class Solution {
         return idx_g;
     }
 };
-
+*/
 
 
 /*
