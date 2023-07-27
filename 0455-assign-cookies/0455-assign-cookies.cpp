@@ -5,28 +5,29 @@ class Solution {
         std::sort(g.begin(), g.end());
         std::sort(s.begin(), s.end());
 
-        auto idx_g = std::size_t(0);
-        auto idx_s = std::size_t(0);
+        auto idx_g = 0;
+        auto idx_s = -1;
 
+        for (; idx_g != static_cast<int>(g.size()); ++idx_g) {
 
-        for (; idx_g != g.size(); ++idx_g) {
+            ++idx_s;
 
-            if (idx_s == s.size()) {
-                return static_cast<int>(idx_g);
+            if (idx_s == static_cast<int>(s.size())) {
+                return idx_g;
             }
-            
+
             while (s[idx_s] < g[idx_g]) {
 
                 ++idx_s;
 
-                if (idx_s == s.size()) {
-                    return static_cast<int>(idx_g);
+                if (idx_s == static_cast<int>(s.size())) {
+                    return idx_g;
                 }
             }
+
             
-            ++idx_s;
         }
 
-        return static_cast<int>(idx_g);
+        return idx_g;
     }
 };
