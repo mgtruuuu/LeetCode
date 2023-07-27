@@ -5,12 +5,10 @@ class Solution {
         std::sort(g.begin(), g.end());
         std::sort(s.begin(), s.end());
         
-        auto res = 0;
         auto idx_g = 0;
         for (auto idx_s = 0; idx_s < static_cast<int>(s.size()); ++idx_s) {
             if (idx_g != g.size() && g[idx_g] <= s[idx_s]) {
                 ++idx_g;
-                ++res;
             }
         }
 
