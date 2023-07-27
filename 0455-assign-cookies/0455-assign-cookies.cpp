@@ -7,9 +7,7 @@ class Solution {
 
         auto idx_g = std::size_t(0);
         auto idx_s = std::size_t(0);
-        if (idx_s == s.size()) {
-            return static_cast<int>(idx_g);
-        }
+
 
         for (; idx_g != g.size(); ++idx_g) {
 
