@@ -6,13 +6,16 @@ class Solution {
         
         for (auto i = 1; i <= n; ++i) {
             
-            if (i % 15 == 0) {
+            const bool divisible_by_3 = (i % 3 == 0);
+            const bool divisible_by_5 = (i % 5 == 0);
+            
+            if (divisible_by_3 && divisible_by_5) {
                 res.push_back("FizzBuzz");
             }
-            else if (i % 3 == 0) {
+            else if (divisible_by_3) {
                 res.push_back("Fizz");
             }
-            else if (i % 5 == 0) {
+            else if (divisible_by_5) {
                 res.push_back("Buzz");
             }
             else {
