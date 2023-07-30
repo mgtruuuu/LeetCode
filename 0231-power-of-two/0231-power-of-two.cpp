@@ -1,3 +1,19 @@
+class Solution
+{
+  public:
+    bool isPowerOfTwo(int n)
+    {
+        if (n <= 0 || n == std::numeric_limits<int>::max()) {
+            return false;
+        }
+        
+        return ((n & (-n)) == n);
+    }
+};
+
+
+
+/*
 class Solution {
   public:
     bool isPowerOfTwo(int n)
@@ -26,3 +42,4 @@ class Solution {
         }
     }
 };
+*/
