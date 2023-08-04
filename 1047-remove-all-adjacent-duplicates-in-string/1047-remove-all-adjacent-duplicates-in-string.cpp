@@ -3,7 +3,8 @@ class Solution {
     string removeDuplicates(string s)
     {
         std::string res;
-
+        res.reserve(s.size());
+        
         for (auto rit = s.cbegin(); rit != s.cend(); ++rit) {
 
             if (res.empty() == true) {
