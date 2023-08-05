@@ -2,6 +2,25 @@ class Solution {
   public:
     int addDigits(int num)
     {        
+        if (num == 0) {
+            return 0;
+        }
+        
+        const auto res = num % 9;
+        if (res == 0) {
+            return 9;
+        }
+        else {
+            return res;
+        }
+    }
+};
+
+/*
+class Solution {
+  public:
+    int addDigits(int num)
+    {        
         auto res = num;
         
         while (res > 9) {
@@ -17,3 +36,4 @@ class Solution {
         return res;
     }
 };
+*/
