@@ -48,18 +48,22 @@ class Solution {
         std::vector<int> res;
         std::stack<TreeNode*> s;
 
-        auto* curr = root;
-        while (curr != nullptr || s.empty() == false) {
+        while (true) {
 
-            while (curr != nullptr) {
-                s.push(curr);
-                curr = curr->left;
+            while (root != nullptr) {
+
+                s.push(root);
+                root = root->left;
             }
 
-            curr = s.top();
+            if (s.empty() == true) {
+                break;
+            }
+
+            root = s.top();
             s.pop();
-            res.push_back(curr->val);
-            curr = curr->right;
+            res.push_back(root->val);
+            root = root->right;
         }
 
         return res;
