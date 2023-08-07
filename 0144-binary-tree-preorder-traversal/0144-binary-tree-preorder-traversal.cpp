@@ -9,6 +9,38 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
+
+
+class Solution {
+    
+  private:
+    std::vector<int> answer;
+    
+    void dfs(const TreeNode* const node) {
+        
+        if (node == nullptr) {
+            return;
+        }
+        
+        // Visit the root first, then the left subtree, then the right subtree.
+        answer.push_back(node->val);
+        dfs(node->left);
+        dfs(node->right);
+    }
+    
+  public:
+    vector<int> preorderTraversal(TreeNode* root)
+    {
+        dfs(root);
+
+        return answer;
+    }
+};
+
+
+
+/*
 class Solution {
   public:
     vector<int> preorderTraversal(TreeNode* root)
@@ -29,12 +61,11 @@ class Solution {
                 break;
             }
 
-            root = s.top();
+            root = s.top()->right;
             s.pop();
-
-            root = root->right;
         }
 
         return res;
     }
 };
+*/
