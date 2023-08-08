@@ -11,9 +11,9 @@
  */
 
 
-
+// Approach 1: Recursion
+/*
 class Solution {
-    
   private:
     std::vector<int> answer;
     
@@ -37,9 +37,48 @@ class Solution {
         return answer;
     }
 };
+*/
 
 
 
+// Approach 2-1: Iteration
+class Solution {
+  public:
+    vector<int> preorderTraversal(TreeNode* root)
+    {
+        std::vector<int> res;
+        std::stack<TreeNode*> s;
+
+        if (root == nullptr) {
+            return res;
+        }
+        
+        s.push(root);
+
+        do {
+
+            root = s.top();
+            s.pop();
+
+            res.push_back(root->val);
+
+            if (root->right != nullptr) {
+                s.push(root->right);
+            }
+
+            if (root->left != nullptr) {
+                s.push(root->left);
+            }
+
+        } while (s.empty() == false);
+
+        return res;
+    }
+};
+
+
+
+// Approach 2-2: Iteration
 /*
 class Solution {
   public:
