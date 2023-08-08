@@ -11,57 +11,7 @@
  */
 
 
-
-class Solution {
-public:
-    vector<int> postorderTraversal(TreeNode* root) {
-        vector<int> output;
-        stack<TreeNode*> s;
-        if (root == NULL) return output;
-        s.push(root);
-        while (!s.empty()) {
-            TreeNode* node = s.top();
-            s.pop();
-            output.push_back(node->val);
-            if (node->left != NULL) s.push(node->left);
-            if (node->right != NULL) s.push(node->right);
-        }
-        reverse(output.begin(), output.end());
-        return output;
-    }
-};
-
-
-// Approach 1: Recursive Postorder Traversal
-/*
-class Solution {
-
-  private:
-    std::vector<int> postorder;
-    void postorderTraversalHelper(const TreeNode* const node)
-    {
-        if (node == nullptr) {
-            return;
-        }
-
-        postorderTraversalHelper(node->left);
-        postorderTraversalHelper(node->right);
-        postorder.push_back(node->val);
-    }
-
-  public:
-    vector<int> postorderTraversal(TreeNode* root)
-    {
-        postorderTraversalHelper(root);
-
-        return postorder;
-    }
-};
-*/
-
-
-// Approach 2: Iteration
-/*
+// Approach 3: Iterative Postorder Traversal
 class Solution {
   public:
     vector<int> postorderTraversal(TreeNode* root)
@@ -89,18 +39,69 @@ class Solution {
             if (curr->right != nullptr && curr->right != last) {
 
                 curr = curr->right;
-
-                continue;
             }
+            else {
+                last = curr;
+                s.pop();
+                res.push_back(last->val);
 
-            last = curr;
-            s.pop();
-            res.push_back(last->val);
-
-            curr = nullptr;
+                curr = nullptr;                
+            }
         }
 
         return res;
     }
 };
+
+
+/*
+// Approach 2: Iterative Preorder Traversal: Tweak the Order of the Output
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> output;
+        stack<TreeNode*> s;
+        if (root == NULL) return output;
+        s.push(root);
+        while (!s.empty()) {
+            TreeNode* node = s.top();
+            s.pop();
+            output.push_back(node->val);
+            if (node->left != NULL) s.push(node->left);
+            if (node->right != NULL) s.push(node->right);
+        }
+        reverse(output.begin(), output.end());
+        return output;
+    }
+};
 */
+
+
+
+/*
+// Approach 1: Recursive Postorder Traversal
+class Solution {
+
+  private:
+    std::vector<int> postorder;
+    void postorderTraversalHelper(const TreeNode* const node)
+    {
+        if (node == nullptr) {
+            return;
+        }
+
+        postorderTraversalHelper(node->left);
+        postorderTraversalHelper(node->right);
+        postorder.push_back(node->val);
+    }
+
+  public:
+    vector<int> postorderTraversal(TreeNode* root)
+    {
+        postorderTraversalHelper(root);
+
+        return postorder;
+    }
+};
+*/
+
