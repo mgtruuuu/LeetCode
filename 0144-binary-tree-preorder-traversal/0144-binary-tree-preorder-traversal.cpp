@@ -49,14 +49,12 @@ class Solution {
         std::vector<int> res;
         std::stack<TreeNode*> s;
 
-        if (root == nullptr) {
-            return res;
+        if (root != nullptr) {
+            s.push(root);
         }
-        
-        s.push(root);
 
-        do {
-
+        while (s.empty() == false) {
+            
             root = s.top();
             s.pop();
 
@@ -68,9 +66,8 @@ class Solution {
 
             if (root->left != nullptr) {
                 s.push(root->left);
-            }
-
-        } while (s.empty() == false);
+            }            
+        }
 
         return res;
     }
