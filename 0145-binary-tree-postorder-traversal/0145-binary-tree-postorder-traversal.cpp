@@ -11,7 +11,29 @@
  */
 
 
+
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> output;
+        stack<TreeNode*> s;
+        if (root == NULL) return output;
+        s.push(root);
+        while (!s.empty()) {
+            TreeNode* node = s.top();
+            s.pop();
+            output.push_back(node->val);
+            if (node->left != NULL) s.push(node->left);
+            if (node->right != NULL) s.push(node->right);
+        }
+        reverse(output.begin(), output.end());
+        return output;
+    }
+};
+
+
 // Approach 1: Recursive Postorder Traversal
+/*
 class Solution {
 
   private:
@@ -35,7 +57,7 @@ class Solution {
         return postorder;
     }
 };
-
+*/
 
 
 // Approach 2: Iteration
