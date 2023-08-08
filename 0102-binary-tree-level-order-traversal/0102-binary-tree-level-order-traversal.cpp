@@ -11,13 +11,52 @@
  */
 
 
+// Approach 2: Iteration
+class Solution {
+  public:
+    vector<vector<int>> levelOrder(TreeNode* root)
+    {
+        std::vector<std::vector<int>> res;
+
+        std::queue<TreeNode*> queue_prev;
+        queue_prev.push(root);
+
+        while (true) {
+
+            std::queue<TreeNode*> queue_curr;
+            std::vector<int> vals;
+
+            while (queue_prev.empty() == false) {
+                const auto* const curr = queue_prev.front();
+                queue_prev.pop();
+
+                if (curr != nullptr) {
+                    vals.push_back(curr->val);
+                    queue_curr.push(curr->left);
+                    queue_curr.push(curr->right);                    
+                }
+            }
+
+            if (queue_curr.empty() == true) {
+                break;
+            }
+
+            res.push_back(vals);
+            queue_prev = queue_curr;
+        }
+
+        return res;
+    }
+};
+
+
+/*
 // Approach 1: Recursion
 class Solution {
   private:
     std::vector<std::vector<int>> levels;
     void levelOrderHelper(const TreeNode* const node, const std::size_t level)
     {
-
         if (node == nullptr) {
             return;
         }
@@ -39,3 +78,4 @@ class Solution {
         return levels;
     }
 };
+*/
