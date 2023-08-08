@@ -49,6 +49,35 @@ class Solution {
         std::vector<int> res;
         std::stack<TreeNode*> s;
 
+        s.push(root);
+
+        while (s.empty() == false) {
+            
+            root = s.top();
+            s.pop();
+
+            if (root != nullptr) {
+                res.push_back(root->val);    
+                s.push(root->right);
+                s.push(root->left);
+            }
+        }
+
+        return res;
+    }
+};
+
+
+
+// Approach 2-2: Iteration
+/*
+class Solution {
+  public:
+    vector<int> preorderTraversal(TreeNode* root)
+    {
+        std::vector<int> res;
+        std::stack<TreeNode*> s;
+
         if (root != nullptr) {
             s.push(root);
         }
@@ -72,10 +101,11 @@ class Solution {
         return res;
     }
 };
+*/
 
 
 
-// Approach 2-2: Iteration
+// Approach 2-3: Iteration
 /*
 class Solution {
   public:
