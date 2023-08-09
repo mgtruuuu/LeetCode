@@ -12,6 +12,26 @@
 
 
 
+/*
+// Approach 1: Linear Time
+class Solution {
+  public:
+    int countNodes(TreeNode* root)
+    {
+        return (root != nullptr) ? 1 + countNodes(root->left) + countNodes(root->right) : 0;
+        
+        // // if (root == nullptr) {
+        // //     return 0;
+        // // }
+
+        // // return 1 + countNodes(root->left) + countNodes(root->right);
+    }
+};
+*/
+
+
+
+// Approach 2: Linear Time
 class Solution {
   private:
     int computeDepth(const TreeNode* node)
@@ -93,20 +113,3 @@ class Solution {
         return twoPower(depth) - 1 + left;
     }
 };
-
-/*
-// Approach 1: Linear Time
-class Solution {
-  public:
-    int countNodes(TreeNode* root)
-    {
-        return (root != nullptr) ? 1 + countNodes(root->left) + countNodes(root->right) : 0;
-        
-        // // if (root == nullptr) {
-        // //     return 0;
-        // // }
-
-        // // return 1 + countNodes(root->left) + countNodes(root->right);
-    }
-};
-*/
