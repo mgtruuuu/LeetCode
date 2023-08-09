@@ -14,6 +14,46 @@
 
 class Solution {
   private:
+    int sum = 0;
+
+    bool isLeaf(const TreeNode* const node)
+    {
+        return (node->left == nullptr && node->right == nullptr);
+    }
+
+    void sumOfLeftLeavesHelper(const TreeNode* const node)
+    {
+
+        if (node->left != nullptr) {
+            sumOfLeftLeavesHelper(node->left);
+
+            if (isLeaf(node->left) == true) {
+                sum += node->left->val;
+            }
+        }
+
+        if (node->right != nullptr) {
+            sumOfLeftLeavesHelper(node->right);
+        }
+    }
+
+  public:
+    int sumOfLeftLeaves(TreeNode* root)
+    {
+        if (root == nullptr) {
+            return 0;
+        }
+
+        sumOfLeftLeavesHelper(root);
+
+        return sum;
+    }
+};
+
+
+/*
+class Solution {
+  private:
     bool isLeaf(const TreeNode* const node) {
         return (node->left == nullptr && node->right == nullptr);
     }
@@ -50,3 +90,4 @@ class Solution {
         return sum;
     }
 };
+*/
