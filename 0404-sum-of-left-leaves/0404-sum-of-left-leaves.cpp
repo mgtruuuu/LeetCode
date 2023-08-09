@@ -12,6 +12,48 @@
 
 
 
+// Approach 2 - 2: Recursive Tree Traversal (Pre-order)
+class Solution {
+  private:
+    bool isLeaf(const TreeNode* const node)
+    {
+        return (node->left == nullptr && node->right == nullptr);
+    }
+
+    int sumOfLeftLeavesHelper(const TreeNode* const node, const bool is_left)
+    {
+        if (node->left == nullptr && node->right == nullptr) {
+            return is_left == true ? node->val : 0;
+        }
+
+        auto total = 0;
+
+        if (node->left != nullptr) {
+            total += sumOfLeftLeavesHelper(node->left, true);
+        }
+
+        if (node->right != nullptr) {
+            total += sumOfLeftLeavesHelper(node->right, false);
+        }
+
+        return total;
+    }
+
+  public:
+    int sumOfLeftLeaves(TreeNode* root)
+    {
+        if (root == nullptr) {
+            return 0;
+        }
+
+        return sumOfLeftLeavesHelper(root, false);
+    }
+};
+
+
+
+/*
+// Approach 2 - 1: Recursive Tree Traversal (Pre-order)
 class Solution {
   private:
     int sum = 0;
@@ -49,9 +91,12 @@ class Solution {
         return sum;
     }
 };
+*/
+
 
 
 /*
+// Approach 1: Iterative Tree Traversal (Pre-order)
 class Solution {
   private:
     bool isLeaf(const TreeNode* const node) {
