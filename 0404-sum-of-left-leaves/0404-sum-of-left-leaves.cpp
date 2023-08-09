@@ -15,11 +15,6 @@
 // Approach 2 - 2: Recursive Tree Traversal (Pre-order)
 class Solution {
   private:
-    bool isLeaf(const TreeNode* const node)
-    {
-        return (node->left == nullptr && node->right == nullptr);
-    }
-
     int sumOfLeftLeavesHelper(const TreeNode* const node, const bool is_left)
     {
         if (node->left == nullptr && node->right == nullptr) {
