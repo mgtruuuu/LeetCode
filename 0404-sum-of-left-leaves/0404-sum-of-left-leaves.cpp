@@ -15,7 +15,7 @@
 class Solution {
   private:
     bool isLeaf(const TreeNode* const node) {
-        return (node != nullptr && node->left == nullptr && node->right == nullptr);
+        return (node->left == nullptr && node->right == nullptr);
     }
 
   public:
@@ -40,10 +40,10 @@ class Solution {
             
             if (root->left != nullptr) {
                 s.push(root->left);
-            }
-            
-            if (isLeaf(root->left) == true) {
-                sum += root->left->val;
+                
+                if (isLeaf(root->left) == true) {
+                    sum += root->left->val;
+                }
             }
         }
         
