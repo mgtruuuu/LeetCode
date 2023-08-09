@@ -12,8 +12,8 @@
 
 
 
-/*
-// Approach 1: BFS
+
+// Approach 2: BFS
 class Solution {
   public:
     int minDepth(TreeNode* root)
@@ -27,9 +27,11 @@ class Solution {
         auto depth = 1;
 
         while (q.empty() == false) {
+            
             auto len_q = q.size();
 
             while (len_q-- != 0) {
+            
                 const auto* node = q.front();
 
                 // The first leaf would be at minimum depth, hence return it.
@@ -51,14 +53,14 @@ class Solution {
             ++depth;
         }
 
-        return -1;
+        return -1;  // must not be returned
     }
 };
-*/
 
 
 
-// Approach 2: DFS
+/*
+// Approach 1: DFS
 class Solution {
   public:
     int minDepth(TreeNode* root)
@@ -78,3 +80,4 @@ class Solution {
         return std::min(minDepth(root->right), minDepth(root->left)) + 1;
     }
 };
+*/
