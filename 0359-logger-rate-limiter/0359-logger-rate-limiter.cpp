@@ -1,36 +1,33 @@
-#include <unordered_map>
-#include <string>
-
 class Logger {
-private:
-    std::unordered_map<std::string, int> msgDict;
-
-public:
-    /** Initialize your data structure here. */
-    Logger() {
-        msgDict = std::unordered_map<std::string, int>();
+  private:
+    std::unordered_map<std::string, int> message2timestamp;
+    
+  public:
+    Logger()
+    {
+        
     }
-
-    /**
-     * Returns true if the message should be printed in the given timestamp, otherwise returns false.
-     */
-    bool shouldPrintMessage(int timestamp, std::string message) {
-
-        if (msgDict.find(message) == msgDict.end()) {
-            msgDict[message] = timestamp;
+    
+    bool shouldPrintMessage(int timestamp, string message)
+    {
+        const auto p = message2timestamp.find(message);
+        
+        if (p == message2timestamp.end()) {
+            message2timestamp[message] = timestamp;
+            
             return true;
         }
-
-        int oldTimestamp = msgDict[message];
-        if (timestamp - oldTimestamp >= 10) {
-            msgDict[message] = timestamp;
-            return true;
-        } else
+        
+        if (timestamp - p->second < 10) {
             return false;
+        }
+        else {
+            p->second = timestamp;
+            
+            return true;
+        }
     }
 };
-
-
 
 /**
  * Your Logger object will be instantiated and called as such:
