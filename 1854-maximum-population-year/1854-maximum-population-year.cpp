@@ -1,15 +1,25 @@
 class Solution {
-public:
-    int maximumPopulation(vector<vector<int>>& logs) {
-        int pop[2051] = {}, res = 0;
-        for (auto &l : logs) {
-            ++pop[l[0]];
-            --pop[l[1]];
+  public:
+    int maximumPopulation(vector<vector<int>>& logs)
+    {
+        std::vector<int> populations(2050 - 1950, 0);
+        
+        for (const auto& log : logs) {
+            for (auto year = log.front(); year != log.back(); ++year) {
+                ++populations[year - 1950];
+            }
         }
-        for (auto i = 1950; i < 2050; ++i) {
-            pop[i] += pop[i - 1];
-            res = pop[i] > pop[res] ? i : res;
+        
+        auto max_population = std::numeric_limits<int>::min();
+        int max_year;
+        
+        for (auto idx = 0; idx != static_cast<int>(populations.size()); ++idx) {
+            if (max_population < populations[idx]) {
+                max_population = populations[idx];
+                max_year = idx + 1950;
+            }
         }
-        return res;
+        
+        return max_year;
     }
 };
