@@ -10,6 +10,47 @@
  * };
  */
 
+
+class Solution {
+  public:
+    int rangeSumBST(TreeNode* root, int low, int high)
+    {
+        auto sum = 0;
+        bool end = false;
+        std::stack<TreeNode*> s;
+
+        while (true) {
+
+            while (root != nullptr) {
+
+                s.push(root);
+                root = root->left;
+            }
+
+            if (s.empty() == true) {
+                break;
+            }
+
+            root = s.top();
+            s.pop();
+
+            if (low <= root->val && root->val <= high) {
+                sum += root->val;
+            }
+            else if (high < root->val) {
+                break;
+            }
+
+            root = root->right;
+        }
+
+        return sum;
+    }
+};
+
+
+/*
+// Approach 1: Depth First Search - Recursive
 class Solution {
   private:
     int m_sum = 0;
@@ -38,3 +79,4 @@ class Solution {
         return m_sum;
     }
 };
+*/
