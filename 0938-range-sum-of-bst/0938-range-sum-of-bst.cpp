@@ -9,22 +9,32 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
 class Solution {
-public:
-int sum = 0; // Initialised Sum
-    void Traversal(TreeNode* root,int low,int high)
+  private:
+    int m_sum = 0;
+
+    void rangeSumBSTHelper(const TreeNode* const node, const int low, const int high)
     {
-        if(root==NULL) // If Node is NULL then we return 
-        return;
-        Traversal(root->left,low,high); // To check for left Node
-        if(root->val <= high && root->val >=low)sum+=root->val;// If value of node is in range then add to sum.
-        Traversal(root->right,low,high); // To check for right Node
+
+        if (node == nullptr) {
+            return;
+        }
+
+        rangeSumBSTHelper(node->left, low, high);
+
+        if (low <= node->val && node->val <= high) {
+            m_sum += node->val;
+        }
+
+        rangeSumBSTHelper(node->right, low, high);
     }
-    int rangeSumBST(TreeNode* root, int low, int high) {
-        ios_base::sync_with_stdio(false);
-        cin.tie(nullptr);
-        cout.tie(nullptr); // To make input output fast
-        Traversal(root,low,high); //To Traverse in BST
-        return sum;
+
+  public:
+    int rangeSumBST(TreeNode* root, int low, int high)
+    {
+        rangeSumBSTHelper(root, low, high);
+
+        return m_sum;
     }
 };
