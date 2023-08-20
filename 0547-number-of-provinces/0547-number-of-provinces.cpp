@@ -34,6 +34,8 @@ class UnionFind {
             return;
         }
 
+        --m_count;
+        
         if (m_ranks[root_x] < m_ranks[root_y]) {
             m_parents[root_x] = root_y;
         }
@@ -55,11 +57,6 @@ class UnionFind {
     {
         return m_count;
     }
-
-    void decreaseCount()
-    {
-        --m_count;
-    }
 };
 
 class Solution {
@@ -71,10 +68,8 @@ class Solution {
         for (auto x = 0; x != static_cast<int>(isConnected.size()); ++x) {
             for (auto y = x + 1; y != static_cast<int>(isConnected.size()); ++y) {
 
-                if (isConnected[x][y] == 1 && uf.find(x) != uf.find(y)) {
-                    
+                if (isConnected[x][y] == 1) {
                     uf.unionSet(x, y);
-                    uf.decreaseCount();
                 }
             }
         }
