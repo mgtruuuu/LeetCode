@@ -1,24 +1,27 @@
 class UnionFind {
   private:
     std::vector<int> m_parents;
+    std::vector<int> m_ranks;
 
   public:
     UnionFind(const int len)
     {
         m_parents.resize(len);
+        m_ranks.resize(len);
 
         for (auto idx = 0; idx != len; ++idx) {
             m_parents[idx] = idx;
+            m_ranks[idx] = 1;
         }
     }
 
     int find(int x)
     {
-        while (x != m_parents[x]) {
-            x = m_parents[x];
+        if (x == m_parents[x]) {
+            return x;
         }
 
-        return x;
+        return (m_parents[x] = find(m_parents[x]));
     }
 
     bool unionSet(const int x, const int y)
@@ -29,12 +32,14 @@ class UnionFind {
         if (root_x == root_y) {
             return false;
         }
-        else {
-
-            m_parents[root_y] = root_x;
-
-            return true;
+        else if (root_x < root_y) {
+            m_parents[root_x] = root_y;
         }
+        else {
+            m_parents[root_y] = root_x;
+        }
+
+        return true;
     }
 };
 
