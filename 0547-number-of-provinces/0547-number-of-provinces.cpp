@@ -72,8 +72,9 @@ class Solution {
             for (auto y = x + 1; y != static_cast<int>(isConnected.size()); ++y) {
 
                 if (isConnected[x][y] == 1 && uf.find(x) != uf.find(y)) {
-                    uf.decreaseCount();
+                    
                     uf.unionSet(x, y);
+                    uf.decreaseCount();
                 }
             }
         }
