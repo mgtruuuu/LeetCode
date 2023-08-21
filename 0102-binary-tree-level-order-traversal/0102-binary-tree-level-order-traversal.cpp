@@ -25,8 +25,9 @@ class Solution {
 
             std::vector<int> vals;
 
-            const auto len_q = q.size();
-            for (auto idx = std::size_t(0); idx != len_q; ++idx) {
+            auto len_q = q.size();
+            
+            while (len_q-- != 0) {
 
                 const auto* const curr = q.front();
                 q.pop();
@@ -93,13 +94,14 @@ class Solution {
 class Solution {
   private:
     std::vector<std::vector<int>> levels;
+
     void levelOrderHelper(const TreeNode* const node, const std::size_t level)
     {
         if (node == nullptr) {
             return;
         }
 
-        if (levels.size() <= level) {
+        if (levels.size() < level + 1) {
             levels.resize(level + 1);
         }
 
