@@ -21,29 +21,34 @@ class Solution {
         std::queue<TreeNode*> q;
         q.push(root);
 
-        while (q.empty() == false) {
+        while (true) {
 
-            std::vector<int> vals;
+            std::vector<int> vals_same_level;
 
             auto len_q = q.size();
-            
+
             while (len_q-- != 0) {
 
-                const auto* const curr = q.front();
+                const auto* const node = q.front();
                 q.pop();
 
-                if (curr != nullptr) {
-                    vals.push_back(curr->val);
-                    q.push(curr->left);
-                    q.push(curr->right);
+                if (node != nullptr) {
+
+                    vals_same_level.push_back(node->val);
+                    q.push(node->left);
+                    q.push(node->right);
                 }
             }
 
-            res.push_back(vals);
+            if (q.empty() == true) {
+                return res;
+            }
+            else {
+                res.push_back(vals_same_level);
+            }
         }
 
-        res.erase(res.end() - 1);
-        return res;
+        return res; // cannot be run
     }
 };
 
