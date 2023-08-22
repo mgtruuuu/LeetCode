@@ -25,16 +25,13 @@ class Solution {
         std::queue<Node*> q;
 
         if (root == nullptr) {
-            return std::vector<std::vector<int>>{};
+            return {};
         }
         
 
-
         std::vector<std::vector<int>> res;
 
-        q.push(root);
-
-        
+        q.push(root);        
 
         while (true) {
 
