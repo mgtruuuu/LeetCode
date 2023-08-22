@@ -28,9 +28,7 @@ class Solution {
             return std::vector<std::vector<int>>{};
         }
         
-        if (root->children.empty() == true) {
-            return std::vector<std::vector<int>>{ { root->val } };
-        }
+
 
         std::vector<std::vector<int>> res;
 
