@@ -1,35 +1,55 @@
-#include <semaphore.h>
-
 class Foo {
 
-protected:
-    sem_t firstJobDone;
-    sem_t secondJobDone;
-
-public:
-
-    Foo() {
-        sem_init(&firstJobDone, 0, 0);
-        sem_init(&secondJobDone, 0, 0);
+  private:
+    std::condition_variable mCV;
+    std::mutex mMutex;
+    int mCount = 0;
+    
+  public:
+    Foo()
+    {
+    }
+    
+    void signals()
+    {
+        {
+            std::lock_guard<std::mutex> lk(mMutex);
+            ++mCount;
+        }
+        mCV.notify_all();            
     }
 
-    void first(function<void()> printFirst) {
-        // printFirst() outputs "first".
+    void first(function<void()> printFirst)
+    {
+        // printFirst() outputs "first". Do not change or remove this line.
         printFirst();
-        sem_post(&firstJobDone);
+                
+        signals();
     }
 
-    void second(function<void()> printSecond) {
-        sem_wait(&firstJobDone);
-        // printSecond() outputs "second".
-        printSecond();
-        sem_post(&secondJobDone);
+    void second(function<void()> printSecond)
+    {
+        std::unique_lock<std::mutex> lk(mMutex);
+
+        mCV.wait(lk, [=] { return mCount == 1; });
         
+        
+        // printSecond() outputs "second". Do not change or remove this line.
+        printSecond();
+        
+        lk.unlock();
+        
+        signals();
     }
 
-    void third(function<void()> printThird) {
-        sem_wait(&secondJobDone);
-        // printThird() outputs "third".
+    void third(function<void()> printThird)
+    {
+        std::unique_lock<std::mutex> lk(mMutex);
+
+        mCV.wait(lk, [=] { return mCount == 2; });
+        
+        
+        // printThird() outputs "third". Do not change or remove this line.
         printThird();
     }
 };
