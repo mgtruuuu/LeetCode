@@ -17,24 +17,18 @@ class TrafficLight {
         function<void()> crossCar    // Use crossCar() to make car cross the intersection
     )
     {
-        //printf("carId: %d\n", carId);
-            
         const auto isRoadIdOne = (roadId == 1);
-
-        //printf("isRoadIdOne: %d\n", isRoadIdOne);
         
         {
             std::lock_guard<std::mutex> lk(mMutex);
             
             if (mIsGreenOnRoadA != isRoadIdOne) {
                 
-                //printf("inside IF clause\n");
                 mIsGreenOnRoadA = !mIsGreenOnRoadA;
                 turnGreen();
             }
             
             crossCar();
-            //printf("crossCar() called\n");
         }
     }
 };
