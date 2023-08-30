@@ -1,54 +1,79 @@
 class BoundedBlockingQueue {
-private:
-    mutex m_queue_mutex;
-    condition_variable m_queue_changed;
-    queue<int> m_queue; // m_queue_mutex
-    int m_capacity; // m_queue_mutex
-    
-public:
-    BoundedBlockingQueue(int capacity) {
-        // Initialize queue and capacity
-        m_capacity = capacity;
+
+  private:
+    std::size_t mCapacity;
+    std::size_t mFront = 0;
+    std::size_t mRear = 0;
+    int* mArr;
+    std::condition_variable mCV;
+    std::mutex mMutex;
+
+  public:
+    BoundedBlockingQueue(int capacity) : mCapacity{ std::size_t(capacity + 1) }
+    {
+        mArr = new (std::nothrow) int[mCapacity];
+
+        if (mArr == nullptr) // handle case where new returned null
+        {
+            // Do error handling here
+            std::cerr << "Could not allocate memory\n";
+        }
     }
     
-    void enqueue(int element) {
-        // Add to front of queue
-        // If full, block caller until enqueue succeeds
+    void enqueue(int element)
+    {
         {
-            unique_lock<mutex> lk(m_queue_mutex);
+            std::unique_lock<std::mutex> lk(mMutex);
 
-            // Grab the lock with queue size < capacity
-            m_queue_changed.wait(lk, [this] {return m_queue.size() < m_capacity;});
+            mCV.wait(lk, [this] { return isFull() == false; });
 
-            m_queue.push(element);
+            mRear = (mRear + 1) % mCapacity;
+            mArr[mRear] = element;
         }
         
-        // Avoid waiters waking up and immediately blocking by unlocking
-        // before notifying
-        m_queue_changed.notify_one();
+        mCV.notify_all();       
     }
-    
-    int dequeue() {
-        // Remove from front of queue
-        // If empty, block caller until dequeue succeeds
-        int ret;
+
+    int dequeue()
+    {
         {
-            unique_lock<mutex> lk(m_queue_mutex);
+            std::unique_lock<std::mutex> lk(mMutex);
 
-            // Grab the lock with queue size > 0
-            m_queue_changed.wait(lk, [this] {return m_queue.size() > 0;});
+            mCV.wait(lk, [this] { return isEmpty() == false; });
 
-            ret = m_queue.front();
-            m_queue.pop();
+            mFront = (mFront + 1) % mCapacity;
         }
-        m_queue_changed.notify_one();
         
-        return ret;
+        const auto res = mArr[mFront];
+        
+        mCV.notify_all();   
+        
+        return res;
+    }
+
+    int size()
+    {
+        if (mFront <= mRear) {
+            return mRear - mFront;
+        }
+        else {
+            return mCapacity + mRear - mFront;
+        }
     }
     
-    int size() {
-        // returns size of queue
-        unique_lock<mutex> lk(m_queue_mutex);
-        return m_queue.size();
+    bool isEmpty() const
+    {
+        return mFront == mRear;
+    }
+
+    bool isFull() const
+    {
+        return (mRear + 1) % mCapacity == mFront;
+    }
+
+    ~BoundedBlockingQueue()
+    {
+        delete[] mArr;
+        mArr = nullptr;
     }
 };
