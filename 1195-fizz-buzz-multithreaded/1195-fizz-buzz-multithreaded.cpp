@@ -59,33 +59,6 @@ class FizzBuzz {
         }
     }
 
-    void helper(function<void(int)> printFunc, const bool isMultipleOf3, const bool isMultipleOf5)
-    {
-        while (mFinished == false) {
-
-            {
-                std::unique_lock<std::mutex> lk(mMutex);
-
-                while (!(isCountMultipleOf3() == isMultipleOf3 && isCountMultipleOf5() == isMultipleOf5)) {
-
-                    if (mFinished) {
-                        // printf("fizz() ended\n");
-                        return;
-                    }
-
-                    mCV.wait(lk);
-                }
-
-                printFunc(mCount);
-                // printf("printNumber() called\t%d\n", mCount);
-
-                countCheck();
-            }
-
-            mCV.notify_all();
-        }
-    }
-
     // printFizz() outputs "fizz".
     void fizz(function<void()> printFizz)
     {
@@ -107,6 +80,6 @@ class FizzBuzz {
     // printNumber(x) outputs "x", where x is an integer.
     void number(function<void(int)> printNumber)
     {
-        helper(printNumber, false, false);
+        helper([this, &printNumber] { printNumber(mCount); }, false, false);
     }
 };
