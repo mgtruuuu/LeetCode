@@ -32,15 +32,14 @@ class FizzBuzz {
         return mCount % 5 == 0;
     }
 
-    // printFizz() outputs "fizz".
-    void fizz(function<void()> printFizz)
+    void helper(function<void()> printFunc, const bool isMultipleOf3, const bool isMultipleOf5)
     {
         while (mFinished == false) {
 
             {
                 std::unique_lock<std::mutex> lk(mMutex);
 
-                while (!(isCountMultipleOf3() && !isCountMultipleOf5())) {
+                while (!(isCountMultipleOf3() == isMultipleOf3 && isCountMultipleOf5() == isMultipleOf5)) {
 
                     if (mFinished) {
                         // printf("fizz() ended\n");
@@ -50,7 +49,7 @@ class FizzBuzz {
                     mCV.wait(lk);
                 }
 
-                printFizz();
+                printFunc();
                 // printf("printFizz() called\t%d\n", mCount);
 
                 countCheck();
@@ -60,87 +59,54 @@ class FizzBuzz {
         }
     }
 
-    // printBuzz() outputs "buzz".
-    void buzz(function<void()> printBuzz)
+    void helper(function<void(int)> printFunc, const bool isMultipleOf3, const bool isMultipleOf5)
     {
         while (mFinished == false) {
 
             {
                 std::unique_lock<std::mutex> lk(mMutex);
 
-                while (!(mCount % 3 != 0 && mCount % 5 == 0)) {
+                while (!(isCountMultipleOf3() == isMultipleOf3 && isCountMultipleOf5() == isMultipleOf5)) {
 
                     if (mFinished) {
-                        // printf("buzz() ended\n");
+                        // printf("fizz() ended\n");
                         return;
                     }
 
                     mCV.wait(lk);
                 }
 
-                printBuzz();
-                // printf("printBuzz() called\t%d\n", mCount);
+                printFunc(mCount);
+                // printf("printNumber() called\t%d\n", mCount);
 
                 countCheck();
             }
 
             mCV.notify_all();
         }
+    }
+
+    // printFizz() outputs "fizz".
+    void fizz(function<void()> printFizz)
+    {
+        helper(printFizz, true, false);
+    }
+
+    // printBuzz() outputs "buzz".
+    void buzz(function<void()> printBuzz)
+    {
+        helper(printBuzz, false, true);
     }
 
     // printFizzBuzz() outputs "fizzbuzz".
     void fizzbuzz(function<void()> printFizzBuzz)
     {
-        while (mFinished == false) {
-
-            {
-                std::unique_lock<std::mutex> lk(mMutex);
-
-                while (!(mCount % 3 == 0 && mCount % 5 == 0)) {
-
-                    if (mFinished) {
-                        // printf("fizzbuzz() ended\n");
-                        return;
-                    }
-
-                    mCV.wait(lk);
-                }
-
-                printFizzBuzz();
-                // printf("printFizzBuzz() called\t%d\n", mCount);
-
-                countCheck();
-            }
-
-            mCV.notify_all();
-        }
+        helper(printFizzBuzz, true, true);
     }
 
     // printNumber(x) outputs "x", where x is an integer.
     void number(function<void(int)> printNumber)
     {
-        while (mFinished == false) {
-
-            {
-                std::unique_lock<std::mutex> lk(mMutex);
-
-                while (!(mCount % 3 != 0 && mCount % 5 != 0)) {
-
-                    if (mFinished) {
-                        // printf("number() ended\n");
-                        return;
-                    }
-
-                    mCV.wait(lk);
-                }
-
-                printNumber(mCount);
-                // printf("printNumber(%d) called\n", mCount);
-
-                countCheck();
-            }
-
-            mCV.notify_all();
-        }
+        helper(printNumber, false, false);
     }
 };
