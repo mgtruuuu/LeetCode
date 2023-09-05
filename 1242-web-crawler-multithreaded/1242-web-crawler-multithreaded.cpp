@@ -27,11 +27,9 @@ class Solution {
     {
         const auto urls = htmlParser.getUrls(urlParent);
         
-        std::cout << "urls length : " << urls.size() << std::endl;
         for (const auto url : urls) {
 
-            std::cout << "\turl: " << url << std::endl;
-            std::cout << "\thostname : " << hostname << std::endl;
+
             
             if (getHostname(url) != hostname) {
                 continue;
@@ -53,14 +51,12 @@ class Solution {
         std::vector<std::thread> threads;
         threads.reserve(n);
 
-        std::cout << "checkBreath() called --- n : " << n << std::endl;        
         
         while (n-- != 0) {
 
             const auto url = mQueue.front();
             mQueue.pop();
 
-            std::cout << "url : " << url << std::endl;
 
             
             if (getHostname(url) != hostname) {
@@ -78,19 +74,15 @@ class Solution {
                 // mQueue.push(url);
                 
                 
-                std::cout << "thread() will be calling" << std::endl;
                 threads.push_back(std::thread{ &Solution::getUrls, this, std::ref(htmlParser), std::cref(hostname), url });
             }
             
 
         }
         
-        std::cout << "size of threads:" << threads.size() << std::endl;
         for (auto& thread : threads) {
             thread.join();
         }
-        std::cout << "thread through" << std::endl;
-        std::cout << "length of mQueue : " << mQueue.size() << std::endl;
     }
 
   public:
@@ -103,7 +95,6 @@ class Solution {
         
         while (mQueue.empty() == false) {
 
-            std::cout << "====checkBreath() will be calling" << std::endl;
             checkBreath(htmlParser, hostname, mQueue.size());
         }
 
