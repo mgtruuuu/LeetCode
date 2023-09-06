@@ -16,24 +16,35 @@ class Solution {
 
     std::string getHostname(std::string_view url) const
     {
-        const auto idx_slash = url.find('/', 7);
+        auto idx = std::size_t(0);
+        for (auto n = 0; n != (3 - 1); ++n) {
+            idx = url.find_first_of('/', idx) + 1;
+        }
+        idx = url.find_first_of('/', idx);
 
-        if (idx_slash == std::string_view::npos) {
-            return std::string{ url }.substr(7);
+        if (idx == std::string_view::npos) {
+            return std::string{ url };
+        }
+        else {
+            return std::string{ url.substr(0, idx) };
         }
 
-        return std::string{ url }.substr(7, idx_slash - 7);
+        // const auto idx_slash = url.find('/', 7);
+
+        // if (idx_slash == std::string_view::npos) {
+        //     return std::string{ url }.substr(7);
+        // }
+
+        // return std::string{ url }.substr(7, idx_slash - 7);
     }
 
-    void getUrls(HtmlParser& htmlParser, const string& hostname, const std::string urlParent)
+    void getUrls(HtmlParser& htmlParser, const std::string urlParent)
     {
-        const auto urls = htmlParser.getUrls(urlParent);
+        auto urls = htmlParser.getUrls(urlParent);
 
-        for (const auto url : urls) {
-
-            const std::lock_guard<std::mutex> lk(mMutex);
-
-            mQueue.push(url);
+        const std::lock_guard<std::mutex> lk(mMutex);
+        for (auto& url : urls) {
+            mQueue.push(std::move(url));
         }
     }
 
@@ -60,8 +71,7 @@ class Solution {
 
                 mHashSet.insert(url);
 
-                threads.push_back(
-                    std::thread{ &Solution::getUrls, this, std::ref(htmlParser), std::cref(hostname), url });
+                threads.push_back(std::thread{ &Solution::getUrls, this, std::ref(htmlParser), url });
             }
         }
 
@@ -82,12 +92,6 @@ class Solution {
             checkBreath(htmlParser, hostname, mQueue.size());
         }
 
-        std::vector<std::string> res;
-
-        for (auto itr = mHashSet.begin(); itr != mHashSet.end(); ++itr) {
-            res.push_back(*itr);
-        }
-
-        return res;
+        return std::vector<std::string>(mHashSet.begin(), mHashSet.end());
     }
 };
