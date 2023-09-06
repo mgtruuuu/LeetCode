@@ -28,14 +28,6 @@ class Solution {
         else {
             return std::string{ url.substr(0, idx) };
         }
-
-        // const auto idx_slash = url.find('/', 7);
-
-        // if (idx_slash == std::string_view::npos) {
-        //     return std::string{ url }.substr(7);
-        // }
-
-        // return std::string{ url }.substr(7, idx_slash - 7);
     }
 
     void getUrls(HtmlParser& htmlParser, const std::string urlParent)
