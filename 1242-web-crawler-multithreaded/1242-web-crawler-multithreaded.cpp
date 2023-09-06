@@ -30,7 +30,7 @@ class Solution {
         }
     }
 
-    void getUrls(HtmlParser& htmlParser, const std::string urlParent)
+    void getUrls(HtmlParser& htmlParser, std::string&& urlParent)
     {
         auto urls = htmlParser.getUrls(urlParent);
 
@@ -62,9 +62,10 @@ class Solution {
                 }
 
                 mHashSet.insert(url);
-
-                threads.push_back(std::thread{ &Solution::getUrls, this, std::ref(htmlParser), url });
             }
+            
+            threads.push_back(std::thread{ &Solution::getUrls, this, std::ref(htmlParser), std::move(url) });
+            
         }
 
         for (auto& thread : threads) {
