@@ -31,15 +31,7 @@ class Solution {
 
         for (const auto url : urls) {
 
-            if (getHostname(url) != hostname) {
-                continue;
-            }
-
             const std::lock_guard<std::mutex> lk(mMutex);
-
-            if (mHashSet.find(url) != mHashSet.end()) {
-                continue;
-            }
 
             mQueue.push(url);
         }
@@ -83,7 +75,6 @@ class Solution {
     {
         const auto hostname = getHostname(startUrl);
 
-        // mHashSet.insert(startUrl);
         mQueue.push(startUrl);
 
         while (mQueue.empty() == false) {
