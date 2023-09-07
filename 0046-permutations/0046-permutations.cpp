@@ -20,14 +20,7 @@ class Solution {
         }
     }
 
-    std::size_t getFactorial(const std::size_t length)
-    {
-        if (length <= 1) {
-            return 1;
-        }
-
-        return getFactorial(length - 1) * length;
-    }
+    std::size_t getFactorial(const std::size_t length);
 
   public:
     vector<vector<int>> permute(vector<int>& nums)
@@ -39,3 +32,13 @@ class Solution {
         return permutations;
     }
 };
+
+
+std::size_t Solution::getFactorial(const std::size_t length)
+{
+    if (length <= 1) {
+        return 1;
+    }
+
+    return getFactorial(length - 1) * length;
+}
