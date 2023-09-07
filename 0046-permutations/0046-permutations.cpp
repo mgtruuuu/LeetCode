@@ -1,9 +1,7 @@
 class Solution {
 
   private:
-    std::vector<std::vector<int>> permutations;
-
-    void permuteRecursion(vector<int>& nums, const std::size_t left, const std::size_t right)
+    void permuteRecursion(vector<int>& nums, const std::size_t left, const std::size_t right, std::vector<std::vector<int>>& permutations)
     {
         if (left == right) {
 
@@ -15,7 +13,7 @@ class Solution {
         for (auto i = left; i <= right; ++i) {
 
             std::swap(nums[left], nums[i]);
-            permuteRecursion(nums, left + 1, right);
+            permuteRecursion(nums, left + 1, right, permutations);
             std::swap(nums[left], nums[i]);
         }
     }
@@ -25,9 +23,10 @@ class Solution {
   public:
     vector<vector<int>> permute(vector<int>& nums)
     {
+        std::vector<std::vector<int>> permutations;
         permutations.reserve(getFactorial(nums.size()));
 
-        permuteRecursion(nums, 0, nums.size() - 1);
+        permuteRecursion(nums, 0, nums.size() - 1, permutations);
 
         return permutations;
     }
