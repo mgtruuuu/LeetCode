@@ -1,13 +1,9 @@
-
-#include <string>
-#include <unordered_map>
-
-using namespace std;
-
 class Solution {
   private:
-    std::unordered_map<char, std::string> hash{ { '2', "abc" }, { '3', "def" },  { '4', "ghi" }, { '5', "jkl" },
-                                                { '6', "mno" }, { '7', "pqrs" }, { '8', "tuv" }, { '9', "wxyz" } };
+    std::unordered_map<char, std::string> digit2letter{
+        { '2', "abc" }, { '3', "def" },  { '4', "ghi" }, { '5', "jkl" },
+        { '6', "mno" }, { '7', "pqrs" }, { '8', "tuv" }, { '9', "wxyz" }
+    };
 
     void backTracking(const std::string& digits, const std::size_t idx, std::string& letter,
                       std::vector<std::string>& output)
@@ -18,9 +14,10 @@ class Solution {
             return;
         }
 
-        const auto& str_value = hash.at(digits[idx]);
+        const auto& str_value = digit2letter[digits[idx]];
 
-        for (const auto& c : str_value) {
+        for (const auto c : str_value) {
+
             letter.push_back(c);
             backTracking(digits, idx + 1, letter, output);
             letter.pop_back();
@@ -31,14 +28,18 @@ class Solution {
     vector<string> letterCombinations(string digits)
     {
         if (digits.empty() == true) {
-            return std::vector<std::string>{};
+            return {};
         }
 
-        std::string empty;
+        std::string letter;
+        letter.reserve(digits.size());
+
         std::vector<std::string> res;
+        res.reserve(256);
 
-        backTracking(digits, 0, empty, res);
+        backTracking(digits, 0, letter, res);
 
+        res.shrink_to_fit();
         return res;
     }
 };
