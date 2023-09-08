@@ -9,7 +9,8 @@ class Solution {
                       std::vector<std::string>& output)
     {
         if (idx == digits.size()) {
-            output.emplace_back(letter);
+            
+            output.push_back(letter);
 
             return;
         }
