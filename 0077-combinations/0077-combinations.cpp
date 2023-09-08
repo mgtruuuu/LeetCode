@@ -18,15 +18,37 @@ class Solution {
             combination.pop_back();
         }
     }
+    
+    unsigned long long getCombination(const int n, int r);
 
   public:
     vector<vector<int>> combine(int n, int k)
     {
         std::vector<std::vector<int>> res;
+        res.reserve(getCombination(n, k));
+
         std::vector<int> combination;
+        combination.reserve(k);
 
         backtrack(n, k, 1, combination, res);
 
         return res;
     }
 };
+
+unsigned long long Solution::getCombination(const int n, int r)
+{
+    r = std::min(r, n - r);
+
+    unsigned long long numerator = 1;
+    for (auto i = n - r + 1; i <= n; ++i) {
+        numerator *= i;
+    }
+
+    unsigned long long denominator = 1;
+    for (auto i = 1; i <= r; ++i) {
+        denominator *= i;
+    }
+
+    return (numerator / denominator);
+}
