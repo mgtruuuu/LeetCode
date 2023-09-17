@@ -11,6 +11,7 @@
  */
 
 
+/*
 // Approach 3: Iterative Postorder Traversal
 class Solution {
   public:
@@ -52,29 +53,45 @@ class Solution {
         return res;
     }
 };
+*/
 
 
-/*
+
 // Approach 2: Iterative Preorder Traversal: Tweak the Order of the Output
 class Solution {
-public:
-    vector<int> postorderTraversal(TreeNode* root) {
-        vector<int> output;
-        stack<TreeNode*> s;
-        if (root == NULL) return output;
-        s.push(root);
-        while (!s.empty()) {
-            TreeNode* node = s.top();
-            s.pop();
-            output.push_back(node->val);
-            if (node->left != NULL) s.push(node->left);
-            if (node->right != NULL) s.push(node->right);
+  public:
+    vector<int> postorderTraversal(TreeNode* root)
+    {
+        std::vector<int> output;
+
+        if (root == nullptr) {
+            return output;
         }
-        reverse(output.begin(), output.end());
+
+        stack<TreeNode*> s;
+        s.push(root);
+
+        TreeNode* node;
+        while (s.empty() == false) {
+
+            node = s.top();
+            s.pop();
+
+            output.push_back(node->val);
+
+            if (node->left != nullptr) {
+                s.push(node->left);
+            }
+            if (node->right != nullptr) {
+                s.push(node->right);
+            }
+        }
+
+        std::reverse(output.begin(), output.end());
         return output;
     }
 };
-*/
+
 
 
 
