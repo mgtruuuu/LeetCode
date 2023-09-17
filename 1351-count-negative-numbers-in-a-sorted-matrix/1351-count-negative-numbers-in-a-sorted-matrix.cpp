@@ -2,16 +2,15 @@ class Solution {
   public:
     int countNegatives(vector<vector<int>>& grid)
     {
-        int count = 0;
-        int n = grid[0].size();
-        
-        for (auto& row : grid) {
-            
-            int index = upper_bound(row.begin(), row.end(), 0, greater<int>()) - row.begin();
+        auto count = 0;
+        const auto len_col = static_cast<int>(grid.front().size());
 
-            count += (n - index);
+        for (const auto& row : grid) {
+
+            count += static_cast<int>(
+                std::distance(std::upper_bound(row.begin(), row.end(), 0, std::greater<int>()), row.end()));
         }
-        
+
         return count;
     }
 };
