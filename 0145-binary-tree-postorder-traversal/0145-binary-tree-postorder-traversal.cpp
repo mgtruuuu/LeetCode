@@ -11,7 +11,7 @@
  */
 
 
-/*
+
 // Approach 3: Iterative Postorder Traversal
 class Solution {
   public:
@@ -21,7 +21,7 @@ class Solution {
         std::stack<TreeNode*> s;
 
         TreeNode* curr = root;
-        TreeNode* last = nullptr;
+        TreeNode* last;
 
         while (true) {
 
@@ -38,14 +38,15 @@ class Solution {
             curr = s.top();
 
             if (curr->right != nullptr && curr->right != last) {
-
                 curr = curr->right;
             }
             else {
-                last = curr;
+                
                 s.pop();
-                res.push_back(last->val);
-
+                
+                res.push_back(curr->val);
+                
+                last = curr;
                 curr = nullptr;                
             }
         }
@@ -53,10 +54,10 @@ class Solution {
         return res;
     }
 };
-*/
 
 
 
+/*
 // Approach 2: Iterative Preorder Traversal: Tweak the Order of the Output
 class Solution {
   public:
@@ -91,7 +92,7 @@ class Solution {
         return output;
     }
 };
-
+*/
 
 
 
