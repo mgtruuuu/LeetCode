@@ -2,16 +2,39 @@ class Solution {
   public:
     int findKthLargest(vector<int>& nums, int k)
     {
-        std::make_heap(nums.begin(), nums.end());
+        const auto len_nums = static_cast<int>(nums.size());
 
-        auto count = 0;
-        while (count != k - 1) {
+        if (k <= len_nums + 1 - k) {
 
-            std::pop_heap(nums.begin(), nums.end() - count);
+            std::priority_queue<int> pq;
 
-            ++count;
+            for (auto n = 0; n != len_nums; ++n) {
+
+                pq.push(nums[n]);
+                
+                if (len_nums < n + k) {
+                    pq.pop();
+                }
+            }
+
+            return pq.top();
         }
+        else {
 
-        return nums.front();
+            k = len_nums + 1 - k;
+
+            std::priority_queue<int, std::vector<int>, std::greater<int>> pq;
+
+            for (auto n = 0; n != len_nums; ++n) {
+
+                pq.push(nums[n]);
+                
+                if (len_nums < n + k) {
+                    pq.pop();
+                }
+            }
+
+            return pq.top();
+        }
     }
 };
