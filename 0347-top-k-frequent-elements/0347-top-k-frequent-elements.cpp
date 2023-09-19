@@ -1,33 +1,36 @@
 class Solution {
-  public:
-    vector<int> topKFrequent(vector<int>& nums, int k)
-    {
-        std::unordered_map<int, int> num2count;
-
-        for (const auto num : nums) {
-            ++num2count[num];
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        // O(1) time
+        if (k == nums.size()) {
+            return nums;
         }
 
-        std::vector<int> res;
-        res.reserve(k);
-
-        std::priority_queue<std::pair<int, int>> pq;
-
-        const auto len_nums = static_cast<int>(num2count.size());
-        auto count = 0;
-
-        for (const auto& [key_num, value_count] : num2count) {
-
-            pq.push(std::make_pair(value_count, key_num));
-
-            if (len_nums < k + count++) {
-
-                res.push_back(pq.top().second);
-                pq.pop();
-            }
+        // 1. build hash map : element and how often it appears
+        // O(N) time
+        map<int, int> count_map;
+        for (int n : nums) {
+            count_map[n] += 1;
         }
 
-        res.push_back(pq.top().second);
-        return res;
+        // initialise a heap with most frequent elements at the top
+        auto comp = [&count_map](int n1, int n2) { return count_map[n1] > count_map[n2]; };
+        priority_queue<int, vector<int>, decltype(comp)> heap(comp);
+
+        // 2. keep k top fequent elements in the heap
+        // O(N log k) < O(N log N) time
+        for (pair<int, int> p : count_map) {
+            heap.push(p.first);
+            if (heap.size() > k) heap.pop();
+        }
+
+        // 3. build an output array
+        // O(k log k) time
+        vector<int> top(k);
+        for (int i = k - 1; i >= 0; i--) {
+            top[i] = heap.top();
+            heap.pop();
+        }
+        return top;
     }
 };
