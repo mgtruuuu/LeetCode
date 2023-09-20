@@ -1,3 +1,4 @@
+/*
 class Solution {
   private:
     int getNumSoldiers(const std::vector<int>& row)
@@ -40,6 +41,52 @@ class Solution {
 
             res[--k] = pq.top().second;
             pq.pop();
+        }
+
+        return res;
+    }
+};
+*/
+
+
+
+class Solution {
+  public:
+    vector<int> kWeakestRows(vector<vector<int>>& mat, int k)
+    {
+        std::vector<int> res;
+        res.reserve(k);
+
+        for (auto col = std::size_t(0); col != mat.front().size(); ++col) {
+            for (auto row = std::size_t(0); row != mat.size(); ++row) {
+
+                if (mat[row][col] == 1) {
+                    continue;
+                }
+
+                if (col != 0 && mat[row][col - 1] == 0) {
+                    continue;
+                }
+
+                res.push_back(row);
+
+                if (res.size() == k) {
+                    return res;
+                }
+            }
+        }
+        
+        for (auto row = std::size_t(0); row != mat.size(); ++row) {
+
+            if (mat[row][mat.front().size() - 1] == 0) {
+                continue;
+            }
+
+            res.push_back(row);
+
+            if (res.size() == k) {
+                return res;
+            }
         }
 
         return res;
