@@ -1,4 +1,5 @@
-/*
+
+// Approach 4: Binary Search and Priority Queue
 class Solution {
   private:
     int getNumSoldiers(const std::vector<int>& row)
@@ -46,10 +47,11 @@ class Solution {
         return res;
     }
 };
-*/
 
 
 
+/*
+// Approach 5: Vertical Iteration
 class Solution {
   public:
     vector<int> kWeakestRows(vector<vector<int>>& mat, int k)
@@ -92,3 +94,4 @@ class Solution {
         return res;
     }
 };
+*/
