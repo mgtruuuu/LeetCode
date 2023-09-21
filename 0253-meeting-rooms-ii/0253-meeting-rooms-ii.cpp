@@ -1,4 +1,4 @@
-/*
+///*
 // Approach 1: Priority Queues
 class Solution {
   public:
@@ -25,10 +25,10 @@ class Solution {
         return len_ends;
     }
 };
-*/
+//*/
 
 
-///*
+/*
 // Approach 2: Chronological Ordering
 class Solution {
   public:
@@ -65,4 +65,4 @@ class Solution {
         return count;
     }
 };
-//*/
+*/
