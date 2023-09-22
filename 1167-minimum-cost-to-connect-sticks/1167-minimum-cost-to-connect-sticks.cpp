@@ -11,7 +11,7 @@ class Solution {
             pq.push(stick);
         }
 
-        auto sum = 0;
+        auto sum_cost = 0;
         while (pq.size() != std::size_t(1)) {
 
             const auto max_first = pq.top();
@@ -19,10 +19,11 @@ class Solution {
             const auto max_second = pq.top();
             pq.pop();
 
-            sum += (max_first + max_second);
-            pq.push(max_first + max_second);
+            const auto cost = max_first + max_second;
+            sum_cost += cost;
+            pq.push(cost);
         }
 
-        return sum;
+        return sum_cost;
     }
 };
