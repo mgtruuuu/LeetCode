@@ -1,3 +1,25 @@
+///*
+// Approach 1: Sort
+class Solution {
+  public:
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int k)
+    {
+        std::vector<std::vector<int>> points_sorted = points;
+        std::nth_element(points_sorted.begin(), points_sorted.begin() + k, points_sorted.end(),
+                         [](const std::vector<int>& lhs, const std::vector<int>& rhs) {
+                             return (lhs.front() * lhs.front() + lhs.back() * lhs.back()) <
+                                    (rhs.front() * rhs.front() + rhs.back() * rhs.back());
+                         });
+
+        return std::vector<std::vector<int>>{ points_sorted.begin(), points_sorted.begin() + k };
+    }
+};
+//*/
+
+
+
+/*
+// HEAP !!!!
 class Solution {
   public:
     vector<vector<int>> kClosest(vector<vector<int>>& points, int k)
@@ -31,3 +53,4 @@ class Solution {
         return res;
     }
 };
+*/
