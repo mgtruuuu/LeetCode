@@ -3,9 +3,8 @@ class Solution {
     int furthestBuilding(vector<int>& heights, int bricks, int ladders)
     {
         using my_t = unsigned long long;
-        
-        auto sum_diff_ladders = my_t(0);
-        auto sum_diff_bricks = my_t(0);
+
+        auto sum_diff_bricks = 0;
         std::priority_queue<int, std::vector<int>, std::greater<int>> pq_diff_ladders;
 
         auto idx = 1;
@@ -21,12 +20,9 @@ class Solution {
 
             if (pq_diff_ladders.size() > std::size_t(ladders)) {
 
-                sum_diff_ladders += my_t(diff - pq_diff_ladders.top());
                 sum_diff_bricks += pq_diff_ladders.top();
+
                 pq_diff_ladders.pop();
-            }
-            else {
-                sum_diff_ladders += my_t(diff);
             }
 
             if (bricks != 0) {
