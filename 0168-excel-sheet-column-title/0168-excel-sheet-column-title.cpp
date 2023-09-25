@@ -1,17 +1,19 @@
 class Solution {
-public:
-    string convertToTitle(int columnNumber) {
-        string ans;
-        
-        while (columnNumber) {
-            columnNumber--;
-            // Get the last character and append it at the end of string.
-            ans = ans + (char)((columnNumber) % 26 + 'A');
-            columnNumber = (columnNumber) / 26;
+  public:
+    string convertToTitle(int columnNumber)
+    {   
+        std::string title;
+        while (columnNumber-- != 0) {
+            
+            const auto n = columnNumber;
+            columnNumber /= 26;
+            const auto r = n - columnNumber * 26;
+            
+            title.push_back(r + 'A');
         }
         
-        // Reverse it, as we appended characters in reverse order.
-        reverse(ans.begin(), ans.end());
-        return ans;
+        std::reverse(title.begin(), title.end());
+        
+        return title;
     }
 };
