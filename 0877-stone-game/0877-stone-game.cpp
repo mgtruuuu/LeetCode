@@ -1,7 +1,7 @@
 
 
 
-///*
+/*
 // Approach 1: Dynamic Programming
 class Solution {
   public:
@@ -34,9 +34,11 @@ class Solution {
         return scores[0][len_piles - 1] > 0;
     }
 };
-//*/
+*/
 
-/*
+
+
+///*
 // Approach 2: Mathematical
 class Solution {
   public:
@@ -45,5 +47,5 @@ class Solution {
         return true;
     }
 };
-*/
+//*/
 
