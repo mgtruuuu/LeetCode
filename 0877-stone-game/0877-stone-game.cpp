@@ -1,3 +1,8 @@
+
+
+
+///*
+// Approach 1: Dynamic Programming
 class Solution {
   public:
     bool stoneGame(vector<int>& piles)
@@ -26,6 +31,19 @@ class Solution {
             }
         }
 
-        return scores[0][len_piles - 1];
+        return scores[0][len_piles - 1] > 0;
     }
 };
+//*/
+
+/*
+// Approach 2: Mathematical
+class Solution {
+  public:
+    bool stoneGame(vector<int>& piles)
+    {
+        return true;
+    }
+};
+*/
+
