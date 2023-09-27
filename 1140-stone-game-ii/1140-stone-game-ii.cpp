@@ -1,29 +1,55 @@
 class Solution {
-public:
-    int stoneGameII(vector<int>& piles) {
-        int n = piles.size();
-        vector dp(2, vector(n + 1, vector<int>(n + 1, -1)));
-        
-        function<int(int, int, int)> f = [&](int p, int i, int m) -> int {
-            if (i == n) {
-                return 0;
+  public:
+    int stoneGameII(vector<int>& piles)
+    {
+        const auto len_piles = piles.size();
+        constexpr auto one = std::size_t(1);
+
+        std::array<std::vector<std::vector<int>>, 2> scores;
+        for (auto& i : scores) {
+            i = std::vector<std::vector<int>>(len_piles + 1, std::vector<int>(len_piles, 0));
+        }
+
+        auto rc = len_piles - 1;
+        {
+            auto sum_piles = 0;
+            for (auto c = std::size_t(0); c != len_piles; ++c) {
+
+                const auto r = rc - c;
+
+                sum_piles += piles[len_piles - c - one];
+                scores[0][r][c] = sum_piles;
+                scores[1][r][c] = 0;
             }
-            if (dp[p][i][m] != -1) {
-                return dp[p][i][m];
-            }
-            int res = p == 1 ? 1000000 : -1, s = 0;
-            for (int x = 1; x <= min(2 * m, n - i); x++) {
-                s += piles[i + x - 1];
-                if (p == 0) {
-                    res = max(res, s + f(1, i + x, max(m, x)));
+        }
+
+        for (; rc-- != 0;) {
+            for (auto c = std::size_t(0); c <= rc; ++c) {
+
+                const auto r = rc - c;
+
+                auto value_max = std::numeric_limits<int>::min();
+                auto value_min = std::numeric_limits<int>::max();
+                auto sum_max = 0;
+                for (auto x = one; x <= std::size_t(2) * (c + one) && x <= len_piles - r; ++x) {
+
+                    sum_max += piles[r + x - one];
+
+                    const auto c_next = std::min(std::max(c + one, x), len_piles) - one;
+                    if (value_max < sum_max + scores[1][r + x][std::min(c_next, len_piles - r - x - 1)]) {
+                        value_max = sum_max + scores[1][r + x][std::min(c_next, len_piles - r - x - 1)];
+                    }
+
+                    if (value_min > scores[0][r + x][std::min(c_next, len_piles - r - x - 1)]) {
+                        value_min = scores[0][r + x][std::min(c_next, len_piles - r - x - 1)];
+                    }
                 }
-                else {
-                    res = min(res, f(0, i + x, max(m, x)));
-                }
+
+                scores[0][r][c] = value_max;
+                scores[1][r][c] = value_min;
             }
-            return dp[p][i][m] = res;
-        };
-        
-        return f(0, 0, 1);
+        }
+
+        return scores[0][0][0];
     }
 };
