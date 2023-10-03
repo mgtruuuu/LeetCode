@@ -24,7 +24,7 @@ class MedianFinder {
 */
 
 
-/*
+
 // Approach 3: Two Heaps
 class MedianFinder {
   private:
@@ -55,9 +55,11 @@ class MedianFinder {
                                                    : static_cast<double>(m_pq_low.top());
     }
 };
-*/
 
 
+
+/*
+// Approach 4: Multiset and Two Pointers
 class MedianFinder {
     std::multiset<int> m_data;
     std::multiset<int>::iterator lo_median;
@@ -110,6 +112,7 @@ class MedianFinder {
         return (static_cast<double>(*lo_median) + *hi_median) * 0.5;
     }
 };
+*/
 
 
 /**
