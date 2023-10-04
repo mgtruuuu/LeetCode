@@ -84,18 +84,12 @@ class Solution {
 
                 for (auto c = 0; c != n; ++c) {
 
-                    if (c == self2parent[node] || adjacent_mat[node][c] == 0) {
+                    if (adjacent_mat[node][c] == 0 || c == self2parent[node]) {
                         continue;
                     }
 
                     if (self2parent.find(c) != self2parent.end()) {
-
-                        if (self2parent[c] == c) {
-                            continue;
-                        }
-                        else if (self2parent[c] != node) {
-                            return false;
-                        }
+                        return false;
                     }
 
                     s.push(c);
