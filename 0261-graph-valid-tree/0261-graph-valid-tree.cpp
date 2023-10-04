@@ -118,32 +118,24 @@ class Solution {
             return false;
         }
 
-        std::vector<std::vector<int>> adjacent_mat(n, std::vector<int>(n, 0));
+        std::vector<std::vector<int>> adjacent_list(n);
         for (const auto& edge : edges) {
-            adjacent_mat[edge.front()][edge.back()] = adjacent_mat[edge.back()][edge.front()] = 1;
+            adjacent_list[edge.front()].push_back(edge.back());
+            adjacent_list[edge.back()].push_back(edge.front());
         }
         std::unordered_set<int> visited;
 
         std::stack<int> s;
         s.push(0);
         visited.insert(0);
-
         while (s.empty() == false) {
 
             const auto parent = s.top();
             s.pop();
 
-            for (auto child = 0; child != n; ++child) {
+            for (const auto child : adjacent_list[parent]) {
 
-                if (adjacent_mat[parent][child] == 0) {
-                    continue;
-                }
-
-                if (visited.find(child) != visited.end()) {
-                    return false;
-                }
-                else {
-                    adjacent_mat[child][parent] = 0;
+                if (visited.find(child) == visited.end()) {
                     s.push(child);
                     visited.insert(child);
                 }
