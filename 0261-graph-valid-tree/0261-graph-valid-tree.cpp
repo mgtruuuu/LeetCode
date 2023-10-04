@@ -61,7 +61,7 @@ class Solution {
 };
 */
 
-///*
+/*
 // Approach 1 - 2 : Graph Theory + Iterative DFS + Using a seen map that also keeps track of the "parent" node that we
 // got to a node from
 class Solution {
@@ -104,7 +104,58 @@ class Solution {
         return num_nonvisited == 0 ? true : false;
     }
 };
+*/
+
+
+
+///*
+// Approach 2: Advanced Graph Theory + Iterative DFS
+class Solution {
+  public:
+    bool validTree(int n, vector<vector<int>>& edges)
+    {
+        if ((n - 1) != static_cast<int>(edges.size())) {
+            return false;
+        }
+
+        std::vector<std::vector<int>> adjacent_mat(n, std::vector<int>(n, 0));
+        for (const auto& edge : edges) {
+            adjacent_mat[edge.front()][edge.back()] = adjacent_mat[edge.back()][edge.front()] = 1;
+        }
+        std::unordered_set<int> visited;
+
+        std::stack<int> s;
+        s.push(0);
+        visited.insert(0);
+
+        while (s.empty() == false) {
+
+            const auto parent = s.top();
+            s.pop();
+
+            for (auto child = 0; child != n; ++child) {
+
+                if (adjacent_mat[parent][child] == 0) {
+                    continue;
+                }
+
+                if (visited.find(child) != visited.end()) {
+                    return false;
+                }
+                else {
+                    adjacent_mat[child][parent] = 0;
+                    s.push(child);
+                    visited.insert(child);
+                }
+            }
+        }
+
+        return static_cast<int>(visited.size()) == n ? true : false;
+    }
+};
 //*/
+
+
 
 /*
 // Approach 3: Advanced Graph Theory + Union Find
