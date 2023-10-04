@@ -157,7 +157,8 @@ class Solution {
 */
 
 
-
+///*
+// Approach #3: Union Find (aka Disjoint Set)
 class UnionFind {
   private:
     std::vector<int> m_parents;
@@ -266,3 +267,4 @@ class Solution {
         return uf.getNumIslands() - num_zeros;
     }
 };
+//*/
