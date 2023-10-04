@@ -1,5 +1,5 @@
 /*
-// Approach 1 - 1 : Graph Theory + Iterative DFS
+// Approach 1 - 1 : Graph Theory + Iterative DFS + Deleting the opposite direction edges from the adjacency list
 class Solution {
   public:
     bool validTree(int n, vector<vector<int>>& edges)
@@ -52,7 +52,9 @@ class Solution {
 };
 */
 
-
+///*
+// Approach 1 - 2 : Graph Theory + Iterative DFS + Using a seen map that also keeps track of the "parent" node that we
+// got to a node from
 class Solution {
   public:
     bool validTree(int n, vector<vector<int>>& edges)
@@ -61,9 +63,10 @@ class Solution {
             return false;
         }
 
-        std::vector<std::vector<int>> adjacent_mat(n, std::vector<int>(n, 0));
+        std::vector<std::vector<int>> adjacent_list(n);
         for (const auto& edge : edges) {
-            adjacent_mat[edge.front()][edge.back()] = adjacent_mat[edge.back()][edge.front()] = 1;
+            adjacent_list[edge.front()].push_back(edge.back());
+            adjacent_list[edge.back()].push_back(edge.front());
         }
         std::unordered_map<int, int> self2parent;
 
@@ -79,21 +82,21 @@ class Solution {
 
             while (s.empty() == false) {
 
-                const auto node = s.top();
+                const auto parent = s.top();
                 s.pop();
 
-                for (auto c = 0; c != n; ++c) {
+                for (const auto child : adjacent_list[parent]) {
 
-                    if (adjacent_mat[node][c] == 0 || c == self2parent[node]) {
+                    if (child == self2parent[parent]) {
                         continue;
                     }
 
-                    if (self2parent.find(c) != self2parent.end()) {
+                    if (self2parent.find(child) != self2parent.end()) {
                         return false;
                     }
 
-                    s.push(c);
-                    self2parent[c] = node;
+                    s.push(child);
+                    self2parent[child] = parent;
                 }
             }
         }
@@ -101,6 +104,7 @@ class Solution {
         return true;
     }
 };
+//*/
 
 /*
 // Approach 3: Advanced Graph Theory + Union Find
