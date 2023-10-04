@@ -1,11 +1,11 @@
 class UnionFind {
   private:
-    int m_count;
+    int m_len;
     std::vector<int> m_parents;
     std::vector<int> m_ranks;
 
   public:
-    UnionFind(const int len) : m_count{ len }
+    UnionFind(const int len) : m_len{ len }
     {
         m_parents.resize(len);
         m_ranks.resize(len);
@@ -34,18 +34,18 @@ class UnionFind {
             return;
         }
 
-        --m_count;
-        
         if (m_ranks[root_x] < m_ranks[root_y]) {
             m_parents[root_x] = root_y;
         }
-        else if (m_ranks[root_y] < m_ranks[root_x]) {
+        else if (m_ranks[root_x] > m_ranks[root_y]) {
             m_parents[root_y] = root_x;
         }
         else {
             m_parents[root_x] = root_y;
             ++m_ranks[root_y];
         }
+
+        --m_len;
     }
 
     bool isConnected(const int x, const int y)
@@ -53,9 +53,9 @@ class UnionFind {
         return (find(x) == find(y));
     }
 
-    int getCount() const
+    int getLength() const
     {
-        return m_count;
+        return m_len;
     }
 };
 
@@ -63,10 +63,12 @@ class Solution {
   public:
     int findCircleNum(vector<vector<int>>& isConnected)
     {
-        UnionFind uf{ static_cast<int>(isConnected.size()) };
+        const auto len = static_cast<int>(isConnected.size());
 
-        for (auto x = 0; x != static_cast<int>(isConnected.size()); ++x) {
-            for (auto y = x + 1; y != static_cast<int>(isConnected.size()); ++y) {
+        UnionFind uf{ len };
+
+        for (auto x = 0; x != len; ++x) {
+            for (auto y = x + 1; y != len; ++y) {
 
                 if (isConnected[x][y] == 1) {
                     uf.unionSet(x, y);
@@ -74,6 +76,6 @@ class Solution {
             }
         }
 
-        return uf.getCount();
+        return uf.getLength();
     }
 };
