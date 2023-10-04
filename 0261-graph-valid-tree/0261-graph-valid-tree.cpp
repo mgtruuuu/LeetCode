@@ -1,16 +1,4 @@
 /*
-
-a graph, G, is a tree iff (a) and (b)
-- (a) G is fully connected. In other words, for every pair of nodes in G, there is a path between them.
-- (b) G contains no cycles. In other words, there is exactly one path between each pair of nodes in G.
-
-
-
-
-*/
-
-
-///*
 // Approach 1 - 1 : Graph Theory + Iterative DFS + Deleting the opposite direction edges from the adjacency list
 class Solution {
   public:
@@ -31,7 +19,7 @@ class Solution {
         s.push(0);
         visited[0] = true;
         --num_nonvisited;
-        
+
         while (s.empty() == false) {
 
             const auto parent = s.top();
@@ -58,9 +46,9 @@ class Solution {
         return num_nonvisited == 0 ? true : false;
     }
 };
-//*/
+*/
 
-/*
+///*
 // Approach 1 - 2 : Graph Theory + Iterative DFS + Using a seen map that also keeps track of the "parent" node that we
 // got to a node from
 class Solution {
@@ -77,42 +65,37 @@ class Solution {
             adjacent_list[edge.back()].push_back(edge.front());
         }
         std::unordered_map<int, int> self2parent;
+        auto num_nonvisited = n;
 
         std::stack<int> s;
-        for (auto r = 0; r != n; ++r) {
+        s.push(0);
+        self2parent[0] = 0;
+        --num_nonvisited;
+        while (s.empty() == false) {
 
-            if (self2parent.find(r) != self2parent.end()) {
-                continue;
-            }
+            const auto parent = s.top();
+            s.pop();
 
-            s.push(r);
-            self2parent[r] = r;
+            for (const auto child : adjacent_list[parent]) {
 
-            while (s.empty() == false) {
-
-                const auto parent = s.top();
-                s.pop();
-
-                for (const auto child : adjacent_list[parent]) {
-
-                    if (child == self2parent[parent]) {
-                        continue;
-                    }
-
-                    if (self2parent.find(child) != self2parent.end()) {
-                        return false;
-                    }
-
-                    s.push(child);
-                    self2parent[child] = parent;
+                if (child == self2parent[parent]) {
+                    continue;
                 }
+
+                if (self2parent.find(child) != self2parent.end()) {
+                    return false;
+                }
+
+                s.push(child);
+                self2parent[child] = parent;
+                --num_nonvisited;
             }
         }
 
-        return true;
+        return num_nonvisited == 0 ? true : false;
     }
 };
-*/
+//*/
 
 /*
 // Approach 3: Advanced Graph Theory + Union Find
