@@ -31,15 +31,12 @@ class Solution {
   public:
     int numIslands(vector<vector<char>>& grid)
     {
-        const auto len_row = static_cast<int>(grid.size());
-        const auto len_col = static_cast<int>(grid.front().size());
-
         std::vector<std::vector<bool>> visited(len_row, std::vector<bool>(len_col, false));
 
         auto num_islands = 0;
 
-        for (auto r = 0; r != len_row; ++r) {
-            for (auto c = 0; c != len_col; ++c) {
+        for (auto r = 0; r != static_cast<int>(grid.size()); ++r) {
+            for (auto c = 0; c != static_cast<int>(grid.front().size()); ++c) {
 
                 if (grid[r][c] == '1' && visited[r][c] == false) {
 
@@ -55,7 +52,7 @@ class Solution {
 */
 
 
-///*
+/*
 // Approach #1 - 2 : DFS
 class Solution {
   private:
@@ -87,13 +84,10 @@ class Solution {
   public:
     int numIslands(vector<vector<char>>& grid)
     {
-        const auto len_row = static_cast<int>(grid.size());
-        const auto len_col = static_cast<int>(grid.front().size());
-
         auto num_islands = 0;
 
-        for (auto r = 0; r != len_row; ++r) {
-            for (auto c = 0; c != len_col; ++c) {
+        for (auto r = 0; r != static_cast<int>(grid.size()); ++r) {
+            for (auto c = 0; c != static_cast<int>(grid.front().size()); ++c) {
 
                 if (grid[r][c] == '1') {
 
@@ -106,5 +100,58 @@ class Solution {
         return num_islands;
     }
 };
-//*/
+*/
 
+///*
+// Approach #2: BFS
+class Solution {
+  public:
+    int numIslands(vector<vector<char>>& grid)
+    {
+        std::queue<std::pair<int, int>> q;
+        auto num_islands = 0;
+
+        for (auto r = 0; r != static_cast<int>(grid.size()); ++r) {
+            for (auto c = 0; c != static_cast<int>(grid.front().size()); ++c) {
+
+                if (grid[r][c] == '0') {
+                    continue;
+                }
+
+                q.emplace(r, c);
+                ++num_islands;
+
+                while (q.empty() == false) {
+
+                    const auto rc = q.front();
+                    q.pop();
+
+                    if (grid[rc.first][rc.second] == '0') {
+                        continue;
+                    }
+                    
+                    grid[rc.first][rc.second] = '0';
+
+                    if (0 < rc.first) {
+                        q.emplace(rc.first - 1, rc.second);
+                    }
+
+                    if (rc.first < static_cast<int>(grid.size()) - 1) {
+                        q.emplace(rc.first + 1, rc.second);
+                    }
+
+                    if (0 < rc.second) {
+                        q.emplace(rc.first, rc.second - 1);
+                    }
+
+                    if (rc.second < static_cast<int>(grid.front().size()) - 1) {
+                        q.emplace(rc.first, rc.second + 1);
+                    }
+                }
+            }
+        }
+
+        return num_islands;
+    }
+};
+//*/
