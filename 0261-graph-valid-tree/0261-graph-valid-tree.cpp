@@ -1,4 +1,16 @@
 /*
+
+a graph, G, is a tree iff (a) and (b)
+- (a) G is fully connected. In other words, for every pair of nodes in G, there is a path between them.
+- (b) G contains no cycles. In other words, there is exactly one path between each pair of nodes in G.
+
+
+
+
+*/
+
+
+///*
 // Approach 1 - 1 : Graph Theory + Iterative DFS + Deleting the opposite direction edges from the adjacency list
 class Solution {
   public:
@@ -15,44 +27,40 @@ class Solution {
         std::vector<bool> visited(n, false);
 
         std::stack<int> s;
-        for (auto r = 0; r != n; ++r) {
+        auto num_nonvisited = n;
+        s.push(0);
+        visited[0] = true;
+        --num_nonvisited;
+        
+        while (s.empty() == false) {
 
-            if (visited[r] == true) {
-                continue;
-            }
+            const auto parent = s.top();
+            s.pop();
 
-            s.push(r);
-            visited[r] = true;
+            for (auto child = 0; child != n; ++child) {
 
-            while (s.empty() == false) {
+                if (adjacent_mat[parent][child] == 0) {
+                    continue;
+                }
 
-                const auto node = s.top();
-                s.pop();
-
-                for (auto c = 0; c != n; ++c) {
-
-                    if (adjacent_mat[node][c] == 0) {
-                        continue;
-                    }
-
-                    if (visited[c] == true) {
-                        return false;
-                    }
-                    else {
-                        adjacent_mat[c][node] = 0;
-                        s.push(c);
-                        visited[c] = true;
-                    }
+                if (visited[child] == true) {
+                    return false;
+                }
+                else {
+                    adjacent_mat[child][parent] = 0;
+                    s.push(child);
+                    visited[child] = true;
+                    --num_nonvisited;
                 }
             }
         }
 
-        return true;
+        return num_nonvisited == 0 ? true : false;
     }
 };
-*/
+//*/
 
-///*
+/*
 // Approach 1 - 2 : Graph Theory + Iterative DFS + Using a seen map that also keeps track of the "parent" node that we
 // got to a node from
 class Solution {
@@ -104,7 +112,7 @@ class Solution {
         return true;
     }
 };
-//*/
+*/
 
 /*
 // Approach 3: Advanced Graph Theory + Union Find
