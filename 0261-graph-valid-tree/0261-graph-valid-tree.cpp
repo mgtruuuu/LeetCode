@@ -1,4 +1,58 @@
-///*
+class Solution {
+  public:
+    bool validTree(int n, vector<vector<int>>& edges)
+    {
+        if ((n - 1) != static_cast<int>(edges.size())) {
+            return false;
+        }
+
+        std::vector<std::vector<int>> adjacent_mat(n, std::vector<int>(n, 0));
+        for (const auto& edge : edges) {
+            adjacent_mat[edge.front()][edge.back()] = 
+            adjacent_mat[edge.back()][edge.front()] = 1;
+        }
+        std::vector<bool> visited(n, false);
+
+        std::stack<int> s;
+        for (auto r = 0; r != n; ++r) {
+
+            if (visited[r] == true) {
+                continue;
+            }
+
+            s.push(r);
+            visited[r] = true;
+
+            while (s.empty() == false) {
+
+                const auto node = s.top();
+                s.pop();
+
+                for (auto c = 0; c != n; ++c) {
+
+                    if (adjacent_mat[node][c] == 0) {
+                        continue;
+                    }
+
+                    if (visited[c] == true) {
+                        return false;
+                    }
+                    else {
+                        adjacent_mat[c][node] = 0;
+                        s.push(c);
+                        visited[c] = true;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+};
+
+
+
+/*
 // Approach 3: Advanced Graph Theory + Union Find
 class UnionFind {
   private:
@@ -64,4 +118,4 @@ class Solution {
         return true;
     }
 };
-//*/
+*/
