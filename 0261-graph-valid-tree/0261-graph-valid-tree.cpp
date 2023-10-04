@@ -1,13 +1,26 @@
 /*
+
+Recall that a graph, G, is a tree iff the following two conditions are met:
+
+G is fully connected. In other words, for every pair of nodes in G, there is a path between them.
+G contains no cycles. In other words, there is exactly one path between each pair of nodes in G.
+
+
+Going by this definition, our algorithm needs to do the following:
+
+Check whether or not there are n - 1 edges. If there's not, then return false.
+Check whether or not the graph is fully connected. Return true if it is, false if otherwise.
+
+*/
+
+
+
+/*
 // Approach 1 - 1 : Graph Theory + Iterative DFS + Deleting the opposite direction edges from the adjacency list
 class Solution {
   public:
     bool validTree(int n, vector<vector<int>>& edges)
     {
-        if ((n - 1) != static_cast<int>(edges.size())) {
-            return false;
-        }
-
         std::vector<std::vector<int>> adjacent_mat(n, std::vector<int>(n, 0));
         for (const auto& edge : edges) {
             adjacent_mat[edge.front()][edge.back()] = adjacent_mat[edge.back()][edge.front()] = 1;
@@ -55,10 +68,6 @@ class Solution {
   public:
     bool validTree(int n, vector<vector<int>>& edges)
     {
-        if ((n - 1) != static_cast<int>(edges.size())) {
-            return false;
-        }
-
         std::vector<std::vector<int>> adjacent_list(n);
         for (const auto& edge : edges) {
             adjacent_list[edge.front()].push_back(edge.back());
