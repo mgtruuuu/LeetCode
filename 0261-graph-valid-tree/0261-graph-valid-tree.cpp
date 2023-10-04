@@ -1,3 +1,5 @@
+/*
+// Approach 1 - 1 : Graph Theory + Iterative DFS
 class Solution {
   public:
     bool validTree(int n, vector<vector<int>>& edges)
@@ -8,8 +10,7 @@ class Solution {
 
         std::vector<std::vector<int>> adjacent_mat(n, std::vector<int>(n, 0));
         for (const auto& edge : edges) {
-            adjacent_mat[edge.front()][edge.back()] = 
-            adjacent_mat[edge.back()][edge.front()] = 1;
+            adjacent_mat[edge.front()][edge.back()] = adjacent_mat[edge.back()][edge.front()] = 1;
         }
         std::vector<bool> visited(n, false);
 
@@ -49,8 +50,63 @@ class Solution {
         return true;
     }
 };
+*/
 
 
+class Solution {
+  public:
+    bool validTree(int n, vector<vector<int>>& edges)
+    {
+        if ((n - 1) != static_cast<int>(edges.size())) {
+            return false;
+        }
+
+        std::vector<std::vector<int>> adjacent_mat(n, std::vector<int>(n, 0));
+        for (const auto& edge : edges) {
+            adjacent_mat[edge.front()][edge.back()] = adjacent_mat[edge.back()][edge.front()] = 1;
+        }
+        std::unordered_map<int, int> self2parent;
+
+        std::stack<int> s;
+        for (auto r = 0; r != n; ++r) {
+
+            if (self2parent.find(r) != self2parent.end()) {
+                continue;
+            }
+
+            s.push(r);
+            self2parent[r] = r;
+
+            while (s.empty() == false) {
+
+                const auto node = s.top();
+                s.pop();
+
+                for (auto c = 0; c != n; ++c) {
+
+                    if (c == self2parent[node] || adjacent_mat[node][c] == 0) {
+                        continue;
+                    }
+
+                    if (self2parent.find(c) != self2parent.end()) {
+
+                        if (self2parent[c] == c) {
+                            continue;
+                        }
+                        else if (self2parent[c] != node) {
+                            return false;
+                        }
+                    }
+
+                    s.push(c);
+                    self2parent[c] = node;
+                }
+            }
+        }
+
+        return true;
+    }
+};
 
 /*
 // Approach 3: Advanced Graph Theory + Union Find
