@@ -1,6 +1,8 @@
+/*
+// Approach 1: Depth First Search
 class Solution {
   public:
-    void dfs(int node, vector<vector<int>>& isConnected, vector<bool>& visited)
+    void dfs(int node, const std::vector<std::vector<int>>& isConnected, std::vector<bool>& visited)
     {
         if (visited[node] == true) {
             return;
@@ -8,7 +10,7 @@ class Solution {
 
         visited[node] = true;
         for (auto i = 0; i < static_cast<int>(isConnected.size()); ++i) {
-            if (isConnected[node][i] && !visited[i]) {
+            if (isConnected[node][i] == 1 && visited[i] == false) {
                 dfs(i, isConnected, visited);
             }
         }
@@ -18,7 +20,7 @@ class Solution {
     {
         const auto num_nodes = static_cast<int>(isConnected.size());
         auto num_components = 0;
-        vector<bool> visited(num_nodes, false);
+        std::vector<bool> visited(num_nodes, false);
 
         for (auto i = 0; i != num_nodes; ++i) {
 
@@ -31,9 +33,55 @@ class Solution {
         return num_components;
     }
 };
+*/
 
 
 /*
+// Approach 2: Breadth First Search
+class Solution {
+  public:
+    int findCircleNum(vector<vector<int>>& isConnected)
+    {
+        const auto num_nodes = static_cast<int>(isConnected.size());
+        auto num_components = 0;
+        vector<bool> visited(num_nodes, false);
+
+        std::queue<int> q;
+
+        for (auto i = 0; i != num_nodes; ++i) {
+
+            if (visited[i] == true) {
+                continue;
+            }
+
+            q.push(i);
+            visited[i] = true;
+
+            while (q.empty() == false) {
+
+                const auto curr = q.front();
+                q.pop();
+
+                for (auto j = 0; j != num_nodes; ++j) {
+
+                    if (isConnected[curr][j] == 1 && visited[j] == false) {
+
+                        q.push(j);
+                        visited[j] = true;
+                    }
+                }
+            }
+
+            ++num_components;
+        }
+
+        return num_components;
+    }
+};
+*/
+
+
+///*
 // Approach 3: Union-find
 class UnionFind {
   private:
@@ -116,4 +164,4 @@ class Solution {
         return uf.getLength();
     }
 };
-*/
+//*/
