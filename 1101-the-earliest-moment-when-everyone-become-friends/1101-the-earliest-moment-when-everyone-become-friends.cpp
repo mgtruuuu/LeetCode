@@ -16,7 +16,7 @@ class UnionFind {
         }
     }
 
-    int find(int x)
+    int find(const int x)
     {
         if (x == m_parents[x]) {
             return x;
@@ -34,8 +34,6 @@ class UnionFind {
             return;
         }
 
-        --m_num_components;
-
         if (root_x < root_y) {
             m_parents[root_x] = root_y;
         }
@@ -46,6 +44,8 @@ class UnionFind {
             m_parents[root_x] = root_y;
             ++m_ranks[root_y];
         }
+        
+        --m_num_components;
     }
 
     bool isAllConnected() const
@@ -58,6 +58,10 @@ class Solution {
   public:
     int earliestAcq(vector<vector<int>>& logs, int n)
     {
+        if (static_cast<int>(logs.size()) < n - 1) {
+            return -1;
+        }
+        
         UnionFind uf{ n };
 
         std::sort(logs.begin(), logs.end(),
