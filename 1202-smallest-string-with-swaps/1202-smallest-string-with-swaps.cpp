@@ -1,91 +1,54 @@
-class UnionFind {
-  private:
-    std::vector<int> m_parents;
-    std::vector<int> m_ranks;
-
-  public:
-    UnionFind(const int num_nodes)
-    {
-        m_parents.resize(num_nodes);
-        m_ranks.resize(num_nodes);
-
-        for (auto idx = 0; idx != num_nodes; ++idx) {
-            m_parents[idx] = idx;
-            m_ranks[idx] = 1;
-        }
-    }
-
-    int find(const int x)
-    {
-        if (x == m_parents[x]) {
-            return x;
-        }
-
-        return (m_parents[x] = find(m_parents[x]));
-    }
-
-    void unionSet(const int x, const int y)
-    {
-        const auto root_x = find(x);
-        const auto root_y = find(y);
-
-        if (root_x == root_y) {
-            return;
-        }
-
-        if (root_x < root_y) {
-            m_parents[root_x] = root_y;
-        }
-        else if (root_y < root_x) {
-            m_parents[root_y] = root_x;
-        }
-        else {
-            m_parents[root_x] = root_y;
-            ++m_ranks[root_y];
-        }
-    }
-
-    const std::vector<int>& getParents() const
-    {
-        return m_parents;
-    }
-};
-
 class Solution {
-  public:
-    string smallestStringWithSwaps(string s, vector<vector<int>>& pairs)
-    {
-        const auto len_s = static_cast<int>(s.size());
-
-        UnionFind uf{ len_s };
-
-        for (const auto& pair : pairs) {
-            uf.unionSet(pair.front(), pair.back());
-        }
-
-        std::unordered_map<int, std::vector<int>> top2children;
-        const auto& parents = uf.getParents();
-        for (auto idx = 0; idx != len_s; ++idx) {
-
-            const auto root_idx = uf.find(idx);
-            top2children[root_idx].push_back(idx);
-        }
-
-        for (const auto& [k, v] : top2children) {
-
-            std::vector<char> chars;
-            chars.reserve(v.size());
-            for (const auto i : v) {
-                chars.push_back(s[i]);
-            }
-
-            std::sort(chars.begin(), chars.end());
-
-            for (auto i = 0; i != static_cast<int>(v.size()); ++i) {
-                s[v[i]] = chars[i];
+public:
+    // Maximum number of vertices
+    static const int N = 100000;
+    vector<int> adj[N];
+    bool visited[N];
+    
+    void DFS(string& s, int vertex, vector<char>& characters, vector<int>& indices) {
+        // Add the character and index to the list
+        characters.push_back(s[vertex]);
+        indices.push_back(vertex);
+        
+        visited[vertex] = true;
+        
+        // Traverse the adjacents
+        for (int adjacent : adj[vertex]) {
+            if (!visited[adjacent]) {
+                DFS(s, adjacent, characters, indices);
             }
         }
+    }
+    
+    string smallestStringWithSwaps(string s, vector<vector<int>>& pairs) {
+        // Build the adjacency list
+        for (vector<int> edge : pairs) {
+            int source = edge[0];
+            int destination = edge[1];
+            
+            // Undirected edge
+            adj[source].push_back(destination);
+            adj[destination].push_back(source);
+        }
+        
+        for (int vertex = 0; vertex < s.size(); vertex++) {
+            // If not covered in the DFS yet
+            if (!visited[vertex]) {
+                vector<char> characters;
+                vector<int> indices;
+                
+                DFS(s, vertex, characters, indices);
+                // Sort the list of characters and indices
+                sort(characters.begin(), characters.end());
+                sort(indices.begin(), indices.end());
 
+                // Store the sorted characters corresponding to the index
+                for (int index = 0; index < characters.size(); index++) {
+                    s[indices[index]] = characters[index];
+                }
+            }
+        }
+        
         return s;
     }
 };
