@@ -2,11 +2,11 @@ class Solution {
   public:
     int shortestPathBinaryMatrix(vector<vector<int>>& grid)
     {
-        if (grid[0][0] != 0) {
+        const auto len_grid = static_cast<int>(grid.size());
+        
+        if (grid[0][0] != 0 || grid[len_grid - 1][len_grid - 1] != 0) {
             return -1;
         }
-        
-        const auto len_grid = static_cast<int>(grid.size());
 
         std::vector<std::vector<bool>> visited(len_grid, std::vector<bool>(len_grid, false));
         
