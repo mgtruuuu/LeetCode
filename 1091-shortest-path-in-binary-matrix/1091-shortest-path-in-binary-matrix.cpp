@@ -3,6 +3,57 @@ class Solution {
     int shortestPathBinaryMatrix(vector<vector<int>>& grid)
     {
         const auto len_grid = static_cast<int>(grid.size());
+
+        if (grid[0][0] != 0 || grid[len_grid - 1][len_grid - 1] != 0) {
+            return -1;
+        }
+
+        std::queue<std::pair<int, int>> q;
+        q.emplace(0, 0);
+        grid[0][0] = 1;
+
+        while (q.empty() == false) {
+
+            const auto rc = q.front();
+            q.pop();
+
+            if (rc.first == len_grid - 1 && rc.second == len_grid - 1) {
+                return grid[rc.first][rc.second];
+            }
+
+            for (auto r = rc.first - 1; r <= rc.first + 1; ++r) {
+
+                if (r < 0 || r >= len_grid) {
+                    continue;
+                }
+
+                for (auto c = rc.second - 1; c <= rc.second + 1; ++c) {
+
+                    if (c < 0 || c >= len_grid) {
+                        continue;
+                    }
+
+                    if (grid[r][c] == 0) {
+
+                        q.emplace(r, c);
+                        grid[r][c] = grid[rc.first][rc.second] + 1;
+                    }
+                }
+            }
+        }
+
+        return -1;
+    }
+};
+
+
+/*
+//
+class Solution {
+  public:
+    int shortestPathBinaryMatrix(vector<vector<int>>& grid)
+    {
+        const auto len_grid = static_cast<int>(grid.size());
         
         if (grid[0][0] != 0 || grid[len_grid - 1][len_grid - 1] != 0) {
             return -1;
@@ -54,3 +105,4 @@ class Solution {
         return -1;
     }
 };
+*/
