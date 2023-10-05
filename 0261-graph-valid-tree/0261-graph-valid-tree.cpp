@@ -108,8 +108,8 @@ class Solution {
 
 
 
-///*
-// Approach 2: Advanced Graph Theory + Iterative DFS
+/*
+// Approach 2 - 1 : Advanced Graph Theory + Iterative DFS
 class Solution {
   public:
     bool validTree(int n, vector<vector<int>>& edges)
@@ -145,8 +145,47 @@ class Solution {
         return static_cast<int>(visited.size()) == n ? true : false;
     }
 };
-//*/
+*/
 
+
+///*
+// Approach 2 - 2 : Advanced Graph Theory + Iterative DFS
+class Solution {
+  public:
+    bool validTree(int n, vector<vector<int>>& edges)
+    {
+        if ((n - 1) != static_cast<int>(edges.size())) {
+            return false;
+        }
+
+        std::vector<std::vector<int>> adjacent_list(n);
+        for (const auto& edge : edges) {
+            adjacent_list[edge.front()].push_back(edge.back());
+            adjacent_list[edge.back()].push_back(edge.front());
+        }
+        std::unordered_set<int> visited;
+
+        std::queue<int> q;
+        q.push(0);
+        visited.insert(0);
+        while (q.empty() == false) {
+
+            const auto parent = q.front();
+            q.pop();
+
+            for (const auto child : adjacent_list[parent]) {
+
+                if (visited.find(child) == visited.end()) {
+                    q.push(child);
+                    visited.insert(child);
+                }
+            }
+        }
+
+        return static_cast<int>(visited.size()) == n ? true : false;
+    }
+};
+//*/
 
 
 /*
