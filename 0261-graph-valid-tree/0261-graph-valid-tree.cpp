@@ -149,7 +149,47 @@ class Solution {
 
 
 ///*
-// Approach 2 - 2 : Advanced Graph Theory + Iterative DFS
+// Approach 2: Advanced Graph Theory + Recursive BFS
+class Solution {
+
+  private:
+    void bfs(const std::vector<std::vector<int>>& adjacent_list, const int node, std::unordered_set<int>& visited)
+    {
+        if (visited.find(node) != visited.end()) {
+            return;
+        }
+
+        visited.insert(node);
+
+        for (const auto child : adjacent_list[node]) {
+            bfs(adjacent_list, child, visited);
+        }
+    }
+
+  public:
+    bool validTree(int n, vector<vector<int>>& edges)
+    {
+        if ((n - 1) != static_cast<int>(edges.size())) {
+            return false;
+        }
+
+        std::vector<std::vector<int>> adjacent_list(n);
+        for (const auto& edge : edges) {
+            adjacent_list[edge.front()].push_back(edge.back());
+            adjacent_list[edge.back()].push_back(edge.front());
+        }
+        std::unordered_set<int> visited;
+
+        bfs(adjacent_list, 0, visited);
+
+        return static_cast<int>(visited.size()) == n ? true : false;
+    }
+};
+//*/
+
+
+/*
+// Approach 2 - 3 : Advanced Graph Theory + Iterative DFS
 class Solution {
   public:
     bool validTree(int n, vector<vector<int>>& edges)
@@ -185,7 +225,7 @@ class Solution {
         return static_cast<int>(visited.size()) == n ? true : false;
     }
 };
-//*/
+*/
 
 
 /*
