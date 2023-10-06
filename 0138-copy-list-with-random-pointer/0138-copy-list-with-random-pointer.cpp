@@ -18,27 +18,23 @@ class Solution {
   public:
     Node* copyRandomList(Node* head)
     {
-        if (head == nullptr) {
-            return nullptr;
-        }
-        
         std::unordered_map<Node*, Node*> hash_visited;
-        
-        Node* res = new Node{ head->val };
-        hash_visited[head] = res;
-        Node* curr = res;
-        head = head->next;
+
+        Node* res = nullptr;
+        Node** pp_dst = &res;
         
         while (head != nullptr) {
             
-            curr->next = new Node{ head->val };
-            curr = curr->next;
-            hash_visited[head] = curr;
+            *pp_dst = new Node{ head->val };
+            
+            hash_visited[head] = *pp_dst;    
+            
+            pp_dst = &((**pp_dst).next);
             
             head = head->next;
         }
         
-        curr->next = nullptr;
+        *pp_dst = nullptr;
         
         for (auto& [k, v] : hash_visited) {
             v->random = (k->random == nullptr) ? nullptr : hash_visited[k->random];
