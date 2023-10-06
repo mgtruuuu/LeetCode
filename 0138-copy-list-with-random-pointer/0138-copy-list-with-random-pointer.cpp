@@ -41,7 +41,7 @@ class Solution {
 */
 
 
-/*
+///*
 // Approach 2: Iterative with O(N) Space
 class Solution {
   public:
@@ -72,10 +72,10 @@ class Solution {
         return res;
     }
 };
-*/
+//*/
 
 
-///*
+/*
 // Approach 3: Iterative with O(1) Space
 class Solution {
   public:
@@ -117,4 +117,4 @@ class Solution {
         return res;
     }
 };
-//*/
+*/
