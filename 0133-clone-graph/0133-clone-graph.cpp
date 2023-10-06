@@ -21,6 +21,7 @@ public:
 
 
 
+/*
 // Approach 1: Recursive DFS
 class Solution {
   private:
@@ -47,11 +48,67 @@ class Solution {
         return clone_node;
     }
 };
+*/
 
+
+///*
+// Approach 2: Iterative DFS
+class Solution {
+  public:
+    Node* cloneGraph(Node* node)
+    {
+        if (node == nullptr) {
+            return nullptr;
+        }
+
+        Node* res;
+        Node** pp_curr = &res;
+
+        std::unordered_map<Node*, Node*> hash_visited;
+
+        std::stack<Node*> s;
+        s.push(node);
+
+        ////////
+        hash_visited[node] = new Node{ node->val };
+        *pp_curr = hash_visited[node];
+        ////////
+
+        while (s.empty() == false) {
+
+            Node* curr = s.top();
+            s.pop();
+
+            ////////
+            pp_curr = &hash_visited[curr];
+            (**pp_curr).neighbors.reserve(curr->neighbors.size());
+            ////////
+
+            for (Node* child : curr->neighbors) {
+
+                if (hash_visited.find(child) == hash_visited.end()) {
+
+                    s.push(child);
+
+                    ////////
+                    hash_visited[child] = new Node{ child->val };
+                    ////////
+                }
+
+                ////////
+                (**pp_curr).neighbors.push_back(hash_visited[child]);
+                ////////
+            }
+        }
+
+        return res;
+    }
+};
+//*/
 
 
 /*
-// Approach 2: Iterative BFS
+// Approach 3: Iterative BFS
 class Solution {
   public:
     Node* cloneGraph(Node* node)
