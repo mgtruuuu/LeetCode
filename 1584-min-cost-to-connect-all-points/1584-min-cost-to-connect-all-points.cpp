@@ -1,3 +1,5 @@
+///*
+// Approach 1: Kruskal's Algorithm
 class UnionFind {
   private:
     std::vector<int> m_parents;
@@ -94,3 +96,4 @@ class Solution {
         return sum;
     }
 };
+//*/
