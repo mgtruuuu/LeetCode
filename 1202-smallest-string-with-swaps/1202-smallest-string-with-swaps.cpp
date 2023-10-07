@@ -164,15 +164,15 @@ class UnionFind {
             return;
         }
 
-        if (root_x < root_y) {
+        if (m_ranks[root_x] < m_ranks[root_y]) {
             m_parents[root_x] = root_y;
         }
-        else if (root_y < root_x) {
+        else if (m_ranks[root_x] > m_ranks[root_y]) {
             m_parents[root_y] = root_x;
         }
         else {
-            m_parents[root_x] = root_y;
-            ++m_ranks[root_y];
+            m_parents[root_y] = root_x;
+            ++m_ranks[root_x];
         }
     }
 
