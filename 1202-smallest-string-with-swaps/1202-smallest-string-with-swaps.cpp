@@ -127,7 +127,7 @@ class Solution {
 
 
 ///*
-//Approach 2: Disjoint Set Union (DSU)
+//Approach 3: Disjoint Set Union (DSU)
 
 class UnionFind {
   private:
