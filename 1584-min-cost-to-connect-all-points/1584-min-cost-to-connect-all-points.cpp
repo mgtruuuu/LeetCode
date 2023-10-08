@@ -111,18 +111,12 @@ class Solution {
         const auto num_points = static_cast<int>(points.size());
 
         std::vector<bool> visited(num_points, false);
-        std::vector<int> min_dist(num_points);
-
-        auto sum_cost = 0;
-
+        std::vector<int> min_dist(num_points, std::numeric_limits<int>::max());
         min_dist[0] = 0;
-        visited[0] = true;
-        for (auto idx_node = 1; idx_node != num_points; ++idx_node) {
-            min_dist[idx_node] = getManhattanDist(points[0], points[idx_node]);
-        }
         
-        auto num_vecs = 1;
-        while (num_vecs < num_points) {
+        auto sum_cost = 0;
+        auto num_vecs = 0;
+        while (num_vecs++ < num_points) {
 
             auto idx_min = -1;
             auto dist_min = std::numeric_limits<int>::max();
@@ -139,7 +133,6 @@ class Solution {
 
             sum_cost += dist_min;
             visited[idx_min] = true;
-            ++num_vecs;
 
             for (auto idx_node = 0; idx_node != num_points; ++idx_node) {
 
