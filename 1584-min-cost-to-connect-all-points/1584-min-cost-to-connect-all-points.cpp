@@ -99,6 +99,7 @@ class Solution {
 */
 
 
+/*
 // Approach 2: Prim's Algorithm
 struct Edge {
     int node_a;
@@ -159,9 +160,10 @@ class Solution {
         return result;
     }
 };
+*/
 
 
-/*
+///*
 // Approach 3: Prim's Algorithm (Optimized)
 class Solution {
   private:
@@ -216,4 +218,4 @@ class Solution {
         return sum_cost;
     }
 };
-*/
+//*/
