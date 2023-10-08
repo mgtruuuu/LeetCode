@@ -99,8 +99,70 @@ class Solution {
 */
 
 
-///*
-// Approach 2: Prim's Algorithm (Optimized)
+// Approach 2: Prim's Algorithm
+struct Edge {
+    int node_a;
+    int node_b;
+    int cost;
+
+    friend bool operator<(const Edge& edge1, const Edge& edge2)
+    {
+        return edge1.cost > edge2.cost;
+    }
+};
+
+class Solution {
+  private:
+    int getManhattanDist(const std::vector<int>& pt_a, const std::vector<int>& pt_b) const
+    {
+        return abs(pt_a.front() - pt_b.front()) + abs(pt_a.back() - pt_b.back());
+    }
+
+  public:
+    // Prim's algorithm
+    int minCostConnectPoints(vector<vector<int>>& points)
+    {
+        const auto num_points = static_cast<int>(points.size());
+
+        std::priority_queue<Edge> pq;
+        std::vector<bool> visited(num_points);
+        auto result = 0;
+        auto count = num_points - 1;
+
+        // Add all edges from points[0] vertex
+        for (auto j = 1; j != num_points; ++j) {
+            pq.emplace(Edge{ 0, j, getManhattanDist(points[0], points[j]) });
+        }
+        visited[0] = true;
+
+        while (pq.empty() == false && count > 0) {
+
+            const auto node_b = pq.top().node_b;
+            const auto cost = pq.top().cost;
+            pq.pop();
+
+            if (visited[node_b] == true) {
+                continue;
+            }
+
+            result += cost;
+            visited[node_b] = true;
+            for (auto j = 0; j != num_points; ++j) {
+                if (visited[j] == false) {
+                    pq.emplace(Edge{ node_b, j, getManhattanDist(points[node_b], points[j]) });
+                }
+            }
+            
+            --count;
+        }
+
+        return result;
+    }
+};
+
+
+/*
+// Approach 3: Prim's Algorithm (Optimized)
 class Solution {
   private:
     int getManhattanDist(const std::vector<int>& pt_a, const std::vector<int>& pt_b) const
@@ -154,4 +216,4 @@ class Solution {
         return sum_cost;
     }
 };
-//*/
+*/
