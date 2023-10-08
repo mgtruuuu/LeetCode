@@ -1,4 +1,4 @@
-///*
+/*
 // Approach 1: Kruskal's Algorithm
 class UnionFind {
   private:
@@ -96,4 +96,65 @@ class Solution {
         return sum;
     }
 };
-//*/
+*/
+
+class Solution {
+  private:
+    int getManhattanDist(const std::vector<int>& pt_a, const std::vector<int>& pt_b) const
+    {
+        return abs(pt_a.front() - pt_b.front()) + abs(pt_a.back() - pt_b.back());
+    }
+
+  public:
+    int minCostConnectPoints(vector<vector<int>>& points)
+    {
+        const auto num_points = static_cast<int>(points.size());
+
+        std::vector<bool> visited(num_points, false);
+        std::vector<int> min_dist(num_points);
+
+        auto sum_cost = 0;
+
+        min_dist[0] = 0;
+        visited[0] = true;
+        for (auto idx_node = 1; idx_node != num_points; ++idx_node) {
+            min_dist[idx_node] = getManhattanDist(points[0], points[idx_node]);
+        }
+        
+        auto num_vecs = 1;
+        while (num_vecs < num_points) {
+
+            auto idx_min = -1;
+            auto dist_min = std::numeric_limits<int>::max();
+
+            // for nodes not in MST
+            for (auto idx_node = 0; idx_node != num_points; ++idx_node) {
+
+                if (visited[idx_node] == false && min_dist[idx_node] < dist_min) {
+
+                    idx_min = idx_node;
+                    dist_min = min_dist[idx_node];
+                }
+            }
+
+            sum_cost += dist_min;
+            visited[idx_min] = true;
+            ++num_vecs;
+
+            for (auto idx_node = 0; idx_node != num_points; ++idx_node) {
+
+                if (visited[idx_node] == true) {
+                    continue;
+                }
+
+                const auto temp = getManhattanDist(points[idx_min], points[idx_node]);
+
+                if (temp < min_dist[idx_node]) {
+                    min_dist[idx_node] = temp;
+                }
+            }
+        }
+
+        return sum_cost;
+    }
+};
