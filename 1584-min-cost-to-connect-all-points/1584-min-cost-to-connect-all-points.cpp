@@ -98,6 +98,9 @@ class Solution {
 };
 */
 
+
+///*
+// Approach 2: Prim's Algorithm (Optimized)
 class Solution {
   private:
     int getManhattanDist(const std::vector<int>& pt_a, const std::vector<int>& pt_b) const
@@ -151,3 +154,4 @@ class Solution {
         return sum_cost;
     }
 };
+//*/
