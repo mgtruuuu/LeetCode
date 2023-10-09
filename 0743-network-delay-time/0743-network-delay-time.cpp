@@ -15,9 +15,7 @@ class Solution {
         shortest[k - 1] = 0;
 
         std::priority_queue<Node, std::vector<Node>, std::greater<Node>> pq;
-        for (auto m = 0; m != n; ++m) {
-            pq.emplace(shortest[m], m);
-        }
+        pq.emplace(shortest[k - 1], k - 1);
 
         while (pq.empty() == false) {
 
@@ -32,7 +30,7 @@ class Solution {
 
             for (const auto& vec : adj_list[node_idx]) {
 
-                if (visited[vec.first] == false && node_time != INT_MAX && node_time + vec.second < shortest[vec.first]) {
+                if (visited[vec.first] == false && node_time + vec.second < shortest[vec.first]) {
                     
                     shortest[vec.first] = node_time + vec.second;
                     pq.emplace(shortest[vec.first], vec.first);
