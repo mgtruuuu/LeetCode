@@ -2,15 +2,17 @@ class Solution {
   public:
     bool canAttendMeetings(vector<vector<int>>& intervals)
     {
-        std::sort(intervals.begin(), intervals.end());
+        std::sort(intervals.begin(), intervals.end(),
+                  [](const std::vector<int>& lhs, const std::vector<int>& rhs) { return lhs.back() < rhs.back(); });
 
-        auto prev = std::numeric_limits<int>::min();
+        auto end_right = 0;
         for (const auto& interval : intervals) {
-            if (prev > interval.front()) {
+
+            if (interval.front() < end_right) {
                 return false;
             }
 
-            prev = interval.back();
+            end_right = interval.back();
         }
 
         return true;
