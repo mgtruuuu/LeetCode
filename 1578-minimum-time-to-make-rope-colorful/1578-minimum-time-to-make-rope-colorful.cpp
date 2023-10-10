@@ -4,8 +4,8 @@ class Solution {
     {
         const auto len = colors.size();
 
-        auto max = neededTime[0];
         auto res = 0;
+        auto max = neededTime[0];
         for (auto idx = std::size_t(1); idx != len; ++idx) {
 
             if (colors[idx - 1] != colors[idx]) {
