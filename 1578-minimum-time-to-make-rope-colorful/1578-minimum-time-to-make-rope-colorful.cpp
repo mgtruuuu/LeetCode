@@ -4,13 +4,11 @@ class Solution {
     {
         const auto len = colors.size();
 
-        auto prev_color = 'A';
-        auto max = 0;
+        auto max = neededTime[0];
         auto res = 0;
-        for (auto idx = std::size_t(0); idx != len; ++idx) {
+        for (auto idx = std::size_t(1); idx != len; ++idx) {
 
-            if (prev_color != colors[idx]) {
-                prev_color = colors[idx];
+            if (colors[idx - 1] != colors[idx]) {
                 max = neededTime[idx];
             }
             else if (max < neededTime[idx]) {
