@@ -3,7 +3,7 @@ class Solution {
     int eraseOverlapIntervals(vector<vector<int>>& intervals)
     {
         std::sort(intervals.begin(), intervals.end(), [](const std::vector<int>& lhs, const std::vector<int>& rhs) {
-            return (lhs.back() == rhs.back() ? lhs.front() < rhs.front() : lhs.back() < rhs.back());
+            return lhs.back() < rhs.back();
         });
 
         auto num_to_delete = 0;
