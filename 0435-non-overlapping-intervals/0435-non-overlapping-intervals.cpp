@@ -7,15 +7,9 @@ class Solution {
         });
 
         auto num_to_delete = 0;
-        auto interval_end = -50001;
+        auto interval_end = INT_MIN;
         for (const auto& interval : intervals) {
-
-            if (interval_end <= interval.front()) {
-                interval_end = interval.back();
-            }
-            else {
-                ++num_to_delete;
-            }
+            interval_end <= interval.front() ? (interval_end = interval.back()) : ++num_to_delete;
         }
 
         return num_to_delete;
