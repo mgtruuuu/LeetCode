@@ -1,4 +1,5 @@
-/*
+///*
+// Approach 1: Using Array Sort
 class Solution {
   public:
     int maximumUnits(vector<vector<int>>& boxTypes, int truckSize)
@@ -22,8 +23,11 @@ class Solution {
         return num_unit;
     }
 };
-*/
+//*/
 
+
+/*
+// Approach 2: Using Priority Queue
 class Solution {
   private:
     struct Comparator {
@@ -61,3 +65,4 @@ class Solution {
         return num_unit;
     }
 };
+*/
