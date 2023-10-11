@@ -1,27 +1,22 @@
 class Solution {
   public:
-    int maxSubArray(vector<int>& nums)
+    int maxSubArray(std::vector<int>& nums)
     {
         const auto len = static_cast<int>(nums.size());
+        
+        auto currentSubarray = nums[0];
+        auto maxSubarray = nums[0];
 
-        auto res = INT_MIN;
-        
-        
-        auto idx = 0;
-        while (idx != len) {
+        // Start with the 2nd element since we already used the first one.
+        for (auto i = 1; i != len; ++i) {
             
-            auto sum_part = 0;
+            int num = nums[i];
             
-            while (idx != len && sum_part >= 0) {
-                
-                sum_part += nums[idx++];
-                
-                if (res < sum_part) {
-                    res = sum_part;
-                }
-            };
+            // If current_subarray is negative, throw it away. Otherwise, keep adding to it.
+            currentSubarray = std::max(num, currentSubarray + num);
+            maxSubarray = std::max(maxSubarray, currentSubarray);
         }
 
-        return res;
+        return maxSubarray;
     }
 };
