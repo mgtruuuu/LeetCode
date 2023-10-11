@@ -1,5 +1,6 @@
 // Approach 0: Brute force
 
+
 /*
 // Approach 1: Greedy
 class Solution {
@@ -37,6 +38,7 @@ class Solution {
 */
 
 
+///*
 // Approach 2: Merge Intervals
 class Solution {
   private:
@@ -95,3 +97,4 @@ class Solution {
         return res;
     }
 };
+//*/
