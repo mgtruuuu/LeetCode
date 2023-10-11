@@ -1,3 +1,44 @@
+// Approach 0: Brute force
+// Approach 1: Greedy
+class Solution {
+  public:
+    vector<int> partitionLabels(string s)
+    {
+        const auto len_s = static_cast<int>(s.size());
+
+        std::unordered_map<char, int> char2index;
+
+        for (auto idx = 0; idx != len_s; ++idx) {
+            char2index[s[idx]] = idx;
+        }
+
+        std::vector<int> res;
+
+        auto subtract = 0;
+        auto idx_lhs = -1;
+        auto idx_rhs = 0;
+        while (idx_rhs != len_s) {
+
+            while (idx_lhs != idx_rhs) {
+                
+                ++idx_lhs;
+                    
+                if (idx_rhs < char2index[s[idx_lhs]]) {
+                    idx_rhs = char2index[s[idx_lhs]];    
+                }
+            }
+
+            res.push_back((++idx_rhs) - subtract);
+            subtract += res.back();
+        }
+        
+        return res;
+    }
+};
+
+
+/*
+// Approach 2: Merge Intervals
 class Solution {
   public:
     vector<int> partitionLabels(string s)
@@ -47,6 +88,8 @@ class Solution {
         
         res.push_back(prev_end + 1 - subtract);
 
+        res.shrink_to_fit();
         return res;
     }
 };
+*/
