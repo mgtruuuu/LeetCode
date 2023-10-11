@@ -4,25 +4,25 @@ class Solution {
     {
         const auto len = static_cast<int>(gas.size());
 
-        auto curr_gain = 0;
-        auto total_gain = 0;
+        auto sum_all = 0;
+        auto sum_part = 0;
+        auto idx_part_start = 0;
+        for (auto idx = 0; idx != len; ++idx) {
 
-        auto answer = 0;
+            sum_part += gas[idx] - cost[idx];
 
-        for (auto i = 0; i < len; ++i) {
+            if (sum_part < 0) {
 
-            // gain[i] = gas[i] - cost[i]
-            total_gain += gas[i] - cost[i];
-            curr_gain += gas[i] - cost[i];
-
-            // If we meet a "valley", start over from the next station
-            // with 0 initial gas.
-            if (curr_gain < 0) {
-                answer = i + 1;
-                curr_gain = 0;
+                sum_all += sum_part;
+                sum_part = 0;
+                idx_part_start = idx + 1;
             }
         }
 
-        return (total_gain >= 0 ? answer : -1);
+        if (idx_part_start == len) {
+            return -1;
+        }
+
+        return (sum_all += sum_part) < 0 ? -1 : idx_part_start;
     }
 };
