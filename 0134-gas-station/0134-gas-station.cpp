@@ -10,19 +10,15 @@ class Solution {
         for (auto idx = 0; idx != len; ++idx) {
 
             sum_part += gas[idx] - cost[idx];
-
+            sum_all += gas[idx] - cost[idx];
+            
             if (sum_part < 0) {
 
-                sum_all += sum_part;
                 sum_part = 0;
                 idx_part_start = idx + 1;
             }
         }
 
-        if (idx_part_start == len) {
-            return -1;
-        }
-
-        return (sum_all += sum_part) < 0 ? -1 : idx_part_start;
+        return sum_all < 0 ? -1 : idx_part_start;
     }
 };
