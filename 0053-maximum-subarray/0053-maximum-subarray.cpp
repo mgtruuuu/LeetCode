@@ -1,22 +1,49 @@
 class Solution {
-  public:
-    int maxSubArray(std::vector<int>& nums)
-    {
-        const auto len = static_cast<int>(nums.size());
-        
-        auto currentSubarray = nums[0];
-        auto maxSubarray = nums[0];
-
-        // Start with the 2nd element since we already used the first one.
-        for (auto i = 1; i != len; ++i) {
-            
-            int num = nums[i];
-            
-            // If current_subarray is negative, throw it away. Otherwise, keep adding to it.
-            currentSubarray = std::max(num, currentSubarray + num);
-            maxSubarray = std::max(maxSubarray, currentSubarray);
+private:
+    std::vector<int> numsArray;
+    
+    int findBestSubarray(int left, int right) {
+        // Base case - empty array.
+        if (left > right) {
+            return INT_MIN;
         }
+        
+        int mid = left + (right - left) / 2;
+        int curr = 0;
+        int bestLeftSum = 0;
+        int bestRightSum = 0;
+        
+        // Iterate from the middle to the beginning.
+        for (int i = mid - 1; i >= left; i--) {
+            curr += numsArray[i];
+            bestLeftSum = std::max(bestLeftSum, curr);
+        }
+        
+        // Reset curr and iterate from the middle to the end.
+        curr = 0;
+        for (int i = mid + 1; i <= right; i++) {
+            curr += numsArray[i];
+            bestRightSum = std::max(bestRightSum, curr);
+        }
+        
+        // The bestCombinedSum uses the middle element and the best
+        // possible sum from each half.
+        int bestCombinedSum = numsArray[mid] + bestLeftSum + bestRightSum;
+        
+        // Find the best subarray possible from both halves.
+        int leftHalf = findBestSubarray(left, mid - 1);
+        int rightHalf = findBestSubarray(mid + 1, right);
+        
+        // The largest of the 3 is the answer for any given input array.
+        return std::max(bestCombinedSum, std::max(leftHalf, rightHalf));
+    }
 
-        return maxSubarray;
+public:
+    int maxSubArray(std::vector<int>& nums) {
+        numsArray = nums;
+        
+        // Our helper function is designed to solve this problem for
+        // any array - so just call it using the entire input!
+        return findBestSubarray(0, numsArray.size() - 1);
     }
 };
