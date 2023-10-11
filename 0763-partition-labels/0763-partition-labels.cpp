@@ -1,4 +1,6 @@
 // Approach 0: Brute force
+
+/*
 // Approach 1: Greedy
 class Solution {
   public:
@@ -32,61 +34,64 @@ class Solution {
         return res;
     }
 };
+*/
 
 
-/*
 // Approach 2: Merge Intervals
 class Solution {
+  private:
+    int getIndex(const std::string& s, const int idx)
+    {
+        return (s[idx] - 'a');
+    }
+
   public:
     vector<int> partitionLabels(string s)
     {
-        std::unordered_map<char, std::pair<int, int>> char2interval;
+        constexpr auto len_alphabets = static_cast<int>('a' - 'A');
 
+        std::array<std::pair<int, int>, len_alphabets> char2interval;
+        char2interval.fill(std::make_pair(-1, 0));
         for (auto idx = 0; idx != static_cast<int>(s.size()); ++idx) {
 
-            if (char2interval.find(s[idx]) == char2interval.end()) {
-                char2interval[s[idx]] = std::make_pair(idx, idx);
+            const auto my_idx = getIndex(s, idx);
+            
+            if (char2interval[getIndex(s, idx)].first == -1) {
+                char2interval[getIndex(s, idx)].first = idx;
             }
-            else {
-                char2interval[s[idx]].second = idx;
-            }
+            
+            char2interval[getIndex(s, idx)].second = idx;
         }
 
-        std::vector<std::pair<int, int>> intervals;
-        intervals.reserve(s.size());
-        for (const auto& [k, v] : char2interval) {
-            intervals.push_back(v);
-        }
-        intervals.shrink_to_fit();
-
-        std::sort(intervals.begin(), intervals.end());
+        std::sort(char2interval.begin(), char2interval.end());
 
         std::vector<int> res;
-        res.reserve(intervals.size());
+
+        auto idx = 0;
+        while (char2interval[idx].first != -1) {
+            ++idx;
+        }
 
         auto subtract = 0;
-        auto prev_start = intervals[0].first;
-        auto prev_end = intervals[0].second;
+        auto prev_start = char2interval[idx].first;
+        auto prev_end = char2interval[idx].second;
 
-        for (auto idx = std::size_t(1); idx != intervals.size(); ++idx) {
+        for (++idx; idx != len_alphabets; ++idx) {
 
-            if (prev_end < intervals[idx].first) {
+            if (prev_end < char2interval[idx].first) {
 
                 res.push_back(prev_end + 1 - subtract);
                 subtract = prev_end + 1;
 
-                prev_start = intervals[idx].first;
-                prev_end = intervals[idx].second;
+                prev_start = char2interval[idx].first;
+                prev_end = char2interval[idx].second;
             }
-            else if (prev_end < intervals[idx].second) {
-                prev_end = intervals[idx].second;
+            else if (prev_end < char2interval[idx].second) {
+                prev_end = char2interval[idx].second;
             }
         }
-        
-        res.push_back(prev_end + 1 - subtract);
 
-        res.shrink_to_fit();
+        res.push_back(prev_end + 1 - subtract);
         return res;
     }
 };
-*/
