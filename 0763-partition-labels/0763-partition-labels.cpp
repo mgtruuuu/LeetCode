@@ -4,34 +4,31 @@ class Solution {
   public:
     vector<int> partitionLabels(string s)
     {
+        constexpr auto len_alphabets = static_cast<int>('a' - 'A');
         const auto len_s = static_cast<int>(s.size());
 
-        std::unordered_map<char, int> char2index;
-
+        std::array<int, len_alphabets> char2index{
+            0,
+        };
         for (auto idx = 0; idx != len_s; ++idx) {
-            char2index[s[idx]] = idx;
+            char2index[s[idx] - 'a'] = idx;
         }
 
         std::vector<int> res;
-
-        auto subtract = 0;
-        auto idx_lhs = -1;
+        auto anchor = 0;
         auto idx_rhs = 0;
-        while (idx_rhs != len_s) {
+        for (auto idx_lhs = 0; idx_lhs != len_s; ++idx_lhs) {
 
-            while (idx_lhs != idx_rhs) {
-                
-                ++idx_lhs;
-                    
-                if (idx_rhs < char2index[s[idx_lhs]]) {
-                    idx_rhs = char2index[s[idx_lhs]];    
-                }
+            if (idx_rhs < char2index[s[idx_lhs] - 'a']) {
+                idx_rhs = char2index[s[idx_lhs] - 'a'];
             }
 
-            res.push_back((++idx_rhs) - subtract);
-            subtract += res.back();
+            if (idx_lhs == idx_rhs) {
+                res.push_back((++idx_rhs) - anchor);
+                anchor += res.back();
+            }
         }
-        
+
         return res;
     }
 };
