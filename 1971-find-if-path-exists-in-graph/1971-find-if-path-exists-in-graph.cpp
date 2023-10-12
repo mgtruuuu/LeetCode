@@ -1,3 +1,5 @@
+
+// Approach 1: DFS/BFS: Iterative
 class Solution {
   public:
     bool validPath(int n, vector<vector<int>>& edges, int source, int destination)
@@ -19,6 +21,10 @@ class Solution {
 
             const auto node = s.top();
             s.pop();
+            
+            if (node == destination) {
+                return true;
+            }
 
             for (const auto neighbor : adj_list[node]) {
 
@@ -30,7 +36,7 @@ class Solution {
             }
         }
 
-        return visited[destination];
+        return false;
     }
 };
 
