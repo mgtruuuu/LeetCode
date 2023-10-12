@@ -42,6 +42,8 @@ class Solution {
 */
 
 
+///*
+// Approach 2: DFS/BFS: Recursive
 class Solution {
   private:
     bool bfs(const std::vector<std::vector<int>>& adj_list, const int destination, const int node,
@@ -82,6 +84,7 @@ class Solution {
         return bfs(adj_list, destination, source, visited);
     }
 };
+//*/
 
 
 /*
