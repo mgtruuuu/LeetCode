@@ -1,3 +1,42 @@
+class Solution {
+  public:
+    bool validPath(int n, vector<vector<int>>& edges, int source, int destination)
+    {
+        std::vector<std::vector<int>> adj_list(n);
+        for (const auto& edge : edges) {
+
+            adj_list[edge.front()].push_back(edge.back());
+            adj_list[edge.back()].push_back(edge.front());
+        }
+
+        std::vector<bool> visited(n, false);
+
+        std::stack<int> s;
+        s.push(source);
+        visited[source] = true;
+
+        while (s.empty() == false) {
+
+            const auto node = s.top();
+            s.pop();
+
+            for (const auto neighbor : adj_list[node]) {
+
+                if (visited[neighbor] == false) {
+
+                    s.push(neighbor);
+                    visited[neighbor] = true;
+                }
+            }
+        }
+
+        return visited[destination];
+    }
+};
+
+
+/*
+// Approach 4: Disjoint Set Union (DSU)
 class UnionFind {
   private:
     std::vector<int> m_parents;
@@ -69,3 +108,4 @@ class Solution {
         return uf.isConnected(source, destination);
     }
 };
+*/
