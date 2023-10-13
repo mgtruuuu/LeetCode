@@ -56,15 +56,14 @@ class Solution {
   public:
     int minimumCost(int n, vector<vector<int>>& connections)
     {
-        auto edges = connections;
-        std::sort(edges.begin(), edges.end(), [](const Edge& lhs, const Edge& rhs) { return lhs.back() < rhs.back(); });
+        std::sort(connections.begin(), connections.end(), [](const Edge& lhs, const Edge& rhs) { return lhs.back() < rhs.back(); });
 
         DisjointSet disj{ n + 1 };
 
         auto count = 0;
         auto sum = 0;
 
-        for (const auto& edge : edges) {
+        for (const auto& edge : connections) {
 
             if (disj.unionSet(edge[0], edge[1]) == false) {
                 continue;
