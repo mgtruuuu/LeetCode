@@ -1,3 +1,4 @@
+/*
 // Approach 1: Minimum Spanning Tree (Using Kruskal's algorithm)
 class DisjointSet {
   private:
@@ -99,9 +100,10 @@ class Solution {
         return (count == n - 1) ? sum : -1;
     }
 };
+*/
 
 
-/*
+///*
 // Approach 2: Minimum Spanning Tree (Using Prim's algorithm)
 class Solution {
 
@@ -147,4 +149,4 @@ class Solution {
         return (count == n) ? sum : -1;
     }
 };
-*/
+//*/
