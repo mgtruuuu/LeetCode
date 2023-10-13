@@ -1,13 +1,12 @@
-/*
+///*
 // Approach 1: Minimum Spanning Tree (Using Kruskal's algorithm)
 class DisjointSet {
   private:
-    int m_num_components;
     std::vector<int> m_parents;
     std::vector<int> m_ranks;
 
   public:
-    DisjointSet(const int num_nodes) : m_num_components{ num_nodes }
+    DisjointSet(const int num_nodes)
     {
         m_parents.resize(num_nodes);
         m_ranks.resize(num_nodes);
@@ -42,7 +41,6 @@ class DisjointSet {
             ++m_ranks[x];
         }
 
-        --m_num_components;
         return true;
     }
 
@@ -50,42 +48,23 @@ class DisjointSet {
     {
         return find(x) == find(y);
     }
-
-    int getNumComponents() const
-    {
-        return m_num_components;
-    }
 };
 
 class Solution {
-  private:
     using Edge = std::vector<int>; // Node Node Weight
-    struct EdgeComp {
-        bool operator()(const Edge& lhs, const Edge& rhs)
-        {
-            return lhs.back() > rhs.back();
-        }
-    };
 
   public:
     int minimumCost(int n, vector<vector<int>>& connections)
     {
-        std::priority_queue<Edge, std::vector<Edge>, EdgeComp> pq;
-        std::vector<int> visited(n, false);
+        auto edges = connections;
+        std::sort(edges.begin(), edges.end(), [](const Edge& lhs, const Edge& rhs) { return lhs.back() < rhs.back(); });
 
-        DisjointSet disj{ n };
+        DisjointSet disj{ n + 1 };
 
         auto count = 0;
         auto sum = 0;
 
-        for (const auto& connection : connections) {
-            pq.push({ connection[0] - 1, connection[1] - 1, connection[2] });
-        }
-
-        while (pq.empty() == false) {
-
-            const auto edge = pq.top();
-            pq.pop();
+        for (const auto& edge : edges) {
 
             if (disj.unionSet(edge[0], edge[1]) == false) {
                 continue;
@@ -100,10 +79,10 @@ class Solution {
         return (count == n - 1) ? sum : -1;
     }
 };
-*/
+//*/
 
 
-///*
+/*
 // Approach 2: Minimum Spanning Tree (Using Prim's algorithm)
 class Solution {
 
@@ -149,4 +128,4 @@ class Solution {
         return (count == n) ? sum : -1;
     }
 };
-//*/
+*/
