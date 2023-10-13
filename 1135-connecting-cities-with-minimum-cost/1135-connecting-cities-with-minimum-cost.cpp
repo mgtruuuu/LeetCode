@@ -1,15 +1,9 @@
+// Approach 1: Minimum Spanning Tree (Using Prim's algorithm)
 class Solution {
 
-  private:
     using Node = int;
     using Weight = int;
     using MyVec = std::pair<Weight, Node>;
-    struct MyVecComp {
-        bool operator()(const MyVec& lhs, const MyVec& rhs)
-        {
-            return lhs.first > rhs.first;
-        }
-    };
 
   public:
     int minimumCost(int n, vector<vector<int>>& connections)
@@ -20,7 +14,7 @@ class Solution {
             adj_list[connection[1] - 1].emplace_back(connection[2], connection[0] - 1);
         }
 
-        std::priority_queue<MyVec, std::vector<MyVec>, MyVecComp> pq;
+        std::priority_queue<MyVec, std::vector<MyVec>, std::greater<MyVec>> pq;
         std::vector<int> visited(n, false);
 
         auto count = 0;
@@ -35,12 +29,12 @@ class Solution {
 
             if (visited[node.second] == true) {
                 continue;
-            }            
-            
+            }
+
             visited[node.second] = true;
             ++count;
-            sum += node.first; 
-            
+            sum += node.first;
+
             for (const auto& my_vec : adj_list[node.second]) {
                 pq.push(my_vec);
             }
