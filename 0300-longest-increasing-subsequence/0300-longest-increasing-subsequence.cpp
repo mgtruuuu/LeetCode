@@ -34,22 +34,28 @@ class Solution {
 
 
 class Solution {
-public:
-    int lengthOfLIS(std::vector<int>& nums) {
-        std::vector<int> sub;
-        sub.push_back(nums[0]);
-        
-        for (int i = 1; i < nums.size(); i++) {
-            int num = nums[i];
-            if (num > sub.back()) {
-                sub.push_back(num);
-            } else {
-                // Find the first element in sub that is greater than or equal to num
-                auto it = std::lower_bound(sub.begin(), sub.end(), num);
-                *it = num;
+  public:
+    int lengthOfLIS(vector<int>& nums)
+    {
+        std::vector<int> subs{ nums.front() };
+
+        const auto len_nums = static_cast<int>(nums.size());
+        for (auto idx = 1; idx != len_nums; ++idx) {
+
+            auto idx_left = int(subs.size()) - 1;
+
+            while (idx_left >= 0 && subs[idx_left] >= nums[idx]) {
+                --idx_left;
+            }
+
+            if (idx_left == subs.size() - 1) {
+                subs.push_back(nums[idx]);
+            }
+            else {
+                subs[idx_left + 1] = nums[idx];
             }
         }
-        
-        return sub.size();
+
+        return subs.size();
     }
 };
