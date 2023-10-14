@@ -1,3 +1,5 @@
+/*
+// Approach 1: Dynamic Programming
 class Solution {
   public:
     int lengthOfLIS(vector<int>& nums)
@@ -25,5 +27,29 @@ class Solution {
         }
 
         return res;
+    }
+};
+*/
+
+
+
+class Solution {
+public:
+    int lengthOfLIS(std::vector<int>& nums) {
+        std::vector<int> sub;
+        sub.push_back(nums[0]);
+        
+        for (int i = 1; i < nums.size(); i++) {
+            int num = nums[i];
+            if (num > sub.back()) {
+                sub.push_back(num);
+            } else {
+                // Find the first element in sub that is greater than or equal to num
+                auto it = std::lower_bound(sub.begin(), sub.end(), num);
+                *it = num;
+            }
+        }
+        
+        return sub.size();
     }
 };
