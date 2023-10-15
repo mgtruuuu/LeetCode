@@ -39,18 +39,13 @@ class Solution {
     {
         std::vector<int> subs{ nums.front() };
 
-        const auto len_nums = int(nums.size());
-        for (auto idx = 1; idx != len_nums; ++idx) {
+        const auto len_nums = nums.size();
+        for (auto idx = std::size_t(1); idx != len_nums; ++idx) {
 
-            auto idx_left = int(subs.size());
+            auto idx_left = subs.size();
             --idx_left;
             
-            while (subs[idx_left] >= nums[idx]) {
-                
-                if (--idx_left == -1) {
-                    break;    
-                }
-            }
+            while (subs[idx_left] >= nums[idx] && idx_left-- != 0);
             
             if (++idx_left == subs.size()) {
                 subs.push_back(nums[idx]);
