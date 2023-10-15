@@ -32,7 +32,8 @@ class Solution {
 */
 
 
-
+/*
+// Approach 2: Intelligently Build a Subsequence
 class Solution {
   public:
     int lengthOfLIS(vector<int>& nums)
@@ -45,7 +46,8 @@ class Solution {
             auto idx_left = subs.size();
             --idx_left;
             
-            while (subs[idx_left] >= nums[idx] && idx_left-- != 0);
+            while (subs[idx_left] >= nums[idx] && idx_left-- != 0) {
+            }
             
             if (++idx_left == subs.size()) {
                 subs.push_back(nums[idx]);
@@ -58,3 +60,52 @@ class Solution {
         return subs.size();
     }
 };
+*/
+
+
+///*
+// 
+class Solution {
+  private:
+    std::size_t binarySearch(std::vector<int>& subs, int num)
+    {
+        auto idx_left = 0;
+        auto idx_right = static_cast<int>(subs.size()) - 1;
+
+        while (idx_left <= idx_right) {
+
+            const auto idx_mid = static_cast<int>((idx_left + idx_right) * 0.5);
+
+            if (subs[idx_mid] >= num) {
+                idx_right = idx_mid - 1;
+            }
+            else {
+                idx_left = idx_mid + 1;
+            }
+        }
+
+        return idx_left;
+    }
+
+  public:
+    int lengthOfLIS(vector<int>& nums)
+    {
+        std::vector<int> subs{ nums.front() };
+
+        const auto len_nums = nums.size();
+        for (auto idx = std::size_t(1); idx != len_nums; ++idx) {
+
+            const auto idx_insert = binarySearch(subs, nums[idx]);
+
+            if (idx_insert == subs.size()) {
+                subs.push_back(nums[idx]);
+            }
+            else {
+                subs[idx_insert] = nums[idx];
+            }
+        }
+
+        return subs.size();
+    }
+};
+//*/
