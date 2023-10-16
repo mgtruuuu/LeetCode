@@ -1,45 +1,43 @@
 class Solution {
-  public:
-    int findNumberOfLIS(vector<int>& nums)
-    {
-        const auto len_nums = nums.size();
+public:
+    int findNumberOfLIS(std::vector<int>& nums) {
+        int n = nums.size();
+        vector<int> length(n, 0);
+        vector<int> count(n, 0);
 
-        std::vector<int> lengths(len_nums);
-        std::vector<int> counts(len_nums);
+        function<void(int)> calculateDP = [&](int i) {
+            if (length[i] != 0)
+                return;
 
-        auto max_length = 0;
-
-        for (auto idx_right = std::size_t(0); idx_right != len_nums; ++idx_right) {
-
-            lengths[idx_right] = 1;
-            counts[idx_right] = 1;
-            for (auto idx_left = std::size_t(0); idx_left != idx_right; ++idx_left) {
-
-                if (nums[idx_left] < nums[idx_right]) {
-
-                    if (lengths[idx_right] < lengths[idx_left] + 1) {
-
-                        lengths[idx_right] = lengths[idx_left] + 1;
-                        counts[idx_right] = counts[idx_left];
+            length[i] = 1;
+            count[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if (nums[j] < nums[i]) {
+                    calculateDP(j);
+                    if (length[j] + 1 > length[i]) {
+                        length[i] = length[j] + 1;
+                        count[i] = 0;
                     }
-                    else if (lengths[idx_right] == lengths[idx_left] + 1) {
-                        counts[idx_right] += counts[idx_left];
+                    if (length[j] + 1 == length[i]) {
+                        count[i] += count[j];
                     }
                 }
             }
+        };
 
-            if (max_length < lengths[idx_right]) {
-                max_length = lengths[idx_right];
-            }
+	int maxLength = 0;
+        int result = 0;
+        for (int i = 0; i < n; i++) {
+            calculateDP(i);
+            if (length[i] > maxLength)
+                maxLength = length[i];
         }
 
-        auto sum_counts = 0;
-        for (auto idx = std::size_t(0); idx != len_nums; ++idx) {
-            if (lengths[idx] == max_length) {
-                sum_counts += counts[idx];
-            }
+        for (int i = 0; i < n; i++) {
+            if (length[i] == maxLength)
+                result += count[i];
         }
 
-        return sum_counts;
+        return result;
     }
 };
