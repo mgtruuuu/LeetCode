@@ -1,4 +1,4 @@
-/*
+///*
 // Approach 1: Bottom-up Dynamic Programming
 class Solution {
   public:
@@ -47,9 +47,10 @@ class Solution {
         return sum_counts;
     }
 };
-*/
+//*/
 
 
+/*
 // Approach 2: Top-down Dynamic Programming (Memoization)
 class Solution {
   private:
@@ -109,3 +110,4 @@ class Solution {
         return sum_counts;
     }
 };
+*/
