@@ -10,9 +10,10 @@ class Solution {
         auto max_length = 0;
 
         for (auto idx_right = std::size_t(0); idx_right != len_nums; ++idx_right) {
+
             lengths[idx_right] = 1;
             counts[idx_right] = 1;
-            for (auto idx_left = 0; idx_left != idx_right; ++idx_left) {
+            for (auto idx_left = std::size_t(0); idx_left != idx_right; ++idx_left) {
 
                 if (nums[idx_left] < nums[idx_right]) {
 
