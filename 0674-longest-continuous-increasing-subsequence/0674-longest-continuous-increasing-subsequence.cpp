@@ -1,29 +1,11 @@
 class Solution {
-  public:
-    int findLengthOfLCIS(vector<int>& nums)
-    {
-        const auto len_nums = static_cast<int>(nums.size());
-
-        auto max_length = 1;
-        auto current_length = 1;
-        for (auto idx = 0; idx != len_nums - 1; ++idx) {
-
-            if (nums[idx] < nums[idx + 1]) {
-
-                ++current_length;
-
-                continue;
-            }
-            else if (max_length < current_length) {
-                max_length = current_length;
-            }
-
-            current_length = 1;
+public:
+    int findLengthOfLCIS(vector<int>& nums) {
+        int ans = 0, anchor = 0;
+        for (int i = 0; i < nums.size(); ++i) {
+            if (i > 0 && nums[i-1] >= nums[i]) anchor = i;
+            ans = max(ans, i - anchor + 1);
         }
-
-        if (max_length < current_length) {
-            max_length = current_length;
-        }
-        return max_length;
+        return ans;
     }
 };
