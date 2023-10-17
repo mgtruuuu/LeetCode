@@ -15,7 +15,7 @@ class Solution {
             else if (max_length < current_length) {
                 max_length = current_length;
             }
-            
+
             current_length = 1;
         }
 
