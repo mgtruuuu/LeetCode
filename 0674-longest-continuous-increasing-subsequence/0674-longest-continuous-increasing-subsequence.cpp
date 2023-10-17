@@ -2,8 +2,7 @@ class Solution {
   public:
     int findLengthOfLCIS(vector<int>& nums)
     {
-        auto len_nums_minus_one = nums.size();
-        --len_nums_minus_one;
+        auto len_nums_minus_one = nums.size() - 1;
 
         auto max_length = 1;
         auto current_length = 1;
