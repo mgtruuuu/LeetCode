@@ -2,11 +2,13 @@ class Solution {
   public:
     int findLengthOfLCIS(vector<int>& nums)
     {
+        const auto len_nums = static_cast<int>(nums.size());
+
         auto max_length = 1;
         auto current_length = 1;
-        for (auto idx = std::size_t(1); idx != nums.size(); ++idx) {
+        for (auto idx = 0; idx != len_nums - 1; ++idx) {
 
-            if (nums[idx - 1] < nums[idx]) {
+            if (nums[idx] < nums[idx + 1]) {
 
                 ++current_length;
 
