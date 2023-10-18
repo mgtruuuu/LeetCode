@@ -10,12 +10,12 @@ class Solution {
 
             while (idx_left < idx_right && s[idx_left++] == s[idx_right--]) {
             }
+            
+            if (idx_left >= idx_right) {
+                return true;
+            }
         }
 
-        if (idx_left >= idx_right) {
-            return true;
-        }
-        
         while (idx_left < idx_right) {
 
             if (s[idx_left++] != s[idx_right--]) {
