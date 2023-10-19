@@ -1,4 +1,5 @@
-/*
+///*
+// Approach 1: Pop and Push Digits & Check before Overflow
 constexpr auto int_max_last = 7;
 constexpr auto int_min_last = -8;
 
@@ -26,9 +27,11 @@ class Solution {
         return res;
     }
 };
-*/
+//*/
 
 
+/*
+// Approach 2: Using stack (My sol)
 class Solution {
   public:
     int reverse(int x)
@@ -95,3 +98,4 @@ class Solution {
         return res;
     }
 };
+*/
