@@ -1,3 +1,5 @@
+constexpr auto one = std::size_t(1);
+
 class Solution {
   public:
     int minPathSum(vector<vector<int>>& grid)
@@ -5,31 +7,24 @@ class Solution {
         const auto len_row = grid.size();
         const auto len_col = grid.front().size();
 
-        std::vector<int> paths(len_col);
-
         {
-            auto sum = 0;
-            auto col = std::size_t(0);
+            auto col = one;
             while (col != len_col) {
 
-                sum += grid[0][col];
-                paths[col++] = sum;
+                grid[0][col] += grid[0][col - one];
+                ++col;
             }
         }
 
-        for (auto row = std::size_t(1); row != len_row; ++row) {
-            
-            paths[0] += grid[row][0];
-            
-            for (auto col = std::size_t(1); col != len_col; ++col) {
-                
-                if (paths[col] > paths[col - 1]) {
-                    paths[col] = paths[col - 1];
-                }
-                paths[col] += grid[row][col];
+        for (auto row = one; row != len_row; ++row) {
+
+            grid[row][0] += grid[row - one][0];
+
+            for (auto col = one; col != len_col; ++col) {
+                grid[row][col] += std::min(grid[row - one][col], grid[row][col - one]);
             }
         }
 
-        return paths[len_col - std::size_t(1)];
+        return grid[len_row - one][len_col - one];
     }
 };
