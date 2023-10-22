@@ -3,32 +3,19 @@ class Solution {
     int deleteAndEarn(vector<int>& nums)
     {
         std::unordered_map<int, int> num2score;
-
-        auto min_num = INT_MAX;
-        auto max_num = INT_MIN;
         for (const auto num : nums) {
-
             num2score[num] += num;
-
-            if (num < min_num) {
-                min_num = num;
-            }
-
-            if (max_num < num) {
-                max_num = num;
-            }
         }
 
-        if (min_num == max_num) {
-            return num2score[min_num];
+        const auto len = num2score.size();        
+        if (len == std::size_t(1)) {
+            return num2score.begin()->second;
         }
-
-        const auto len = num2score.size();
 
         std::vector<int> keys;
         keys.reserve(len);
-        for (const auto& [k, v] : num2score) {
-            keys.push_back(k);
+        for (const auto& kv : num2score) {
+            keys.push_back(kv.first);
         }
         std::sort(keys.begin(), keys.end());
 
