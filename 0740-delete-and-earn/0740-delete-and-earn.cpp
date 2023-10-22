@@ -1,3 +1,58 @@
+/*
+// Approach 1: Space Optimized Bottom-Up Dynamic Programming
+class Solution {
+  public:
+    int deleteAndEarn(vector<int>& nums)
+    {
+        std::unordered_map<int, int> num2count;
+
+        auto min_num = INT_MAX;
+        auto max_num = INT_MIN;
+        for (const auto num : nums) {
+
+            num2count[num] += num;
+
+            if (num < min_num) {
+                min_num = num;
+            }
+
+            if (max_num < num) {
+                max_num = num;
+            }
+        }
+
+        if (min_num == max_num) {
+            return num2count[min_num];
+        }
+
+        const auto len_arr = max_num - min_num + 1;
+        std::vector<int> arr(len_arr, 0);
+
+        for (const auto& [k, v] : num2count) {
+            arr[k - min_num] = v;
+        }
+
+        std::queue<int> dp;
+        dp.push(arr[0]);
+        dp.push(std::max(arr[0], arr[1]));
+
+        auto idx = std::size_t(2);
+        while (idx != len_arr) {
+
+            const auto two_back = dp.front();
+
+            dp.pop();
+            dp.push(std::max(two_back + arr[idx++], dp.front()));
+        }
+
+        return dp.back();
+    }
+};
+*/
+
+
+///*
+// Approach 2: Iterate Over Elements
 class Solution {
   public:
     int deleteAndEarn(vector<int>& nums)
@@ -7,7 +62,7 @@ class Solution {
             num2score[num] += num;
         }
 
-        const auto len = num2score.size();        
+        const auto len = num2score.size();
         if (len == std::size_t(1)) {
             return num2score.begin()->second;
         }
@@ -50,3 +105,4 @@ class Solution {
         return dp.back();
     }
 };
+//*/
