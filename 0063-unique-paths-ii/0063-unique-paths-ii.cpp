@@ -1,3 +1,5 @@
+///*
+// Approach 1: Dynamic Programming - 1d array
 constexpr auto one = std::size_t(1);
 class Solution {
   public:
@@ -17,16 +19,17 @@ class Solution {
             }
         }
 
-        for (auto row = one; row != len_row; ++row) {
+        for (auto row = std::size_t(1); row != len_row; ++row) {
 
             //dp[0] = (dp[0] == 0 || obstacleGrid[row][0] == 1) ? 0 : 1;
             dp[0] *= (1 - obstacleGrid[row][0]);
 
-            for (auto col = one; col != len_col; ++col) {
-                dp[col] = obstacleGrid[row][col] == 1 ? 0 : dp[col] + dp[col - one];
+            for (auto col = std::size_t(1); col != len_col; ++col) {
+                dp[col] = obstacleGrid[row][col] == 1 ? 0 : dp[col] + dp[col - std::size_t(1)];
             }
         }
 
         return dp.back();
     }
 };
+//*/
