@@ -1,18 +1,48 @@
 class Solution {
-public:
-    int deleteAndEarn(vector<int>& nums) {
-        int n = 10001;
-        vector<int> values(n, 0);
-        for (int num : nums)
-            values[num] += num;
+  public:
+    int deleteAndEarn(vector<int>& nums)
+    {
+        std::unordered_map<int, int> num2count;
 
-        int take = 0, skip = 0;
-        for (int i = 0; i < n; i++) {
-            int takei = skip + values[i];
-            int skipi = max(skip, take);
-            take = takei;
-            skip = skipi;
+        auto min_num = INT_MAX;
+        auto max_num = INT_MIN;
+        for (const auto num : nums) {
+
+            num2count[num] += num;
+
+            if (num < min_num) {
+                min_num = num;
+            }
+
+            if (max_num < num) {
+                max_num = num;
+            }
         }
-        return max(take, skip);
+
+        if (min_num == max_num) {
+            return num2count[min_num];
+        }
+
+        const auto len_arr = max_num - min_num + 1;
+        std::vector<int> arr(len_arr, 0);
+
+        for (const auto& [k, v] : num2count) {
+            arr[k - min_num] = v;
+        }
+
+        std::queue<int> dp;
+        dp.push(arr[0]);
+        dp.push(std::max(arr[0], arr[1]));
+
+        auto idx = std::size_t(2);
+        while (idx != len_arr) {
+
+            const auto two_back = dp.front();
+
+            dp.pop();
+            dp.push(std::max(two_back + arr[idx++], dp.front()));
+        }
+
+        return dp.back();
     }
 };
