@@ -2,13 +2,13 @@ class Solution {
   public:
     int deleteAndEarn(vector<int>& nums)
     {
-        std::unordered_map<int, int> num2count;
+        std::unordered_map<int, int> num2score;
 
         auto min_num = INT_MAX;
         auto max_num = INT_MIN;
         for (const auto num : nums) {
 
-            num2count[num] += num;
+            num2score[num] += num;
 
             if (num < min_num) {
                 min_num = num;
@@ -20,27 +20,44 @@ class Solution {
         }
 
         if (min_num == max_num) {
-            return num2count[min_num];
+            return num2score[min_num];
         }
 
-        const auto len_arr = max_num - min_num + 1;
-        std::vector<int> arr(len_arr, 0);
+        const auto len = num2score.size();
 
-        for (const auto& [k, v] : num2count) {
-            arr[k - min_num] = v;
+        std::vector<int> keys;
+        keys.reserve(len);
+        for (const auto& [k, v] : num2score) {
+            keys.push_back(k);
         }
+        std::sort(keys.begin(), keys.end());
 
         std::queue<int> dp;
-        dp.push(arr[0]);
-        dp.push(std::max(arr[0], arr[1]));
+        dp.push(num2score[keys.front()]);
 
+        if (keys[1] - keys[0] == 1) {
+            dp.push(std::max(num2score[keys[0]], num2score[keys[1]]));
+        }
+        else {
+            dp.push(dp.front() + num2score[keys[1]]);
+        }
+
+        auto prev_key = keys[1];
         auto idx = std::size_t(2);
-        while (idx != len_arr) {
+        while (idx != len) {
 
             const auto two_back = dp.front();
-
             dp.pop();
-            dp.push(std::max(two_back + arr[idx++], dp.front()));
+
+            if (keys[idx] - prev_key == 1) {
+                dp.push(std::max(two_back + num2score[keys[idx]], dp.front()));
+            }
+            else {
+                dp.push(dp.front() + num2score[keys[idx]]);
+            }
+
+            prev_key = keys[idx];
+            ++idx;
         }
 
         return dp.back();
