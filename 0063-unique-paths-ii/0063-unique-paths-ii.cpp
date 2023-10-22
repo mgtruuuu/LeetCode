@@ -36,7 +36,7 @@ class Solution {
 
 
 ///*
-// Approach 1: Dynamic Programming - O(1) Space Complexity
+// Approach 2: Dynamic Programming - O(1) Space Complexity
 constexpr auto one = std::size_t(1);
 class Solution {
   public:
