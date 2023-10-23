@@ -1,6 +1,6 @@
 class Solution {
   private:
-    const std::string digit2letters[10] = { "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
+    const char* digit2letters[10] = { "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
 
     void backtracking(const std::string& digits, std::string& letters, std::vector<std::string>& res)
     {
@@ -11,10 +11,10 @@ class Solution {
             return;
         }
 
-        const auto idx = letters.size();
-        for (const auto ch : digit2letters[static_cast<int>(digits[idx] - '0')]) {
+        const char* value = digit2letters[static_cast<std::size_t>(digits[letters.size()] - '0')];
+        for (auto idx = std::size_t(0); idx != strlen(value); ++idx) {
 
-            letters.push_back(ch);
+            letters.push_back(value[idx]);
             backtracking(digits, letters, res);
             letters.pop_back();
         }
