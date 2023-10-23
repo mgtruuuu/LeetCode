@@ -1,19 +1,19 @@
 class Solution {
   private:
-    void backtracking(const std::size_t idx_left, std::vector<int>& permutation, std::vector<std::vector<int>>& res)
+    void backtracking(const std::size_t idx_next, std::vector<int>& permutation, std::vector<std::vector<int>>& res)
     {
-        if (idx_left == permutation.size()) {
+        if (idx_next == permutation.size()) {
 
             res.push_back(permutation);
 
             return;
         }
 
-        for (auto idx_right = idx_left; idx_right != permutation.size(); ++idx_right) {
+        for (auto idx = idx_next; idx != permutation.size(); ++idx) {
 
-            std::swap(permutation[idx_left], permutation[idx_right]);
-            backtracking(idx_left + 1, permutation, res);
-            std::swap(permutation[idx_left], permutation[idx_right]);
+            std::swap(permutation[idx_next], permutation[idx]);
+            backtracking(idx_next + 1, permutation, res);
+            std::swap(permutation[idx_next], permutation[idx]);
         }
     }
 
