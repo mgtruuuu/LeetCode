@@ -1,43 +1,45 @@
 class Solution {
-
   private:
-    void permuteRecursion(const std::size_t left, const std::size_t right, vector<int>& nums, std::vector<std::vector<int>>& permutations)
+    void backtracking(const std::size_t idx_left, std::vector<int>& permutation, std::vector<std::vector<int>>& res)
     {
-        if (left == right) {
+        if (idx_left == permutation.size()) {
 
-            permutations.push_back(nums);
+            res.push_back(permutation);
 
             return;
         }
 
-        for (auto i = left; i <= right; ++i) {
+        backtracking(idx_left + 1, permutation, res);
 
-            std::swap(nums[left], nums[i]);
-            permuteRecursion(left + 1, right, nums, permutations);
-            std::swap(nums[left], nums[i]);
+        for (auto idx_right = idx_left + 1; idx_right != permutation.size(); ++idx_right) {
+
+            std::swap(permutation[idx_left], permutation[idx_right]);
+            backtracking(idx_left + 1, permutation, res);
+            std::swap(permutation[idx_left], permutation[idx_right]);
         }
     }
 
-    std::size_t getFactorial(const std::size_t length);
+    int getFactorial(int n)
+    {
+        auto res = 1;
+
+        while (n != 0) {
+            res *= n--;
+        }
+
+        return res;
+    }
 
   public:
     vector<vector<int>> permute(vector<int>& nums)
     {
-        std::vector<std::vector<int>> permutations;
-        permutations.reserve(getFactorial(nums.size()));
+        std::vector<std::vector<int>> res;
+        res.reserve(getFactorial(nums.size()));
 
-        permuteRecursion(0, nums.size() - 1, nums, permutations);
+        auto permutation = nums;
 
-        return permutations;
+        backtracking(0, permutation, res);
+
+        return res;
     }
 };
-
-
-std::size_t Solution::getFactorial(const std::size_t length)
-{
-    if (length <= 1) {
-        return 1;
-    }
-
-    return getFactorial(length - 1) * length;
-}
