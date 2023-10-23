@@ -1,3 +1,5 @@
+/*
+// Approach 1: Backtracking (My sol)
 class Solution {
   private:
     void backtracking(const std::vector<int>& candidates, const int target, std::vector<int>& combination_counts,
@@ -39,6 +41,50 @@ class Solution {
         std::vector<int> combination_counts;
         combination_counts.reserve(candidates.size());
         backtracking(candidates, target, combination_counts, combinations);
+
+        combinations.shrink_to_fit();
+        return combinations;
+    }
+};
+*/
+
+
+class Solution {
+  private:
+    void backtracking(const std::vector<int>& candidates, const int target, const std::size_t idx_next,
+                      std::vector<int>& combination, std::vector<std::vector<int>>& combinations)
+    {
+        if (target == 0) {
+
+            combinations.push_back(combination);
+
+            return;
+        }
+        else if (idx_next == candidates.size()) {
+            return;
+        }
+
+        backtracking(candidates, target, idx_next + 1, combination, combinations);
+        auto count = 0;
+        auto part_sum = candidates[idx_next];
+        while (part_sum <= target) {
+
+            combination.push_back(candidates[idx_next]);
+            backtracking(candidates, target - part_sum, idx_next + 1, combination, combinations);
+            part_sum += candidates[idx_next];
+            ++count;
+        }
+        combination.resize(combination.size() - count);
+    }
+
+  public:
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target)
+    {
+        std::vector<std::vector<int>> combinations;
+        combinations.reserve(150);
+
+        std::vector<int> combination;
+        backtracking(candidates, target, 0, combination, combinations);
 
         return combinations;
     }
