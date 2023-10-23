@@ -26,7 +26,7 @@ class Solution {
 */
 
 
-///*
+/*
 // Approach 2: Dynamic Programming (Bottom-up: Flip Triangle Upside Down)
 constexpr auto one = std::size_t(1);
 class Solution {
@@ -40,6 +40,28 @@ class Solution {
         }
 
         return triangle[0][0];
+    }
+};
+*/
+
+
+///*
+// Approach 3: Dynamic Programming (Bottom-up: Flip Triangle Upside Down)
+// using only O(n) extra space, where n is the total number of rows in the triangle?
+constexpr auto one = std::size_t(1);
+class Solution {
+  public:
+    int minimumTotal(vector<vector<int>>& triangle)
+    {
+        auto dp = triangle.back();
+
+        for (auto row = triangle.size() - one; row-- != 0;) {
+            for (auto col = std::size_t(0); col != row + one; ++col) {
+                dp[col] = std::min(dp[col], dp[col + 1]) + triangle[row][col];
+            }
+        }
+
+        return dp[0];
     }
 };
 //*/
