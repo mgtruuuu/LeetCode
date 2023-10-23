@@ -49,6 +49,8 @@ class Solution {
 */
 
 
+///*
+// Approach 1: Backtracking
 class Solution {
   private:
     void backtracking(const std::vector<int>& candidates, const int target, const std::size_t idx_next,
@@ -89,3 +91,4 @@ class Solution {
         return combinations;
     }
 };
+//*/
