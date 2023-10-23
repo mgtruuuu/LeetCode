@@ -1,9 +1,7 @@
 class Solution {
   private:
-    std::unordered_map<char, std::string> digit2letters{ { '2', "abc" }, { '3', "def" }, { '4', "ghi" },
-                                                         { '5', "jkl" }, { '6', "mno" }, { '7', "pqrs" },
-                                                         { '8', "tuv" }, { '9', "wxyz" } };
-    
+    const std::string digit2letters[10] = { "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
+
     void backtracking(const std::string& digits, std::string& letters, std::vector<std::string>& res)
     {
         if (letters.size() == digits.size()) {
@@ -13,7 +11,8 @@ class Solution {
             return;
         }
 
-        for (const auto ch : digit2letters[digits[letters.size()]]) {
+        const auto idx = letters.size();
+        for (const auto ch : digit2letters[static_cast<int>(digits[idx] - '0')]) {
 
             letters.push_back(ch);
             backtracking(digits, letters, res);
@@ -29,11 +28,9 @@ class Solution {
         }
 
         std::vector<std::string> res;
-        res.reserve(4 * 4 * 4 * 4);
-        std::string letters;
-        backtracking(digits, letters, res);
+        std::string empty;
+        backtracking(digits, empty, res);
 
-        res.shrink_to_fit();
         return res;
     }
 };
