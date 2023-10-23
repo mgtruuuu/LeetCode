@@ -9,9 +9,7 @@ class Solution {
             return;
         }
 
-        backtracking(idx_left + 1, permutation, res);
-
-        for (auto idx_right = idx_left + 1; idx_right != permutation.size(); ++idx_right) {
+        for (auto idx_right = idx_left; idx_right != permutation.size(); ++idx_right) {
 
             std::swap(permutation[idx_left], permutation[idx_right]);
             backtracking(idx_left + 1, permutation, res);
