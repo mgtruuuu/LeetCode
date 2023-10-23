@@ -29,9 +29,11 @@ class Solution {
         }
 
         std::vector<std::string> res;
-        std::string empty;
-        backtracking(digits, empty, res);
+        res.reserve(4 * 4 * 4 * 4);
+        std::string letters;
+        backtracking(digits, letters, res);
 
+        res.shrink_to_fit();
         return res;
     }
 };
