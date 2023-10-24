@@ -50,14 +50,13 @@ class Solution {
 */
 
 
+///*
+// Approach 2: Recursion
 class Solution {
   private:
     TreeNode* buildTreeHelper(const std::vector<int>& preorder, const int idx_in_start, const int idx_in_end)
     {
-        if (idx_in_start == idx_in_end) {
-            return new TreeNode{ preorder[idx_in_start] };
-        }
-        else if (idx_in_start > idx_in_end) {
+        if (idx_in_start > idx_in_end) {
             return nullptr;
         }
 
@@ -76,3 +75,4 @@ class Solution {
         return buildTreeHelper(preorder, 0, preorder.size() - 1);
     }
 };
+//*/
