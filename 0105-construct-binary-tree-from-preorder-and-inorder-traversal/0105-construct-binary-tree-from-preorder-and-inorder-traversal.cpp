@@ -11,7 +11,8 @@
  */
 class Solution {
   private:
-    TreeNode* buildTreeHelper(const std::vector<int>& preorder, const std::vector<int>& inorder, const int idx_in_start,
+    TreeNode* buildTreeHelper(const std::vector<int>& preorder, const std::vector<int>& inorder,
+                              const std::unordered_map<int, int>& inorderNode2idx, const int idx_in_start,
                               const int idx_in_end, const int idx_pre)
     {
         if (idx_in_start == idx_in_end) {
@@ -21,18 +22,23 @@ class Solution {
             return nullptr;
         }
 
-        const auto dist =
-            std::distance(inorder.begin() + idx_in_start, std::find(inorder.begin(), inorder.end(), preorder[idx_pre]));
+        const auto dist = inorderNode2idx.at(preorder[idx_pre]) - idx_in_start;
 
         return new TreeNode{
-            preorder[idx_pre], buildTreeHelper(preorder, inorder, idx_in_start, idx_in_start + dist - 1, idx_pre + 1),
-            buildTreeHelper(preorder, inorder, idx_in_start + dist + 1, idx_in_end, idx_pre + dist + 1)
+            preorder[idx_pre],
+            buildTreeHelper(preorder, inorder, inorderNode2idx, idx_in_start, idx_in_start + dist - 1, idx_pre + 1),
+            buildTreeHelper(preorder, inorder, inorderNode2idx, idx_in_start + dist + 1, idx_in_end, idx_pre + dist + 1)
         };
     }
 
   public:
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder)
     {
-        return buildTreeHelper(preorder, inorder, 0, preorder.size() - 1, 0);
+        std::unordered_map<int, int> inorderNode2idx;
+        for (auto idx = 0; idx != static_cast<int>(inorder.size()); ++idx) {
+            inorderNode2idx[inorder[idx]] = idx;
+        }
+
+        return buildTreeHelper(preorder, inorder, inorderNode2idx, 0, preorder.size() - 1, 0);
     }
 };
