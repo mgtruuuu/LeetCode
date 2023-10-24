@@ -16,7 +16,6 @@ class Solution {
     TreeNode* sortedArrayToBSTHelper(const std::vector<int>& nums, const int idx_start,
                                      const int idx_end)
     {
-std::cout << "fcn called : " << idx_start << " " << idx_end << std::endl;
         if (idx_start > idx_end) {
             return nullptr;
         }
