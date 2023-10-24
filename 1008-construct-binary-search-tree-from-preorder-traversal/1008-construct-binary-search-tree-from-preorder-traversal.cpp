@@ -10,6 +10,8 @@
  * };
  */
 
+/*
+// Approach 1: Construct binary tree from preorder and inorder traversal
 class Solution {
   private:
     TreeNode* buildTreeHelper(const std::vector<int>& preorder, const std::unordered_map<int, int>& inorderNode2idx,
@@ -43,5 +45,34 @@ class Solution {
         }
 
         return buildTreeHelper(preorder, inorderNode2idx, 0, preorder.size() - 1, 0);
+    }
+};
+*/
+
+
+class Solution {
+  private:
+    TreeNode* buildTreeHelper(const std::vector<int>& preorder, const int idx_in_start, const int idx_in_end)
+    {
+        if (idx_in_start == idx_in_end) {
+            return new TreeNode{ preorder[idx_in_start] };
+        }
+        else if (idx_in_start > idx_in_end) {
+            return nullptr;
+        }
+
+        const auto parent = preorder[idx_in_start];
+        const auto idx_new = std::distance(
+            preorder.begin(), std::find_if(preorder.begin() + idx_in_start + 1, preorder.end(),
+                                           [parent](int node_preorder) { return parent < node_preorder; }));
+
+        return new TreeNode{ parent, buildTreeHelper(preorder, idx_in_start + 1, idx_new - 1),
+                             buildTreeHelper(preorder, idx_new, idx_in_end) };
+    }
+
+  public:
+    TreeNode* bstFromPreorder(vector<int>& preorder)
+    {
+        return buildTreeHelper(preorder, 0, preorder.size() - 1);
     }
 };
