@@ -48,9 +48,6 @@ class Solution {
         if (idx_start > idx_end) {
             return nullptr;
         }
-        else if (idx_start == idx_end) {
-            return new TreeNode{ nums[idx_start] };
-        }
 
         const auto idx_middle_left = (idx_start + idx_end + 1) / 2;
         auto* res = new TreeNode{ nums[idx_middle_left] };
