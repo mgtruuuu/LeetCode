@@ -11,9 +11,8 @@
  */
 class Solution {
   private:
-    TreeNode* buildTreeHelper(const std::vector<int>& preorder, const std::vector<int>& inorder,
-                              const std::unordered_map<int, int>& inorderNode2idx, const int idx_in_start,
-                              const int idx_in_end, const int idx_pre)
+    TreeNode* buildTreeHelper(const std::vector<int>& preorder, const std::unordered_map<int, int>& inorderNode2idx,
+                              const int idx_in_start, const int idx_in_end, const int idx_pre)
     {
         if (idx_in_start == idx_in_end) {
             return new TreeNode{ preorder[idx_pre] };
@@ -26,8 +25,8 @@ class Solution {
 
         return new TreeNode{
             preorder[idx_pre],
-            buildTreeHelper(preorder, inorder, inorderNode2idx, idx_in_start, idx_in_start + dist - 1, idx_pre + 1),
-            buildTreeHelper(preorder, inorder, inorderNode2idx, idx_in_start + dist + 1, idx_in_end, idx_pre + dist + 1)
+            buildTreeHelper(preorder, inorderNode2idx, idx_in_start, idx_in_start + dist - 1, idx_pre + 1),
+            buildTreeHelper(preorder, inorderNode2idx, idx_in_start + dist + 1, idx_in_end, idx_pre + dist + 1)
         };
     }
 
@@ -39,6 +38,6 @@ class Solution {
             inorderNode2idx[inorder[idx]] = idx;
         }
 
-        return buildTreeHelper(preorder, inorder, inorderNode2idx, 0, preorder.size() - 1, 0);
+        return buildTreeHelper(preorder, inorderNode2idx, 0, preorder.size() - 1, 0);
     }
 };
