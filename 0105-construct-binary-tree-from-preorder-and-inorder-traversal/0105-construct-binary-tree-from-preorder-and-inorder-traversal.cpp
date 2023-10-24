@@ -21,7 +21,8 @@ class Solution {
             return nullptr;
         }
 
-        const auto dist = std::distance(inorder.begin() + idx_in_start, std::find(inorder.begin(), inorder.end(), preorder[idx_pre]));
+        const auto dist =
+            std::distance(inorder.begin() + idx_in_start, std::find(inorder.begin(), inorder.end(), preorder[idx_pre]));
 
         return new TreeNode{
             preorder[idx_pre], buildTreeHelper(preorder, inorder, idx_in_start, idx_in_start + dist - 1, idx_pre + 1),
