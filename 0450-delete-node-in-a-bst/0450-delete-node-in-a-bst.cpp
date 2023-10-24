@@ -12,7 +12,7 @@
 
 
 /*
-//
+// Approach 1 - 1: Recursion
 class Solution {
   private:
     TreeNode* minKeyNode(TreeNode* node)
@@ -64,18 +64,9 @@ class Solution {
 */
 
 
-//
+///*
+// Approach 1 - 2: Recursion <----- optimized but is it really faster?
 class Solution {
-  private:
-    TreeNode* secondMinKeyNode(TreeNode* node)
-    {
-        while (node->left->left != nullptr) {
-            node = node->left;
-        }
-
-        return node;
-    }
-
   public:
     TreeNode* deleteNode(TreeNode* root, int key)
     {
@@ -103,18 +94,30 @@ class Solution {
                 root = root->left;
                 delete temp;
             }
-            else if (root->right->left == nullptr) {
-
-                root->val = root->right->val;
-                root->right = deleteNode(root->right, root->val);
-            }
             else {
 
-                root->val = secondMinKeyNode(root->right)->left->val;
-                root->right = deleteNode(root->right, root->val);
+                TreeNode* min_node = root->right;
+                TreeNode* second_min_node = root;
+
+                while (min_node->left != nullptr) {
+
+                    second_min_node = min_node;
+                    min_node = min_node->left;
+                } 
+
+                root->val = min_node->val;
+
+                if (second_min_node == root) {
+                    second_min_node->right = deleteNode(second_min_node->right, root->val);    
+                }
+                else {
+                    second_min_node->left = deleteNode(second_min_node->left, root->val);    
+                }
             }
         }
 
         return root;
     }
 };
+
+//*/
