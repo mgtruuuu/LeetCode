@@ -39,20 +39,28 @@ class Solution {
 */
 
 
-
+///*
 // Approach 2: Iterating method using Stack
 class Solution {
   public:
     vector<int> inorderTraversal(TreeNode* root)
     {
+
+        if (root == nullptr) {
+            return {};
+        }
+
         std::vector<int> res;
+
         std::stack<TreeNode*> s;
+        // s.push(root);
 
         while (true) {
 
             while (root != nullptr) {
 
                 s.push(root);
+
                 root = root->left;
             }
 
@@ -60,12 +68,22 @@ class Solution {
                 break;
             }
 
+//             auto* node = s.top();
+//             s.pop();
+
+//             res.push_back(node->val);
+
+//             root = node->right;
+            
             root = s.top();
             s.pop();
+            
             res.push_back(root->val);
+            
             root = root->right;
         }
 
         return res;
     }
 };
+//*/
