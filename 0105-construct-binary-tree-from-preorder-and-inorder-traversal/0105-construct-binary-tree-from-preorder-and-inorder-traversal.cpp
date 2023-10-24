@@ -9,6 +9,9 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
+// type std::unordered_map<int, int> of inorderNode2idx can be replaced with std::vector<int>.
+
 class Solution {
   private:
     TreeNode* buildTreeHelper(const std::vector<int>& preorder, const std::unordered_map<int, int>& inorderNode2idx,
