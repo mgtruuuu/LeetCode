@@ -1,27 +1,29 @@
+///*
+// Approach 2 - 1 : Dynamic Programming, Kadane's Algorithm
 class Solution {
   public:
-    int maxSubArray(vector<int>& nums)
+    int maxSubArray(std::vector<int>& nums)
     {
-        auto sum = nums.front();
-        auto max_sum = sum;
+        // Initialize our variables using the first element.
+        auto current_subarray = nums.front();
+        auto max_subarray = current_subarray;
 
-        if (sum < 0) {
-            sum = 0;
-        }
+        // Start with the 2nd element since we already used the first one.
+        for (auto idx = std::size_t(1); idx != static_cast<int>(nums.size()); ++idx) {
 
-        for (auto idx = std::size_t(1); idx != nums.size(); ++idx) {
-        
-            sum += nums[idx];
-
-            if (sum > max_sum) {
-                max_sum = sum;
+            if (current_subarray < 0) {
+                current_subarray = nums[idx];
+            }
+            else {
+                current_subarray += nums[idx];
             }
 
-            if (sum < 0) {
-                sum = 0;
+            if (max_subarray < current_subarray) {
+                max_subarray = current_subarray;
             }
         }
 
-        return max_sum;
+        return max_subarray;
     }
 };
+//*/
