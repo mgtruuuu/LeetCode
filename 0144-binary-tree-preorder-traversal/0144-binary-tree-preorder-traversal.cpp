@@ -106,7 +106,7 @@ class Solution {
 */
 
 
-///*
+/*
 // Approach 2-3: Iteration
 class Solution {
   public:
@@ -132,6 +132,58 @@ class Solution {
 
             root = s.top()->right;
             s.pop();
+        }
+
+        return res;
+    }
+};
+*/
+
+
+///*
+// Approach 3: Morris Traversal
+class Solution {
+  private:
+    TreeNode* predecessor(TreeNode* node)
+    {
+        node = node->left;
+
+        while (node->right != nullptr) {
+            node = node->right;
+        }
+
+        return node;
+    }
+
+  public:
+    vector<int> preorderTraversal(TreeNode* root)
+    {
+        std::vector<int> res;
+
+        TreeNode* node = root;
+        while (node != nullptr) {
+
+            res.push_back(node->val);
+
+            if (node->left == nullptr) {
+                // res.push_back(node->val);
+                node = node->right;
+
+                continue;
+            }
+            else if (node->right == nullptr) {
+                node = node->left;
+
+                continue;
+            }
+
+            predecessor(node)->right = node->right;
+
+            TreeNode* temp = node;
+            node = node->left;
+
+            temp->left = nullptr;
+            temp->right = nullptr;
         }
 
         return res;
