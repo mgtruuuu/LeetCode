@@ -7,7 +7,6 @@ class Solution {
         auto sum_max_subarray = curr_max_subarray;
         auto sum_min_subarray = curr_min_subarray;
         auto sum_total = nums[0];
-        bool all_positive = true;
         bool all_negative = true;
         
         for (auto idx = std::size_t(1); idx != static_cast<int>(nums.size()); ++idx) {
