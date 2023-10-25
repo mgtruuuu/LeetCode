@@ -60,17 +60,21 @@ class Solution {
 */
 
 
+///*
 // Approach 3: Divide and Conquer (Advanced)
 class Solution {
   private:
     int maxSubArrayHelper(const std::vector<int>& nums, const int idx_start, const int idx_end)
     {
-        if (idx_end - idx_start == 0) {
-            return nums[idx_start];
+        if (idx_start > idx_end) {
+            return INT_MIN;
         }
-        else if (idx_end - idx_start == 1) {
-            return getMax(nums[idx_start], nums[idx_end], nums[idx_start] + nums[idx_end]);
-        }
+        // if (idx_end - idx_start == 0) {
+        //     return nums[idx_start];
+        // }
+        // else if (idx_end - idx_start == 1) {
+        //     return getMax(nums[idx_start], nums[idx_end], nums[idx_start] + nums[idx_end]);
+        // }
 
         const auto idx_middle = (idx_start + idx_end) / 2;
 
@@ -98,9 +102,9 @@ class Solution {
             }
         }
 
-        auto sss = part_sum_max_left + nums[idx_middle] + part_sum_max_right;
+        const auto best_combined_sum = part_sum_max_left + nums[idx_middle] + part_sum_max_right;
 
-        return getMax(maxSubArrayHelper(nums, idx_start, idx_middle - 1), sss, maxSubArrayHelper(nums, idx_middle + 1, idx_end));
+        return getMax(maxSubArrayHelper(nums, idx_start, idx_middle - 1), best_combined_sum, maxSubArrayHelper(nums, idx_middle + 1, idx_end));
     }
 
     int getMax(const int a, const int b, const int c)
@@ -114,3 +118,4 @@ class Solution {
         return maxSubArrayHelper(nums, 0, nums.size() - 1);
     }
 };
+//*/
