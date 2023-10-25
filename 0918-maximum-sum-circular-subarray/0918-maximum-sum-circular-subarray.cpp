@@ -37,15 +37,12 @@ class Solution {
 
             sum_total += nums[idx];
             
-            if (all_positive == true && nums[idx] < 0) {
-                all_positive = false;
-            }
             if (all_negative == true && nums[idx] > 0) {
                 all_negative = false;
             }
         }
 
-        if (all_positive == true || all_negative == true) {
+        if (all_negative == true) {
             return sum_max_subarray;
         }
         else {
