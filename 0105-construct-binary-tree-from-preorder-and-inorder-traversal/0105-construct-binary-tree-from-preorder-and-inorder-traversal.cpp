@@ -17,12 +17,12 @@ class Solution {
     TreeNode* buildTreeHelper(const std::vector<int>& preorder, const std::unordered_map<int, int>& inorderNode2idx,
                               const int idx_in_start, const int idx_in_end, const int idx_pre)
     {
-        if (idx_in_start == idx_in_end) {
-            return new TreeNode{ preorder[idx_pre] };
-        }
-        else if (idx_in_start > idx_in_end) {
+        if (idx_in_start > idx_in_end) {
             return nullptr;
         }
+        // else if (idx_in_start == idx_in_end) {
+        //     return new TreeNode{ preorder[idx_pre] };
+        // }
 
         const auto dist = inorderNode2idx.at(preorder[idx_pre]) - idx_in_start;
 
