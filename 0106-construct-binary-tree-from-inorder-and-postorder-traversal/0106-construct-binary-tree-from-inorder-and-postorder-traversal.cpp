@@ -18,9 +18,6 @@ class Solution {
         if (idx_in_start > idx_in_end) {
             return nullptr;
         }
-        else if (idx_in_start == idx_in_end) {
-            return new TreeNode{ postorder[idx_post] };
-        }
 
         const auto idx_in_middle = inorder_node_2_idx.at(postorder[idx_post]);
         const auto dist = idx_in_end - idx_in_middle;
