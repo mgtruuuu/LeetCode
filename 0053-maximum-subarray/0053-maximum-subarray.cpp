@@ -1,5 +1,5 @@
 /*
-// Approach 1 : Dynamic Programming, Kadane's Algorithm
+// Approach 1 - 1 : Dynamic Programming, Kadane's Algorithm
 class Solution {
   public:
     int maxSubArray(vector<int>& nums)
@@ -30,7 +30,7 @@ class Solution {
 
 
 /*
-// Approach 2 : My solution <---- NOT EFFICIENT
+// Approach 1 - 2 : My solution <---- NOT EFFICIENT
 class Solution {
   public:
     int maxSubArray(vector<int>& nums)
@@ -61,7 +61,7 @@ class Solution {
 
 
 ///*
-// Approach 3: Divide and Conquer (Advanced)
+// Approach 2: Divide and Conquer (Advanced)
 class Solution {
   private:
     int maxSubArrayHelper(const std::vector<int>& nums, const int idx_start, const int idx_end)
