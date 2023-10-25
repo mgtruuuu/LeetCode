@@ -50,7 +50,7 @@ class Solution {
 */
 
 
-///*
+/*
 // Approach 2: Recursion
 class Solution {
   private:
@@ -73,6 +73,48 @@ class Solution {
     TreeNode* bstFromPreorder(vector<int>& preorder)
     {
         return buildTreeHelper(preorder, 0, preorder.size() - 1);
+    }
+};
+*/
+
+
+///*
+// Approach 3: Iteration
+class Solution {
+  public:
+    TreeNode* bstFromPreorder(vector<int>& preorder)
+    {
+        std::stack<TreeNode*> s;
+
+        TreeNode* root = new TreeNode{ preorder.front() };
+        TreeNode* node = root;
+        s.push(node);
+
+        for (auto idx = std::size_t(1); idx != preorder.size(); ++idx) {
+
+            if (preorder[idx] < s.top()->val) {
+
+                node->left = new TreeNode{ preorder[idx] };
+                node = node->left;
+                s.push(node);
+
+                continue;
+            }
+
+            s.pop();
+            // s is empty when node is root node.
+            while (s.empty() == false && s.top()->val < preorder[idx]) {
+
+                node = s.top();
+                s.pop();
+            }
+
+            node->right = new TreeNode{ preorder[idx] };
+            node = node->right;
+            s.push(node);
+        }
+
+        return root;
     }
 };
 //*/
