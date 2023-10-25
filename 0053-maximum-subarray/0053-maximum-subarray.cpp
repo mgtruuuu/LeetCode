@@ -1,5 +1,5 @@
 ///*
-// Approach 2 - 1 : Dynamic Programming, Kadane's Algorithm
+// Approach 1 : Dynamic Programming, Kadane's Algorithm
 class Solution {
   public:
     int maxSubArray(std::vector<int>& nums)
@@ -27,3 +27,34 @@ class Solution {
     }
 };
 //*/
+
+
+/*
+// Approach 2 : My solution <---- NOT EFFICIENT
+class Solution {
+  public:
+    int maxSubArray(vector<int>& nums)
+    {
+        const auto len_nums = nums.size();
+
+        auto sum_max = INT_MIN;
+
+        auto idx = std::size_t(0);
+        while (idx != len_nums) {
+
+            auto sum_part = 0;
+
+            while (idx != len_nums && sum_part >= 0) {
+
+                sum_part += nums[idx++];
+
+                if (sum_max < sum_part) {
+                    sum_max = sum_part;
+                }
+            };
+        }
+
+        return sum_max;
+    }
+};
+*/
