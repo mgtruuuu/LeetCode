@@ -1,3 +1,6 @@
+#include <vector>
+#include <algorithm>
+
 class Solution {
 private:
     std::vector<int> numsArray;
