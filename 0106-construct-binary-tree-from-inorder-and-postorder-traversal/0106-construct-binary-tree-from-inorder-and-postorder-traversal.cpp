@@ -10,6 +10,8 @@
  * };
  */
 
+// Type std::unordered_map<int, int> of inorder_node_2_idx can be replaced with std::vector<int>.
+
 class Solution {
   private:
     TreeNode* buildTreeHelper(const std::vector<int>& postorder, const std::unordered_map<int, int>& inorder_node_2_idx,
@@ -24,13 +26,12 @@ class Solution {
 
         const auto idx_in_middle = inorder_node_2_idx.at(postorder[idx_post]);
         const auto dist = idx_in_end - idx_in_middle;
-        
-        
-        TreeNode* node = new TreeNode{ postorder[idx_post] };
-        node->left = buildTreeHelper(postorder, inorder_node_2_idx, idx_in_start, idx_in_middle - 1, idx_post - 1 - dist);
-        node->right = buildTreeHelper(postorder, inorder_node_2_idx, idx_in_middle + 1, idx_in_end, idx_post - 1);
 
-        return node;
+        return new TreeNode{
+            postorder[idx_post],
+            buildTreeHelper(postorder, inorder_node_2_idx, idx_in_start, idx_in_middle - 1, idx_post - 1 - dist),
+            buildTreeHelper(postorder, inorder_node_2_idx, idx_in_middle + 1, idx_in_end, idx_post - 1)
+        };
     }
 
   public:
