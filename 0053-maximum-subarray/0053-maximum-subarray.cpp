@@ -1,50 +1,116 @@
-#include <vector>
-#include <algorithm>
-
+/*
+// Approach 1 : Dynamic Programming, Kadane's Algorithm
 class Solution {
-private:
-    std::vector<int> numsArray;
-    
-public:
-    int maxSubArray(std::vector<int>& nums) {
-        numsArray = nums;
-        // Our helper function is designed to solve this problem for any array - so just call it using the entire input!
-        return findBestSubarray(0, numsArray.size() - 1);
+  public:
+    int maxSubArray(vector<int>& nums)
+    {
+        // Initialize our variables using the first element.
+        auto current_subarray = nums.front();
+        auto max_subarray = current_subarray;
+
+        // Start with the 2nd element since we already used the first one.
+        for (auto idx = std::size_t(1); idx != static_cast<int>(nums.size()); ++idx) {
+
+            if (current_subarray < 0) {
+                current_subarray = nums[idx];
+            }
+            else {
+                current_subarray += nums[idx];
+            }
+
+            if (max_subarray < current_subarray) {
+                max_subarray = current_subarray;
+            }
+        }
+
+        return max_subarray;
     }
-    
-private:
-    int findBestSubarray(int left, int right) {
-        // Base case - empty array.
-        if (left > right) {
-            return INT_MIN;
+};
+*/
+
+
+/*
+// Approach 2 : My solution <---- NOT EFFICIENT
+class Solution {
+  public:
+    int maxSubArray(vector<int>& nums)
+    {
+        const auto len_nums = nums.size();
+
+        auto sum_max = INT_MIN;
+
+        auto idx = std::size_t(0);
+        while (idx != len_nums) {
+
+            auto sum_part = 0;
+
+            while (idx != len_nums && sum_part >= 0) {
+
+                sum_part += nums[idx++];
+
+                if (sum_max < sum_part) {
+                    sum_max = sum_part;
+                }
+            };
         }
-        
-        int mid = (left + right) / 2;
-        int curr = 0;
-        int bestLeftSum = 0;
-        int bestRightSum = 0;
-        
-        // Iterate from the middle to the beginning.
-        for (int i = mid - 1; i >= left; i--) {
-            curr += numsArray[i];
-            bestLeftSum = std::max(bestLeftSum, curr);
+
+        return sum_max;
+    }
+};
+*/
+
+
+// Approach 3: Divide and Conquer (Advanced)
+class Solution {
+  private:
+    int maxSubArrayHelper(const std::vector<int>& nums, const int idx_start, const int idx_end)
+    {
+        if (idx_end - idx_start == 0) {
+            return nums[idx_start];
         }
-        
-        // Reset curr and iterate from the middle to the end.
-        curr = 0;
-        for (int i = mid + 1; i <= right; i++) {
-            curr += numsArray[i];
-            bestRightSum = std::max(bestRightSum, curr);
+        else if (idx_end - idx_start == 1) {
+            return getMax(nums[idx_start], nums[idx_end], nums[idx_start] + nums[idx_end]);
         }
-        
-        // The bestCombinedSum uses the middle element and the best possible sum from each half.
-        int bestCombinedSum = numsArray[mid] + bestLeftSum + bestRightSum;
-        
-        // Find the best subarray possible from both halves.
-        int leftHalf = findBestSubarray(left, mid - 1);
-        int rightHalf = findBestSubarray(mid + 1, right);
-        
-        // The largest of the 3 is the answer for any given input array.
-        return std::max(bestCombinedSum, std::max(leftHalf, rightHalf));
+
+        const auto idx_middle = (idx_start + idx_end) / 2;
+
+        auto part_sum_max_left = 0;
+        auto part_sum_max_right = 0;
+        {
+            auto part_sum = 0;
+            for (auto idx = idx_middle - 1; idx >= idx_start; --idx) {
+                
+                part_sum += nums[idx];
+
+                if (part_sum_max_left < part_sum) {
+                    part_sum_max_left = part_sum;
+                }
+            }
+
+            part_sum = 0;
+            for (auto idx = idx_middle + 1; idx <= idx_end; ++idx) {
+                
+                part_sum += nums[idx];
+
+                if (part_sum_max_right < part_sum) {
+                    part_sum_max_right = part_sum;
+                }
+            }
+        }
+
+        auto sss = part_sum_max_left + nums[idx_middle] + part_sum_max_right;
+
+        return getMax(maxSubArrayHelper(nums, idx_start, idx_middle - 1), sss, maxSubArrayHelper(nums, idx_middle + 1, idx_end));
+    }
+
+    int getMax(const int a, const int b, const int c)
+    {
+        return (a > b) ? ((a > c) ? a : c) : ((b > c) ? b : c);
+    }
+
+  public:
+    int maxSubArray(std::vector<int>& nums)
+    {
+        return maxSubArrayHelper(nums, 0, nums.size() - 1);
     }
 };
