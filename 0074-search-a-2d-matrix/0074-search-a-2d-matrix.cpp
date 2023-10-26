@@ -65,9 +65,9 @@ class Solution {
         return len_col * r + c;
     }
 
-    std::div_t getTwoDIndex(const int len_col, const int idx)
+    std::div_t getTwoDIndex(const int len_col, const int idx_one_d)
     {
-        return std::div(idx, len_col);
+        return std::div(idx_one_d, len_col);
     }
 
   public:
