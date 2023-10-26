@@ -29,8 +29,60 @@ public:
 */
 
 
-
 ///*
+// Approach 2: Binets Method
+class Solution {
+  private:
+    std::vector<std::vector<int>> pow(const std::vector<std::vector<int>>& a, int n)
+    {
+        auto a_copy = a;
+
+        std::vector<std::vector<int>> ret = { { 1, 0 }, { 0, 1 } };
+
+        if (n & 1) {
+            ret = multiply(ret, a_copy);
+        }
+        n >>= 1;
+
+        while (n != 0) {
+
+            a_copy = multiply(a_copy, a_copy);
+
+            if (n & 1) {
+                ret = multiply(ret, a_copy);
+            }
+            n >>= 1;
+        }
+
+        return ret;
+    }
+
+    std::vector<std::vector<int>> multiply(const std::vector<std::vector<int>>& a,
+                                           const std::vector<std::vector<int>>& b)
+    {
+        std::vector<std::vector<int>> c(2, std::vector<int>(2, 0));
+        for (int i = 0; i < 2; ++i) {
+            for (int j = 0; j < 2; ++j) {
+                for (int k = 0; k < 2; ++k) {
+                    c[i][j] += a[i][k] * b[k][j];
+                }
+            }
+        }
+        return c;
+    }
+
+  public:
+    int climbStairs(int n)
+    {
+        std::vector<std::vector<int>> q = { { 1, 1 }, { 1, 0 } };
+        std::vector<std::vector<int>> res = pow(q, n);
+        return res[0][0];
+    }
+};
+//*/
+
+
+/*
 // Approach 3: Fibonacci Formula
 class Solution {
   public:
@@ -43,4 +95,4 @@ class Solution {
         return static_cast<int>((pow(phi, n + 1) - pow(psi, n + 1)) / sqrt5);
     }
 };
-//*/
+*/
