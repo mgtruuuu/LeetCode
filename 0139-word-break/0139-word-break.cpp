@@ -1,4 +1,4 @@
-///*//*/
+/*
 // Approach 1: Breadth-First Search
 class Solution {
   public:
@@ -35,6 +35,52 @@ class Solution {
             }
         }
 
+        return false;
+    }
+};
+*/
+
+
+class Solution {
+  public:
+    std::vector<int> memo;
+    std::vector<std::string> word_dict;
+    std::string s;
+
+    bool wordBreak(string s, vector<string>& wordDict)
+    {
+        memo = std::vector(s.length(), -1);
+        this->word_dict = wordDict;
+        this->s = s;
+
+        return dp(s.length() - 1);
+    }
+
+    bool dp(int i)
+    {
+        if (i == -1) {
+            return true;
+        }
+        // if (i < 0) {
+        //     return true;
+        // }
+
+        if (memo[i] != -1) {
+            return memo[i] == 1; // true
+        }
+
+        for (const auto& word : word_dict) {
+
+            const auto len_word = static_cast<int>(word.length());
+
+            // i + 1 - len_word < 0 : Handle out of bounds case
+            if (i + 1 - len_word >= 0 && s.substr(i + 1 - len_word, len_word) == word && dp(i - len_word)) {
+                memo[i] = 1; // true
+                return true;
+            }
+        }
+
+        memo[i] = 0; // false
         return false;
     }
 };
