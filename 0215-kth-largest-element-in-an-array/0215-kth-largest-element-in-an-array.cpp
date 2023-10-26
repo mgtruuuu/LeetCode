@@ -48,7 +48,7 @@ class Solution {
             return nums[k - 1];
         }
         else {
-            std::nth_element(nums.begin(), nums.begin() + len_nums - k, nums.end());
+            std::nth_element(nums.begin(), nums.begin() + len_nums - k, nums.end(), std::less<int>{});
 
             return nums[len_nums - k];
         }
