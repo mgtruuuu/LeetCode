@@ -41,6 +41,7 @@ class Solution {
 */
 
 
+/*
 class Solution {
   private:
     bool dp(const std::string& s, const std::vector<std::string>& word_dict, const int i, std::vector<int>& memo)
@@ -48,9 +49,6 @@ class Solution {
         if (i == -1) {
             return true;
         }
-        // if (i < 0) {
-        //     return true;
-        // }
 
         if (memo[i] != -1) {
             return memo[i] == 1; // true
@@ -79,5 +77,40 @@ class Solution {
         auto memo = std::vector(s.length(), -1);
 
         return dp(s, wordDict, s.length() - 1, memo);
+    }
+};
+*/
+
+
+class Solution {
+  private:
+    bool wordBreakHelper(const std::string& s, const std::vector<std::string>& wordDict, const std::vector<bool>& dp,
+                         const int idx)
+    {
+        for (const auto& word : wordDict) {
+
+            const auto len_word = static_cast<int>(word.length());
+
+            // i + 1 - len_word < 0 : Handle out of bounds case
+            if (idx + 1 - len_word >= 0 && s.substr(idx + 1 - len_word, len_word) == word &&
+                (idx - len_word == -1 || dp[idx - len_word] == true)) {
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+  public:
+    bool wordBreak(string s, vector<string>& wordDict)
+    {
+        const auto len_s = static_cast<int>(s.length());
+        auto dp = std::vector<bool>(len_s);
+        for (auto idx = 0; idx != len_s; ++idx) {
+            dp[idx] = wordBreakHelper(s, wordDict, dp, idx);
+        }
+
+        return dp.back();
     }
 };
