@@ -1,3 +1,5 @@
+/*
+// Approach 1: Dynamic Programming (Fibonacci Number)
 class Solution {
 public:
     int climbStairs(int n)
@@ -24,3 +26,21 @@ public:
         return fibonacci_seq.back();
     }
 };
+*/
+
+
+
+///*
+// Approach 3: Fibonacci Formula
+class Solution {
+  public:
+    int climbStairs(int n)
+    {
+        const auto sqrt5 = sqrt(5);
+        const auto phi = (1.0 + sqrt5) * 0.5;
+        const auto psi = (1.0 - sqrt5) * 0.5;
+
+        return static_cast<int>((pow(phi, n + 1) - pow(psi, n + 1)) / sqrt5);
+    }
+};
+//*/
