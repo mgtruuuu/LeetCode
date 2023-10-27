@@ -8,26 +8,30 @@
  */
 
 
+///*
+// Approach 1: Hash Table
 class Solution {
   public:
     bool hasCycle(ListNode* head)
     {
         std::set<ListNode*> nodes;
-        
+
         while (head != nullptr) {
 
             if (nodes.find(head) != nodes.end()) {
                 return true;
             }
-            
+
             nodes.insert(head);
-            
+
             head = head->next;
         }
 
         return false;
     }
 };
+//*/
+
 
 /*
 // Approach 2: Floyd's Cycle Finding Algorithm
