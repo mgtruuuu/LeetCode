@@ -10,6 +10,8 @@
  * };
  */
 
+/*
+// Approach 1 - 1 : Recursion
 class Solution {
   private:
     bool pathSum(TreeNode* node, int targetSum)
@@ -35,5 +37,23 @@ class Solution {
     bool hasPathSum(TreeNode* root, int targetSum)
     {
         return root == nullptr ? false : pathSum(root, targetSum);
+    }
+};
+*/
+
+
+class Solution {
+  public:
+    bool hasPathSum(TreeNode* root, int targetSum)
+    {
+        if (root == nullptr) {
+            return false;
+        }
+
+        targetSum -= root->val;
+
+        return (root->left == nullptr && root->right == nullptr)
+                   ? (targetSum == 0)
+                   : (hasPathSum(root->left, targetSum) || hasPathSum(root->right, targetSum));
     }
 };
