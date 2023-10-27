@@ -86,7 +86,7 @@ class Solution {
 
 
 
-/*
+///*
 // Approach 3: Improve With Binary Search
 class Solution {
   private:
@@ -132,39 +132,4 @@ class Solution {
         return subs.size();
     }
 };
-*/
-
-class Solution {
-  public:
-    int lengthOfLIS(vector<int>& nums)
-    {
-        std::vector<int> subs{ nums.front() };
-
-        const auto len_nums = nums.size();
-        for (auto idx = std::size_t(1); idx != len_nums; ++idx) {
-
-            auto idx_left = 0;
-            auto idx_right = static_cast<int>(subs.size()) - 1;
-            while (idx_left <= idx_right) {
-
-                const auto idx_middle = (idx_left + idx_right) / 2;
-
-                if (subs[idx_middle] < nums[idx]) {
-                    idx_left = idx_middle + 1;
-                }
-                else {
-                    idx_right = idx_middle - 1;
-                }
-            }
-
-            if (idx_left == subs.size()) {
-                subs.push_back(nums[idx]);
-            }
-            else {
-                subs[idx_left] = nums[idx];
-            }
-        }
-
-        return subs.size();
-    }
-};
+//*/
