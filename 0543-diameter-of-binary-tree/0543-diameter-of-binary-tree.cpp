@@ -1,13 +1,13 @@
 class Solution {
   private:
-    int getHeight(TreeNode* node, int& diameter)
+    int getHeightAndDiameter(TreeNode* node, int& diameter)
     {
         if (node == nullptr) {
             return 0;
         }
 
-        auto height_left = getHeight(node->left, diameter);
-        auto height_right = getHeight(node->right, diameter);
+        const auto height_left = getHeightAndDiameter(node->left, diameter);
+        const auto height_right = getHeightAndDiameter(node->right, diameter);
 
         if (diameter < height_left + height_right) {
             diameter = height_left + height_right;
@@ -20,7 +20,7 @@ class Solution {
     int diameterOfBinaryTree(TreeNode* root)
     {
         auto diameter = 0;
-        getHeight(root, diameter);
+        getHeightAndDiameter(root, diameter);
         return diameter;
     }
 };
