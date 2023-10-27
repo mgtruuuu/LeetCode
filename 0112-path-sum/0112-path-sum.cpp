@@ -79,21 +79,15 @@ class Solution {
             auto sum = s.top().second;
             s.pop();
 
-            if (node->left == nullptr) {
-                if (node->right == nullptr) {
-                    if (sum == node->val) {
-                        return true;
-                    }
-                }
-                else {
-                    s.emplace(node->right, sum - node->val);
-                }
+            if (node->left == nullptr && node->right == nullptr && sum == node->val) {
+                return true;
             }
-            else {
-                if (node->right != nullptr) {
-                    s.emplace(node->right, sum - node->val);
-                }
 
+            if (node->right != nullptr) {
+                s.emplace(node->right, sum - node->val);
+            }
+
+            if (node->left != nullptr) {
                 s.emplace(node->left, sum - node->val);
             }
         }
