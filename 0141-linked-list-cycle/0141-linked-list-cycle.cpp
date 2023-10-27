@@ -7,6 +7,30 @@
  * };
  */
 
+
+class Solution {
+  public:
+    bool hasCycle(ListNode* head)
+    {
+        std::set<ListNode*> nodes;
+        
+        while (head != nullptr) {
+
+            if (nodes.find(head) != nodes.end()) {
+                return true;
+            }
+            
+            nodes.insert(head);
+            
+            head = head->next;
+        }
+
+        return false;
+    }
+};
+
+/*
+// Approach 2: Floyd's Cycle Finding Algorithm
 class Solution {
   public:
     bool hasCycle(ListNode* head)
@@ -35,27 +59,4 @@ class Solution {
         return true;
     }
 };
-
-// class Solution {
-//   public:
-//     bool hasCycle(ListNode* head)
-//     {
-//         if (head == nullptr) {
-//             return false;
-//         }
-
-//         std::set<ListNode*> nodes;
-//         ListNode* next_node = head;
-
-//         do {
-//             if (nodes.find(next_node) != nodes.end()) {
-//                 return true;
-//             }
-//             else {
-
-//             }
-//         } while (next_node != nullptr);
-
-//         return false;
-//     }
-// };
+*/
