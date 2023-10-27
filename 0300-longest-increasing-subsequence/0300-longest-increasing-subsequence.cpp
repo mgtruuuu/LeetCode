@@ -99,11 +99,12 @@ class Solution {
 
             const auto idx_mid = (idx_left + idx_right) / 2;
 
-            if (subs[idx_mid] >= num) {
-                idx_right = idx_mid - 1;
-            }
-            else {
+            if (subs[idx_mid] < num) {
                 idx_left = idx_mid + 1;
+            }
+            else 
+            {
+                idx_right = idx_mid - 1;
             }
         }
 
@@ -133,7 +134,6 @@ class Solution {
 };
 */
 
-// Approach 3: Improve With Binary Search
 class Solution {
   private:
     std::size_t binarySearch(std::vector<int>& subs, int num)
@@ -145,11 +145,12 @@ class Solution {
 
             const auto idx_mid = (idx_left + idx_right) / 2;
 
-            if (subs[idx_mid] >= num) {
-                idx_right = idx_mid - 1;
-            }
-            else {
+            if (subs[idx_mid] < num) {
                 idx_left = idx_mid + 1;
+            }
+            else 
+            {
+                idx_right = idx_mid - 1;
             }
         }
 
