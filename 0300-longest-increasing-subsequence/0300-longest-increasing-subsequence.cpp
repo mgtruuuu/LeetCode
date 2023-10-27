@@ -135,28 +135,6 @@ class Solution {
 */
 
 class Solution {
-  private:
-    std::size_t binarySearch(std::vector<int>& subs, int num)
-    {
-        auto idx_left = 0;
-        auto idx_right = static_cast<int>(subs.size()) - 1;
-
-        while (idx_left <= idx_right) {
-
-            const auto idx_mid = (idx_left + idx_right) / 2;
-
-            if (subs[idx_mid] < num) {
-                idx_left = idx_mid + 1;
-            }
-            else 
-            {
-                idx_right = idx_mid - 1;
-            }
-        }
-
-        return idx_left;
-    }
-
   public:
     int lengthOfLIS(vector<int>& nums)
     {
@@ -165,13 +143,25 @@ class Solution {
         const auto len_nums = nums.size();
         for (auto idx = std::size_t(1); idx != len_nums; ++idx) {
 
-            const auto idx_insert = binarySearch(subs, nums[idx]);
+            auto idx_left = 0;
+            auto idx_right = static_cast<int>(subs.size()) - 1;
+            while (idx_left <= idx_right) {
 
-            if (idx_insert == subs.size()) {
+                const auto idx_middle = (idx_left + idx_right) / 2;
+
+                if (subs[idx_middle] < nums[idx]) {
+                    idx_left = idx_middle + 1;
+                }
+                else {
+                    idx_right = idx_middle - 1;
+                }
+            }
+
+            if (idx_left == subs.size()) {
                 subs.push_back(nums[idx]);
             }
             else {
-                subs[idx_insert] = nums[idx];
+                subs[idx_left] = nums[idx];
             }
         }
 
