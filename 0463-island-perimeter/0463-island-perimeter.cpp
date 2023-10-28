@@ -1,3 +1,40 @@
+///*
+// Approach 1-1: Better Counting
+class Solution {
+  public:
+    int islandPerimeter(vector<vector<int>>& grid)
+    {
+        const auto num_rows = static_cast<int>(grid.size());
+        const auto num_cols = static_cast<int>(grid.front().size());
+
+        auto perimeter = 0;
+        for (auto row = 0; row < num_rows; ++row) {
+            for (auto col = 0; col < num_cols; ++col) {
+
+                if (grid[row][col] == 0) {
+                    continue;
+                }
+
+                perimeter += 4;
+
+                if (row > 0 && grid[row - 1][col] == 1) {
+                    perimeter -= 2;
+                }
+
+                if (col > 0 && grid[row][col - 1] == 1) {
+                    perimeter -= 2;
+                }
+            }
+        }
+
+        return perimeter;
+    }
+};
+//*/
+
+
+/*
+// Approach 1-2: Better Counting <----------- My sol
 class Solution {
   public:
     int islandPerimeter(vector<vector<int>>& grid)
@@ -42,3 +79,4 @@ class Solution {
         return perimeter;
     }
 };
+*/
