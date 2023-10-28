@@ -10,6 +10,8 @@
  * };
  */
 
+///*
+// Approach 1: Recursive Traversal with Valid Range
 class Solution {
   private:
     bool isValidBSTHelper(TreeNode* node, TreeNode* lower_limit = nullptr, TreeNode* upper_limit = nullptr)
@@ -18,13 +20,12 @@ class Solution {
             return true;
         }
 
-        if (node->left != nullptr && node->left->val >= node->val) {
-            return false;
-        }
-
-        if (node->right != nullptr && node->right->val <= node->val) {
-            return false;
-        }
+        // if (node->left != nullptr && node->left->val >= node->val) {
+        //     return false;
+        // }
+        // if (node->right != nullptr && node->right->val <= node->val) {
+        //     return false;
+        // }
 
         if (lower_limit != nullptr && lower_limit->val >= node->val) {
             return false;
@@ -43,3 +44,13 @@ class Solution {
         return isValidBSTHelper(root);
     }
 };
+//*/
+
+
+// Approach 2: Iterative Traversal with Valid Range
+
+
+// Approach 3: Recursive Inorder Traversal
+
+
+// Approach 4: Iterative Inorder Traversal
