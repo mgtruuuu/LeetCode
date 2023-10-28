@@ -1,3 +1,4 @@
+// Approach 1: Using Stack
 class Solution {
   public:
     vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2)
