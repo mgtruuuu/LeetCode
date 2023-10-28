@@ -83,7 +83,7 @@ class Solution {
 
 
 /*
-// Approach 3-1: DFS
+// Approach 3-1: DFS/BFS
 class Solution {
   private:
     void getFirstLand(const std::vector<std::vector<int>>& grid, int& row, int& col)
@@ -169,7 +169,7 @@ class Solution {
 
 
 ///*
-// Approach 3-1: DFS
+// Approach 3-2: DFS/BFS
 class Solution {
   private:
     void getFirstLand(const std::vector<std::vector<int>>& grid, int& row, int& col)
