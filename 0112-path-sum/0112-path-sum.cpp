@@ -61,6 +61,7 @@ class Solution {
 */
 
 
+/*
 class Solution {
   public:
     bool hasPathSum(TreeNode* root, int targetSum)
@@ -89,6 +90,53 @@ class Solution {
 
             if (node->left != nullptr) {
                 s.emplace(node->left, sum - node->val);
+            }
+        }
+
+        return false;
+    }
+};
+*/
+
+
+class Solution {
+  public:
+    bool hasPathSum(TreeNode* root, int targetSum)
+    {
+        std::stack<TreeNode*> s_node;
+        std::stack<int> s_sum;
+
+        while (true) {
+
+            while (root != nullptr) {
+
+                if (root->left == nullptr && root->right == nullptr && root->val == targetSum) {
+                    return true;
+                }
+
+                s_sum.push(targetSum);
+                s_node.push(root);
+
+                targetSum -= root->val;
+                root = root->left;
+            }
+
+            if (s_node.empty() == true) {
+                break;
+            }
+
+            targetSum = s_sum.top();
+            root = s_node.top();
+
+            s_sum.pop();
+            s_node.pop();
+
+            targetSum -= root->val;
+            root = root->right;
+
+            if (root != nullptr) {
+                s_sum.push(targetSum);
+                s_node.push(root);
             }
         }
 
