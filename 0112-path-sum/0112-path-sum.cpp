@@ -11,7 +11,7 @@
  */
 
 /*
-// Approach 1 - 1 : Recursion
+// Approach 1-1 : Recursion
 class Solution {
   private:
     bool pathSum(TreeNode* node, int targetSum)
@@ -43,6 +43,7 @@ class Solution {
 
 
 /*
+// Approach 1-2 : Recursion
 class Solution {
   public:
     bool hasPathSum(TreeNode* root, int targetSum)
@@ -62,6 +63,7 @@ class Solution {
 
 
 /*
+// Approach 2-1-1 : Iterations
 class Solution {
   public:
     bool hasPathSum(TreeNode* root, int targetSum)
@@ -99,6 +101,42 @@ class Solution {
 */
 
 
+///*
+// Approach 2-1-2 : Iterations
+class Solution {
+  public:
+    bool hasPathSum(TreeNode* root, int targetSum)
+    {
+        using NodeSum = std::pair<TreeNode*, int>;
+
+        std::stack<NodeSum> s;
+        s.emplace(root, targetSum);
+        while (s.empty() == false) {
+
+            auto* node = s.top().first;
+            auto sum = s.top().second;
+            s.pop();
+
+            if (node == nullptr) {
+                continue;
+            }
+
+            if (node->left == nullptr && node->right == nullptr && sum == node->val) {
+                return true;
+            }
+
+            s.emplace(node->right, sum - node->val);
+            s.emplace(node->left, sum - node->val);
+        }
+
+        return false;
+    }
+};
+//*/
+
+
+/*
+// Approach 2-2 : Iterations
 class Solution {
   public:
     bool hasPathSum(TreeNode* root, int targetSum)
@@ -143,3 +181,4 @@ class Solution {
         return false;
     }
 };
+*/
