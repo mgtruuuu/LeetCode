@@ -41,7 +41,7 @@ class Solution {
 
 
 /*
-// Approach 2-1-1: Iteration
+// Approach 2-1: Iteration
 class Solution {
   public:
     vector<int> preorderTraversal(TreeNode* root)
@@ -71,7 +71,7 @@ class Solution {
 */
 
 
-// Approach 2-1-2: Iteration
+// Approach 2-2: Iteration
 /*
 class Solution {
   public:
@@ -107,7 +107,7 @@ class Solution {
 
 
 ///*
-// Approach 2-2: Iteration
+// Approach 2-3: Iteration
 class Solution {
   public:
     vector<int> preorderTraversal(TreeNode* root)
@@ -120,7 +120,9 @@ class Solution {
             while (root != nullptr) {
 
                 res.push_back(root->val);
+                
                 s.push(root);
+                
                 root = root->left;
             }
 
@@ -136,3 +138,55 @@ class Solution {
     }
 };
 //*/
+
+
+/*
+// Approach 3: Morris Traversal
+class Solution {
+  private:
+    TreeNode* predecessor(TreeNode* node)
+    {
+        node = node->left;
+
+        while (node->right != nullptr) {
+            node = node->right;
+        }
+
+        return node;
+    }
+
+  public:
+    vector<int> preorderTraversal(TreeNode* root)
+    {
+        std::vector<int> res;
+
+        TreeNode* node = root;
+        while (node != nullptr) {
+
+            res.push_back(node->val);
+
+            if (node->left == nullptr) {
+                // res.push_back(node->val);
+                node = node->right;
+
+                continue;
+            }
+            else if (node->right == nullptr) {
+                node = node->left;
+
+                continue;
+            }
+
+            predecessor(node)->right = node->right;
+
+            TreeNode* temp = node;
+            node = node->left;
+
+            temp->left = nullptr;
+            temp->right = nullptr;
+        }
+
+        return res;
+    }
+};
+*/
