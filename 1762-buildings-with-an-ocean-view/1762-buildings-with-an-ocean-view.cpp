@@ -1,5 +1,28 @@
 ///*
-// Approach 1: Linear Iteration
+// Approach 1: Linear Iteration (본질은 Monotonic Stack)
+class Solution {
+  public:
+    vector<int> findBuildings(vector<int>& heights)
+    {
+        std::vector<int> res;
+        for (auto idx = 0; idx != static_cast<int>(heights.size()); ++idx) {
+
+            while (res.empty() == false && heights[res.back()] <= heights[idx]) {
+                res.pop_back();
+            }
+
+            res.push_back(idx);
+        }
+
+        return res;
+    }
+};
+//*/
+
+
+
+/*
+// Approach 3: Monotonic Stack Space Optimization
 class Solution {
   public:
     vector<int> findBuildings(vector<int>& heights)
@@ -21,36 +44,6 @@ class Solution {
         while (s.empty() == false) {
 
             res.push_back(s.top());
-            s.pop();
-        }
-
-        return res;
-    }
-};
-//*/
-
-
-/*
-// Approach 2: Monotonic Stack
-class Solution {
-  public:
-    vector<int> findBuildings(vector<int>& heights)
-    {
-        std::stack<int> s;
-        for (auto idx = 0; idx != static_cast<int>(heights.size()); ++idx) {
-
-            while (s.empty() == false && heights[s.top()] <= heights[idx]) {
-                s.pop();
-            }
-            
-            s.push(idx);
-        }
-
-        std::vector<int> res(s.size());
-        auto idx = s.size();
-        while (idx-- != 0) {
-
-            res[idx] = s.top();
             s.pop();
         }
 
