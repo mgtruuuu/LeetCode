@@ -1,3 +1,5 @@
+/*
+// Approach 1-1 : Monotonic stack with O(N) space complexity
 class Solution {
   public:
     vector<int> finalPrices(vector<int>& prices)
@@ -25,3 +27,28 @@ class Solution {
         return res;
     }
 };
+*/
+
+
+///*
+// Approach 1-2 : Monotonic stack with O(1) space complexity
+class Solution {
+  public:
+    vector<int> finalPrices(vector<int>& prices)
+    {
+        std::stack<int> s;
+        for (auto idx = std::size_t(0); idx != prices.size(); ++idx) {
+
+            while (s.empty() == false && prices[idx] <= prices[s.top()]) {
+
+                prices[s.top()] -= prices[idx];
+                s.pop();
+            }
+
+            s.push(idx);
+        }
+
+        return prices;
+    }
+};
+//*/
