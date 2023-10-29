@@ -1,4 +1,4 @@
-// Approach 1: Using Stack
+// Approach 1: Monotinic Stack
 class Solution {
   public:
     vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2)
