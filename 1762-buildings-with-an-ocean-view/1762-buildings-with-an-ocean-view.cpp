@@ -1,4 +1,4 @@
-///*
+/*
 // Approach 1: Linear Iteration (본질은 Monotonic Stack)
 class Solution {
   public:
@@ -17,8 +17,37 @@ class Solution {
         return res;
     }
 };
-//*/
+*/
 
+
+
+///*
+// Approach 2: Monotonic Stack
+class Solution {
+  public:
+    vector<int> findBuildings(vector<int>& heights)
+    {
+        std::stack<int> s;
+        std::vector<int> res;
+
+        for (auto idx = static_cast<int>(heights.size()); idx-- != 0;) {
+
+            while (s.empty() == false && heights[s.top()] < heights[idx]) {
+                s.pop();
+            }
+
+            if (s.empty() == true) {
+                res.push_back(idx);
+            }
+            
+            s.push(idx);
+        }
+
+        std::reverse(res.begin(), res.end());
+        return res;
+    }
+};
+//*/
 
 
 /*
