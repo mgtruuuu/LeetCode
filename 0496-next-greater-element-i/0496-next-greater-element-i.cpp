@@ -6,22 +6,23 @@ class Solution {
         std::unordered_map<int, int> curr_2_next;
 
         {
-            std::stack<int> monotinic_stack;
-            for (auto idx = std::size_t(0); idx != nums2.size(); ++idx) {
+            std::stack<int> s;
+            
+            for (const auto num2 : nums2) {
 
-                while (monotinic_stack.empty() == false && monotinic_stack.top() < nums2[idx]) {
+                while (s.empty() == false && s.top() < num2) {
 
-                    curr_2_next[monotinic_stack.top()] = nums2[idx];
-                    monotinic_stack.pop();
+                    curr_2_next[s.top()] = num2;
+                    s.pop();
                 }
 
-                monotinic_stack.push(nums2[idx]);
+                s.push(num2);
             }
 
-            while (monotinic_stack.empty() == false) {
+            while (s.empty() == false) {
 
-                curr_2_next[monotinic_stack.top()] = -1;
-                monotinic_stack.pop();
+                curr_2_next[s.top()] = -1;
+                s.pop();
             }
         }
 
