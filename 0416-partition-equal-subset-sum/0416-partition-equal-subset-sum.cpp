@@ -4,7 +4,7 @@ class Solution {
                             std::vector<std::vector<int>>& dp)
     {
         if (dp[row][col] != -1) {
-            return false;
+            return dp[row][col] == 1;
         }
 
         if (col == 0) {
