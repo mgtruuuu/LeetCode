@@ -95,15 +95,8 @@ class Trie {
     bool m_is_done;
 
   public:
-    Trie()
+    Trie() : m_children{ new Trie* [s_num_children] {} }, m_is_done{ false }
     {
-        m_children = new Trie*[s_num_children];
-
-        for (auto i = 0; i != s_num_children; ++i) {
-            m_children[i] = nullptr;
-        }
-
-        m_is_done = false;
     }
 
     std::size_t getChildrenIndex(const char ch)
