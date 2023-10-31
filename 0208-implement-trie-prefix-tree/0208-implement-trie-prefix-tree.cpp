@@ -1,5 +1,5 @@
 /*
-// Iteration
+// Approach 1 : Iteration
 class Trie {
   private:
     static constexpr int s_num_children = static_cast<int>('z') - static_cast<int>('a') + 1;
@@ -86,6 +86,8 @@ class Trie {
 */
 
 
+///*
+// Approach 2 : Recursion
 class Trie {
   private:
     static constexpr int s_num_children = static_cast<int>('z') - static_cast<int>('a') + 1;
@@ -151,22 +153,24 @@ class Trie {
         return searchHelper(word, 0);
     }
 
-    bool startsWith(string prefix)
+    bool startsWithHelper(const std::string& word, const std::size_t idx_word)
     {
-        auto* node = this;
-
-        for (const auto ch : prefix) {
-
-            const auto idx = static_cast<int>(ch) - static_cast<int>('a');
-
-            if (node->m_children[idx] == nullptr) {
-                return false;
-            }
-
-            node = node->m_children[idx];
+        if (idx_word == word.size()) {
+            return true;
         }
 
-        return true;
+        const auto idx_children = getChildrenIndex(word[idx_word]);
+
+        if (m_children[idx_children] == nullptr) {
+            return false;
+        }
+
+        return m_children[idx_children]->startsWithHelper(word, idx_word + 1);
+    }
+
+    bool startsWith(string prefix)
+    {
+        return startsWithHelper(prefix, 0);
     }
 
     ~Trie()
@@ -180,3 +184,4 @@ class Trie {
         delete[] m_children;
     }
 };
+//*/
