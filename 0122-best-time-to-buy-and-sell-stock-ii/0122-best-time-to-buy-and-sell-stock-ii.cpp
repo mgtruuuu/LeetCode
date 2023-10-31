@@ -1,3 +1,5 @@
+/*
+// Approach 1: Peak Valley Approach
 class Solution {
   public:
     int maxProfit(vector<int>& prices)
@@ -28,11 +30,12 @@ class Solution {
         return max_profit;
     }
 };
+*/
 
 
 
-/*
-// Approach 3: Simple One Pass
+///*
+// Approach 2: Simple One Pass
 class Solution {
   public:
     int maxProfit(vector<int>& prices)
@@ -47,4 +50,4 @@ class Solution {
         return res;
     }
 };
-*/
+//*/
