@@ -1,4 +1,5 @@
 /*
+// Approach 1: Top Down Dynamic Programming - Memoization
 class Solution {
   private:
     bool canPartitionHelper(const std::vector<int>& nums, const int row, const int col,
@@ -53,6 +54,8 @@ class Solution {
 */
 
 
+/*
+// Approach 2: Bottom Up Dynamic Programming
 class Solution {
   public:
     bool canPartition(vector<int>& nums)
@@ -97,5 +100,38 @@ class Solution {
         }
 
         return dp.back().back();
+    }
+};
+*/
+
+
+class Solution {
+  public:
+    bool canPartition(vector<int>& nums)
+    {
+        auto half_sum = std::accumulate(nums.begin(), nums.end(), 0);
+
+        if (half_sum & 1) {
+            return false;
+        }
+        half_sum /= 2;
+
+        auto dp = std::vector<bool>(half_sum + 1, false);
+        dp[0] = true;
+
+        for (auto row = 1; row != nums.size() + 1; ++row) {
+            for (auto col = half_sum + 1; col-- != 0;) {
+
+                if (dp[col] == true) {
+                    continue;
+                }
+
+                if (col >= nums[row - 1] && dp[col - nums[row - 1]] == true) {
+                    dp[col] = true;
+                }
+            }
+        }
+
+        return dp.back();
     }
 };
