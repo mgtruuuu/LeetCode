@@ -1,4 +1,4 @@
-/*
+///*
 // Approach 1: Top Down Dynamic Programming - Memoization
 class Solution {
   private:
@@ -51,11 +51,11 @@ class Solution {
         return canPartitionHelper(nums, nums.size(), half_sum, dp) == true;
     }
 };
-*/
+//*/
 
 
 /*
-// Approach 2: Bottom Up Dynamic Programming
+// Approach 2-1: Bottom Up Dynamic Programming - O(m * n) space complexity
 class Solution {
   public:
     bool canPartition(vector<int>& nums)
@@ -105,6 +105,8 @@ class Solution {
 */
 
 
+/*
+// Approach 2-2: Bottom Up Dynamic Programming - O(m) space complexity
 class Solution {
   public:
     bool canPartition(vector<int>& nums)
@@ -135,3 +137,4 @@ class Solution {
         return dp.back();
     }
 };
+*/
