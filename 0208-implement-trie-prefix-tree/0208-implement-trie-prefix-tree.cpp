@@ -1,4 +1,4 @@
-/*
+///*
 // Approach 1 : Iteration
 class Trie {
   private:
@@ -7,15 +7,8 @@ class Trie {
     bool m_is_done;
 
   public:
-    Trie()
+    Trie() : m_children{ new Trie* [s_num_children] {} }, m_is_done{ false }
     {
-        m_children = new Trie*[s_num_children];
-
-        for (auto i = 0; i != s_num_children; ++i) {
-            m_children[i] = nullptr;
-        }
-
-        m_is_done = false;
     }
 
     void insert(string word)
@@ -24,12 +17,12 @@ class Trie {
 
         for (const auto ch : word) {
 
-            const auto idx = static_cast<int>(ch) - static_cast<int>('a');
+            const auto idx = getChildrenIndex(ch);
 
             if (node->m_children[idx] == nullptr) {
                 node->m_children[idx] = new Trie{};
             }
-            
+
             node = node->m_children[idx];
         }
 
@@ -42,7 +35,7 @@ class Trie {
 
         for (const auto ch : word) {
 
-            const auto idx = static_cast<int>(ch) - static_cast<int>('a');
+            const auto idx = getChildrenIndex(ch);
 
             if (node->m_children[idx] == nullptr) {
                 return false;
@@ -60,7 +53,7 @@ class Trie {
 
         for (const auto ch : prefix) {
 
-            const auto idx = static_cast<int>(ch) - static_cast<int>('a');
+            const auto idx = getChildrenIndex(ch);
 
             if (node->m_children[idx] == nullptr) {
                 return false;
@@ -82,11 +75,16 @@ class Trie {
 
         delete[] m_children;
     }
+
+    std::size_t getChildrenIndex(const char ch)
+    {
+        return ch - 'a';
+    }
 };
-*/
+//*/
 
 
-///*
+/*
 // Approach 2 : Recursion
 class Trie {
   private:
@@ -97,11 +95,6 @@ class Trie {
   public:
     Trie() : m_children{ new Trie* [s_num_children] {} }, m_is_done{ false }
     {
-    }
-
-    std::size_t getChildrenIndex(const char ch)
-    {
-        return ch - 'a';
     }
 
     void insertHelper(const std::string& word, const std::size_t idx_word)
@@ -176,5 +169,10 @@ class Trie {
 
         delete[] m_children;
     }
+    
+    std::size_t getChildrenIndex(const char ch)
+    {
+        return ch - 'a';
+    }
 };
-//*/
+*/
