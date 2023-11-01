@@ -1,3 +1,4 @@
+// Approach 1: Backtracking, Keep Candidate Valid
 class Solution {
   private:
     void backtracking(const int n, const int num_lefts, const int num_rights, std::string& combination,
