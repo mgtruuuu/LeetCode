@@ -10,22 +10,15 @@ class Solution {
             return;
         }
 
-        if (num_rights == n || num_lefts == num_rights) {
+        if (num_lefts != n) {
             combination.push_back('(');
             backtracking(n, num_lefts + 1, num_rights, combination, combinations);
             combination.pop_back();
         }
-        else if (num_lefts == n) {
+
+        if (num_rights != n && num_lefts != num_rights) {
             combination.push_back(')');
             backtracking(n, num_lefts, num_rights + 1, combination, combinations);
-            combination.pop_back();
-        }
-        else {
-            combination.push_back(')');
-            backtracking(n, num_lefts, num_rights + 1, combination, combinations);
-            combination.pop_back();
-            combination.push_back('(');
-            backtracking(n, num_lefts + 1, num_rights, combination, combinations);
             combination.pop_back();
         }
     }
