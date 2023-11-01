@@ -1,3 +1,5 @@
+///*
+// Approach 1: Trie - Recursion
 class WordDictionary {
   public:
     WordDictionary() : m_children{ new WordDictionary* [s_num_alphabets] {} }, m_done{ false }
@@ -50,16 +52,14 @@ class WordDictionary {
 
             return false;
         }
-        else {
 
-            const auto idx_children = getChildrenIndex(word[idx_word]);
+        const auto idx_children = getChildrenIndex(word[idx_word]);
 
-            if (m_children[idx_children] == nullptr) {
-                return false;
-            }
-
-            return m_children[idx_children]->searchHelper(word, idx_word + 1);
+        if (m_children[idx_children] == nullptr) {
+            return false;
         }
+
+        return m_children[idx_children]->searchHelper(word, idx_word + 1);
     }
 
     bool search(string word)
@@ -77,10 +77,4 @@ class WordDictionary {
     WordDictionary** m_children;
     bool m_done;
 };
-
-/**
- * Your WordDictionary object will be instantiated and called as such:
- * WordDictionary* obj = new WordDictionary();
- * obj->addWord(word);
- * bool param_2 = obj->search(word);
- */
+//*/
