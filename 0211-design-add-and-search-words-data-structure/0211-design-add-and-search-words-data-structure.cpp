@@ -6,29 +6,24 @@ class WordDictionary {
     {
     }
 
-    void addWordHelper(const std::string& word, const std::size_t idx_word)
-    {
-        if (idx_word == word.size()) {
-
-            if (m_done == false) {
-                m_done = true;
-            }
-
-            return;
-        }
-
-        const auto idx_children = getChildrenIndex(word[idx_word]);
-
-        if (m_children[idx_children] == nullptr) {
-            m_children[idx_children] = new WordDictionary{};
-        }
-
-        m_children[idx_children]->addWordHelper(word, idx_word + 1);
-    }
-
     void addWord(string word)
     {
-        addWordHelper(word, 0);
+        auto* node = this;
+
+        for (const auto ch : word) {
+
+            const auto idx = getChildrenIndex(ch);
+
+            if (node->m_children[idx] == nullptr) {
+                node->m_children[idx] = new WordDictionary{};
+            }
+
+            node = node->m_children[idx];
+        }
+
+        if (node->m_done == false) {
+            node->m_done = true;
+        }
     }
 
     bool searchHelper(const std::string& word, const std::size_t idx_word)
