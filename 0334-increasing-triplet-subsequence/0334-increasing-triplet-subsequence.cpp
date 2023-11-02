@@ -2,22 +2,21 @@ class Solution {
   public:
     bool increasingTriplet(vector<int>& nums)
     {
-        auto subs = std::vector<int>();
+        auto subs = std::vector<int>{ nums.front() };
         subs.reserve(2);
-        subs.push_back(nums.front());
 
-        for (auto idx = std::size_t(1); idx != nums.size(); ++idx) {
+        for (const auto num : nums) {
 
-            if (subs.back() < nums[idx]) {
-
-                if (subs.size() == std::size_t(2)) {
+            if (subs.back() < num) {
+                if (subs.size() == 2) {
                     return true;
                 }
-                
-                subs.push_back(nums[idx]);
+                else {
+                    subs.push_back(num);
+                }
             }
             else {
-                *std::lower_bound(subs.begin(), subs.end(), nums[idx]) = nums[idx];
+                *std::lower_bound(subs.begin(), subs.end(), num) = num;
             }
         }
 
