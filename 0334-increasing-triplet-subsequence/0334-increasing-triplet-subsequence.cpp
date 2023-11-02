@@ -32,24 +32,19 @@ class Solution {
   public:
     bool increasingTriplet(vector<int>& nums)
     {
-        auto subs = std::vector<int>{ nums.front() };
-        subs.reserve(2);
+        auto first = INT_MAX;
+        auto second = INT_MAX;
 
         for (const auto num : nums) {
 
-            if (subs.back() < num) {
-                if (subs.size() == 2) {
-                    return true;
-                }
-                else {
-                    subs.push_back(num);
-                }
+            if (num <= first) {
+                first = num;
             }
-            else if (subs.front() < num) {
-                subs.back() = num;
+            else if (num <= second) {
+                second = num;
             }
             else {
-                subs.front() = num;
+                return true;
             }
 
         }
