@@ -1,5 +1,5 @@
 /*
-// Approach 1: Linear Scan - Generalized (using LIS)
+// Approach 1-1: Linear Scan - Generalized (using LIS)
 class Solution {
   public:
     bool increasingTriplet(vector<int>& nums)
@@ -28,6 +28,7 @@ class Solution {
 */
 
 
+// Approach 1-2: Linear Scan
 class Solution {
   public:
     bool increasingTriplet(vector<int>& nums)
@@ -46,7 +47,6 @@ class Solution {
             else {
                 return true;
             }
-
         }
 
         return false;
