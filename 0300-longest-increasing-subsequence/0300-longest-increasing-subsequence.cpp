@@ -30,7 +30,7 @@ class Solution {
 
 
 /*
-// Approach 2 - 1: Intelligently Build a Subsequence (use while)
+// Approach 2: Intelligently Build a Subsequence (use while)
 class Solution {
   public:
     int lengthOfLIS(vector<int>& nums)
@@ -59,7 +59,7 @@ class Solution {
 */
 
 
-///*
+/*
 // Approach 3-1: Improve With Binary Search
 class Solution {
   private:
@@ -97,6 +97,31 @@ class Solution {
             }
             else {
                 subs[idx_insert] = num;
+            }
+        }
+
+        return subs.size();
+    }
+};
+*/
+
+
+///*
+// Approach 3-2: Intelligently Build a Subsequence (use std::lower_bound)
+class Solution {
+  public:
+    int lengthOfLIS(vector<int>& nums)
+    {
+        std::vector<int> subs{ nums.front() };
+
+        const auto len_nums = nums.size();
+        for (const auto num : nums) {
+
+            if (subs.back() < num) {
+                subs.push_back(num);
+            }
+            else {
+                *std::lower_bound(subs.begin(), subs.end(), num) = num;
             }
         }
 
