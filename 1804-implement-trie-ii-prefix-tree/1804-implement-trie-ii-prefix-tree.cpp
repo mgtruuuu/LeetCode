@@ -1,5 +1,5 @@
-/*
-// Approach 1 : Recursive
+///*
+// Approach 1-1: Recursive
 class Trie {
   public:
     Trie() : m_num_prefixes{ 0 }, m_num_instances{ 0 }, m_children{ new Trie* [s_num_children] {} }
@@ -109,9 +109,10 @@ class Trie {
         //     return;
         // }
 
-        --m_num_prefixes;
         m_children[idx_children]->eraseHelper(word, idx_word + 1);
 
+        --m_num_prefixes;
+        
         if (m_num_prefixes == 0) {
             delete m_children[idx_children];
             m_children[idx_children] = nullptr;
@@ -128,9 +129,11 @@ class Trie {
     Trie** m_children;
     static constexpr int s_num_children = ('z' - 'a') + 1;
 };
-*/
+//*/
 
 
+/*
+// Approach 1-2: Iterative
 class Trie {
   public:
     Trie() : m_words_starting_here{ 0 }, m_words_ending_here{ 0 }, m_children{ new Trie* [s_num_children] {} }
@@ -160,38 +163,12 @@ class Trie {
 
     int countWordsEqualTo(string word)
     {
-        auto* node = this;
-
-        for (const auto ch : word) {
-
-            const auto idx = getChildrenIndex(ch);
-
-            if (node->m_children[idx] == nullptr) {
-                return 0;
-            }
-
-            node = node->m_children[idx];
-        }
-
-        return node->m_words_ending_here;
+        return countWordsHelper(word) == nullptr ? 0 : countWordsHelper(word)->m_words_ending_here;
     }
 
     int countWordsStartingWith(string prefix)
     {
-        auto* node = this;
-
-        for (const auto ch : prefix) {
-
-            const auto idx = getChildrenIndex(ch);
-
-            if (node->m_children[idx] == nullptr) {
-                return 0;
-            }
-
-            node = node->m_children[idx];
-        }
-
-        return node->m_words_starting_here;
+        return countWordsHelper(prefix) == nullptr ? 0 : countWordsHelper(prefix)->m_words_starting_here;
     }
 
     void erase(string word)
@@ -205,7 +182,7 @@ class Trie {
             const auto idx = getChildrenIndex(ch);
 
             if (node->m_children[idx] == nullptr) {
-                
+
                 std::cerr << "Cannot find word : " << word << std::endl;
 
                 while (s.empty() == false) {
@@ -261,6 +238,24 @@ class Trie {
     }
 
   private:
+    Trie* countWordsHelper(const std::string& word)
+    {
+        auto* node = this;
+
+        for (const auto ch : word) {
+
+            const auto idx = getChildrenIndex(ch);
+
+            if (node->m_children[idx] == nullptr) {
+                return nullptr;
+            }
+
+            node = node->m_children[idx];
+        }
+
+        return node;
+    }
+
     std::size_t getChildrenIndex(const char ch) const
     {
         return ch - 'a';
@@ -271,6 +266,9 @@ class Trie {
     Trie** m_children;
     static constexpr int s_num_children = ('z' - 'a') + 1;
 };
+*/
+
+
 
 /**
  * Your Trie object will be instantiated and called as such:
