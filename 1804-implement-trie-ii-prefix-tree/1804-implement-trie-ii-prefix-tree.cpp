@@ -133,7 +133,7 @@ class Trie {
 
 class Trie {
   public:
-    Trie() : m_num_prefixes{ 0 }, m_num_instances{ 0 }, m_children{ new Trie* [s_num_children] {} }
+    Trie() : m_words_starting_here{ 0 }, m_words_ending_here{ 0 }, m_children{ new Trie* [s_num_children] {} }
     {
     }
 
@@ -149,13 +149,13 @@ class Trie {
                 node->m_children[idx] = new Trie{};
             }
 
-            ++node->m_num_prefixes;
+            ++node->m_words_starting_here;
 
             node = node->m_children[idx];
         }
 
-        ++node->m_num_instances;
-        ++node->m_num_prefixes;
+        ++node->m_words_ending_here;
+        ++node->m_words_starting_here;
     }
 
     int countWordsEqualTo(string word)
@@ -173,7 +173,7 @@ class Trie {
             node = node->m_children[idx];
         }
 
-        return node->m_num_instances;
+        return node->m_words_ending_here;
     }
 
     int countWordsStartingWith(string prefix)
@@ -191,24 +191,57 @@ class Trie {
             node = node->m_children[idx];
         }
 
-        return node->m_num_prefixes;
+        return node->m_words_starting_here;
     }
 
     void erase(string word)
     {
+        std::stack<std::pair<Trie*, int>> s;
+
         auto* node = this;
 
         for (const auto ch : word) {
 
             const auto idx = getChildrenIndex(ch);
 
-            --node->m_num_prefixes;
+            if (node->m_children[idx] == nullptr) {
+                
+                std::cerr << "Cannot find word : " << word << std::endl;
+
+                while (s.empty() == false) {
+
+                    s.top().first->m_words_starting_here;
+                    s.pop();
+                }
+
+                return;
+            }
+
+            s.emplace(node, idx);
+
+            --node->m_words_starting_here;
 
             node = node->m_children[idx];
         }
 
-        --node->m_num_instances;
-        --node->m_num_prefixes;
+        --node->m_words_ending_here;
+        --node->m_words_starting_here;
+
+        bool is_node_empty = (node->m_words_starting_here == 0);
+        while (s.empty() == false) {
+
+            node = s.top().first;
+            const auto idx_children = s.top().second;
+
+            if (is_node_empty == true) {
+                delete node->m_children[idx_children];
+                node->m_children[idx_children] = nullptr;
+            }
+
+            is_node_empty = (node->m_words_starting_here == 0);
+
+            s.pop();
+        }
     }
 
     ~Trie()
@@ -233,8 +266,8 @@ class Trie {
         return ch - 'a';
     }
 
-    int m_num_prefixes;
-    int m_num_instances;
+    int m_words_starting_here;
+    int m_words_ending_here;
     Trie** m_children;
     static constexpr int s_num_children = ('z' - 'a') + 1;
 };
