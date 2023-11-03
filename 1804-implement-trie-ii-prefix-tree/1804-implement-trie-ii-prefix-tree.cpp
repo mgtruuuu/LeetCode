@@ -2,7 +2,7 @@
 // Approach 1-1: Recursive
 class Trie {
   public:
-    Trie() : m_num_prefixes{ 0 }, m_num_instances{ 0 }, m_children{ new Trie* [s_num_children] {} }
+    Trie() : m_words_starting_here{ 0 }, m_words_ending_here{ 0 }, m_children{ new Trie* [s_num_children] {} }
     {
     }
 
@@ -47,13 +47,13 @@ class Trie {
     {
         if (idx_word == word.size()) {
 
-            ++m_num_prefixes;
-            ++m_num_instances;
+            ++m_words_starting_here;
+            ++m_words_ending_here;
 
             return;
         }
 
-        ++m_num_prefixes;
+        ++m_words_starting_here;
 
         const auto idx_children = getChildrenIndex(word[idx_word]);
 
@@ -67,7 +67,7 @@ class Trie {
     int countWordsEqualToHelper(const std::string& word, const std::size_t idx_word)
     {
         if (idx_word == word.size()) {
-            return m_num_instances;
+            return m_words_ending_here;
         }
 
         const auto idx_children = getChildrenIndex(word[idx_word]);
@@ -80,7 +80,7 @@ class Trie {
     int countWordsStartingWithHelper(const std::string& prefix, const std::size_t idx_word)
     {
         if (idx_word == prefix.size()) {
-            return m_num_prefixes;
+            return m_words_starting_here;
         }
 
         const auto idx_children = getChildrenIndex(prefix[idx_word]);
@@ -90,33 +90,37 @@ class Trie {
                    : m_children[idx_children]->countWordsStartingWithHelper(prefix, idx_word + 1);
     }
 
-    void eraseHelper(const std::string& word, const std::size_t idx_word)
+    bool eraseHelper(const std::string& word, const std::size_t idx_word)
     {
         if (idx_word == word.size()) {
 
-            --m_num_instances;
-            --m_num_prefixes;
+            --m_words_ending_here;
+            --m_words_starting_here;
 
-            return;
+            return true;
         }
 
         const auto idx_children = getChildrenIndex(word[idx_word]);
 
-        // if (m_children[idx_children] == nullptr) {
+        if (m_children[idx_children] == nullptr) {
 
-        //     std::cerr << "Nothing to erase word : " << word << std::endl;
+            std::cerr << "Nothing to erase word : " << word << std::endl;
 
-        //     return;
-        // }
+            return false;
+        }
 
-        m_children[idx_children]->eraseHelper(word, idx_word + 1);
+        if (m_children[idx_children]->eraseHelper(word, idx_word + 1) == false) {
+            return false;
+        }
 
-        --m_num_prefixes;
-        
-        if (m_num_prefixes == 0) {
+        --m_words_starting_here;
+
+        if (m_words_starting_here == 0) {
             delete m_children[idx_children];
             m_children[idx_children] = nullptr;
         }
+
+        return true;
     }
 
     std::size_t getChildrenIndex(const char ch) const
@@ -124,8 +128,8 @@ class Trie {
         return ch - 'a';
     }
 
-    int m_num_prefixes;
-    int m_num_instances;
+    int m_words_starting_here;
+    int m_words_ending_here;
     Trie** m_children;
     static constexpr int s_num_children = ('z' - 'a') + 1;
 };
