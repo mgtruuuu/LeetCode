@@ -1,4 +1,4 @@
-///*
+/*
 // Approach 1 : Recursive
 class Trie {
   public:
@@ -128,4 +128,122 @@ class Trie {
     Trie** m_children;
     static constexpr int s_num_children = ('z' - 'a') + 1;
 };
-//*/
+*/
+
+
+class Trie {
+  public:
+    Trie() : m_num_prefixes{ 0 }, m_num_instances{ 0 }, m_children{ new Trie* [s_num_children] {} }
+    {
+    }
+
+    void insert(string word)
+    {
+        auto* node = this;
+
+        for (const auto ch : word) {
+
+            const auto idx = getChildrenIndex(ch);
+
+            if (node->m_children[idx] == nullptr) {
+                node->m_children[idx] = new Trie{};
+            }
+
+            ++node->m_num_prefixes;
+
+            node = node->m_children[idx];
+        }
+
+        ++node->m_num_instances;
+        ++node->m_num_prefixes;
+    }
+
+    int countWordsEqualTo(string word)
+    {
+        auto* node = this;
+
+        for (const auto ch : word) {
+
+            const auto idx = getChildrenIndex(ch);
+
+            if (node->m_children[idx] == nullptr) {
+                return 0;
+            }
+
+            node = node->m_children[idx];
+        }
+
+        return node->m_num_instances;
+    }
+
+    int countWordsStartingWith(string prefix)
+    {
+        auto* node = this;
+
+        for (const auto ch : prefix) {
+
+            const auto idx = getChildrenIndex(ch);
+
+            if (node->m_children[idx] == nullptr) {
+                return 0;
+            }
+
+            node = node->m_children[idx];
+        }
+
+        return node->m_num_prefixes;
+    }
+
+    void erase(string word)
+    {
+        auto* node = this;
+
+        for (const auto ch : word) {
+
+            const auto idx = getChildrenIndex(ch);
+
+            --node->m_num_prefixes;
+
+            node = node->m_children[idx];
+        }
+
+        --node->m_num_instances;
+        --node->m_num_prefixes;
+    }
+
+    ~Trie()
+    {
+        if (m_children != nullptr) {
+
+            for (auto i = 0; i != s_num_children; ++i) {
+
+                if (m_children[i] != nullptr) {
+                    m_children[i]->~Trie();
+                }
+            }
+
+            delete[] m_children;
+            m_children = nullptr;
+        }
+    }
+
+  private:
+    std::size_t getChildrenIndex(const char ch) const
+    {
+        return ch - 'a';
+    }
+
+    int m_num_prefixes;
+    int m_num_instances;
+    Trie** m_children;
+    static constexpr int s_num_children = ('z' - 'a') + 1;
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie* obj = new Trie();
+ * obj->insert(word);
+ * int param_2 = obj->countWordsEqualTo(word);
+ * int param_3 = obj->countWordsStartingWith(prefix);
+ * obj->erase(word);
+ */
