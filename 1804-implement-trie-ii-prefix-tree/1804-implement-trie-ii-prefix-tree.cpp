@@ -104,7 +104,7 @@ class Trie {
 
         if (m_children[idx_children] == nullptr) {
 
-            std::cerr << "Nothing to erase word : " << word << std::endl;
+            std::cerr << "Cannot find word : " << word << std::endl;
 
             return false;
         }
@@ -116,6 +116,7 @@ class Trie {
         --m_words_starting_here;
 
         if (m_words_starting_here == 0) {
+            
             delete m_children[idx_children];
             m_children[idx_children] = nullptr;
         }
