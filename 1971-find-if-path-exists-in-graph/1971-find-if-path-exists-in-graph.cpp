@@ -87,7 +87,7 @@ class Solution {
 */
 
 
-///*
+/*
 // Approach 3: BFS
 class Solution {
   public:
@@ -128,10 +128,10 @@ class Solution {
         return false;
     }
 };
-//*/
+*/
 
 
-/*
+///*
 // Approach 4: Disjoint Set Union (DSU)
 class UnionFind {
   private:
@@ -204,4 +204,4 @@ class Solution {
         return uf.isConnected(source, destination);
     }
 };
-*/
+//*/
