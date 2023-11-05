@@ -1,5 +1,5 @@
 /*
-// Approach 1: DFS/BFS: Iterative
+// Approach 1: DFS: Iterative
 class Solution {
   public:
     bool validPath(int n, vector<vector<int>>& edges, int source, int destination)
@@ -42,8 +42,8 @@ class Solution {
 */
 
 
-///*
-// Approach 2: DFS/BFS: Recursive
+/*
+// Approach 2: DFS: Recursive
 class Solution {
   private:
     bool bfs(const std::vector<std::vector<int>>& adj_list, const int destination, const int node,
@@ -84,11 +84,55 @@ class Solution {
         return bfs(adj_list, destination, source, visited);
     }
 };
+*/
+
+
+///*
+// Approach 3: BFS
+class Solution {
+  public:
+    bool validPath(int n, vector<vector<int>>& edges, int source, int destination)
+    {
+        std::vector<std::vector<int>> adj_list(n);
+        for (const auto& edge : edges) {
+
+            adj_list[edge.front()].push_back(edge.back());
+            adj_list[edge.back()].push_back(edge.front());
+        }
+
+        std::vector<bool> visited(n, false);
+
+        std::queue<int> q;
+        q.push(source);
+        visited[source] = true;
+
+        while (q.empty() == false) {
+
+            const auto node = q.front();
+            q.pop();
+
+            if (node == destination) {
+                return true;
+            }
+
+            for (const auto neighbor : adj_list[node]) {
+
+                if (visited[neighbor] == false) {
+
+                    q.push(neighbor);
+                    visited[neighbor] = true;
+                }
+            }
+        }
+
+        return false;
+    }
+};
 //*/
 
 
 /*
-// Approach 3: Disjoint Set Union (DSU)
+// Approach 4: Disjoint Set Union (DSU)
 class UnionFind {
   private:
     std::vector<int> m_parents;
