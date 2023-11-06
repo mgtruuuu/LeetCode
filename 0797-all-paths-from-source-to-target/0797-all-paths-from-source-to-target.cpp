@@ -86,6 +86,8 @@ class Solution {
 */
 
 
+/*
+// Approach 3: DFS
 class Solution {
   public:
     vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph)
@@ -118,6 +120,45 @@ class Solution {
             }
 
             q.pop();
+        }
+
+        return paths;
+    }
+};
+*/
+
+
+
+class Solution {
+  public:
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph)
+    {
+        const auto target = static_cast<int>(graph.size()) - 1;
+
+        auto paths = std::vector<std::vector<int>>();
+
+        std::stack<std::pair<int, std::vector<int>>> s;
+        s.emplace(0, std::vector<int>{ 0 });
+
+        while (s.empty() == false) {
+
+            const auto curr_node = s.top().first;
+            auto curr_path = std::move(s.top().second);
+            s.pop();
+
+            if (curr_node == target) {
+
+                paths.push_back(curr_path);
+                
+                continue;
+            }
+
+            for (const auto neighbor : graph[curr_node]) {
+
+                curr_path.push_back(neighbor);
+                s.emplace(neighbor, curr_path);
+                curr_path.pop_back();
+            }
         }
 
         return paths;
