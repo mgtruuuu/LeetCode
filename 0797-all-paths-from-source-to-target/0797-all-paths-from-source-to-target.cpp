@@ -1,4 +1,4 @@
-///*
+/*
 // Approach 1: Backtracking
 class Solution {
   private:
@@ -31,7 +31,7 @@ class Solution {
         return paths;
     }
 };
-//*/
+*/
 
 
 
@@ -84,3 +84,42 @@ class Solution {
     }
 };
 */
+
+
+class Solution {
+  public:
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph)
+    {
+        const auto target = static_cast<int>(graph.size()) - 1;
+
+        auto paths = std::vector<std::vector<int>>();
+
+        std::queue<std::pair<int, std::vector<int>>> q;
+        q.emplace(0, std::vector<int>{ 0 });
+
+        while (q.empty() == false) {
+
+            const auto& node = q.front();
+
+            if (node.first == target) {
+
+                paths.push_back(node.second);
+
+                q.pop();
+                continue;
+            }
+
+            auto copy = node.second;
+            for (const auto neighbor : graph[node.first]) {
+
+                copy.push_back(neighbor);
+                q.emplace(neighbor, copy);
+                copy.pop_back();
+            }
+
+            q.pop();
+        }
+
+        return paths;
+    }
+};
