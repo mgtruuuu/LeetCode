@@ -137,10 +137,10 @@ class UnionFind {
   private:
     std::vector<int> m_parents;
     std::vector<int> m_ranks;
-    int m_num_components;
+    // int m_num_components;
 
   public:
-    UnionFind(const int len) : m_num_components{ len }
+    UnionFind(const int len) //: m_num_components{ len }
     {
         m_parents.resize(len);
         m_ranks.resize(len);
@@ -185,10 +185,10 @@ class UnionFind {
         return find(x) == find(y);
     }
 
-    int getNumComponents() const
-    {
-        return m_num_components;
-    }
+    // int getNumComponents() const
+    // {
+    //     return m_num_components;
+    // }
 };
 
 class Solution {
