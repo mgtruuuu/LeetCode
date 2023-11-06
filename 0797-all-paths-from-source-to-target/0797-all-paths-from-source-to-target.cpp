@@ -1,5 +1,5 @@
-
-/*
+///*
+// Approach 1: Backtracking
 class Solution {
   private:
     void allPathsSourceTargetHelper(const std::vector<std::vector<int>>& graph, const int node, std::vector<int>& path,
@@ -31,11 +31,12 @@ class Solution {
         return paths;
     }
 };
-*/
+//*/
 
 
 
-
+/*
+// Approach 2: Top-Down Dynamic Programming
 class Solution {
   private:
     void dp(const std::vector<std::vector<int>>& graph, const int node,
@@ -64,7 +65,7 @@ class Solution {
                 auto path_to_insert = std::vector<int>(paths.size() + 1);
                 path_to_insert.front() = node;
                 memcpy(path_to_insert.data() + 1, paths.data(), sizeof(int) * paths.size());
-                
+
                 union_neighbors.push_back(path_to_insert);
             }
         }
@@ -82,3 +83,4 @@ class Solution {
         return source2paths[0];
     }
 };
+*/
