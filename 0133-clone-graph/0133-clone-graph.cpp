@@ -19,40 +19,32 @@ public:
 };
 */
 
+// Approach 1: Recursive DFS
 class Solution {
-  public:
-    Node* cloneGraph(Node* node)
+  private:
+    Node* cloneGraphHelper(Node* node_src, std::unordered_map<Node*, Node*>& src2dst)
     {
-        if (node == nullptr) {
+        if (node_src == nullptr) {
             return nullptr;
         }
 
-        std::queue<Node*> q;
-        std::unordered_map<Node*, Node*> src2dst;
-
-        q.push(node);
-        src2dst[node] = new Node{ node->val };
-
-        while (q.empty() == false) {
-
-            auto* node_src = q.front();
-            auto* node_dst = src2dst[node_src];
-            q.pop();
-
-            node_dst->neighbors.reserve(node_src->neighbors.size());
-
-            for (auto* neighbor_src : node_src->neighbors) {
-
-                if (src2dst.find(neighbor_src) == src2dst.end()) {
-                    src2dst[neighbor_src] = new Node{ neighbor_src->val };
-
-                    q.push(neighbor_src);
-                }
-
-                node_dst->neighbors.push_back(src2dst[neighbor_src]);
-            }
+        if (src2dst.find(node_src) != src2dst.end()) {
+            return src2dst[node_src];
         }
 
-        return src2dst[node];
+        src2dst[node_src] = new Node{ node_src->val };
+
+        for (auto* neighbor_src : node_src->neighbors) {
+            src2dst[node_src]->neighbors.push_back(cloneGraphHelper(neighbor_src, src2dst));
+        }
+        return src2dst[node_src];
+    }
+
+  public:
+    Node* cloneGraph(Node* node)
+    {
+        std::unordered_map<Node*, Node*> src2dst;
+
+        return cloneGraphHelper(node, src2dst);
     }
 };
