@@ -19,40 +19,6 @@ public:
 };
 */
 
-
-
-/*
-// Approach 1: Recursive DFS
-class Solution {
-  private:
-    std::unordered_map<Node*, Node*> hash_visited;
-
-  public:
-    Node* cloneGraph(Node* node)
-    {
-        if (node == nullptr) {
-            return node;
-        }
-
-        if (hash_visited.find(node) != hash_visited.end()) {
-            return hash_visited[node];
-        }
-        
-        Node* clone_node = new Node{ node->val };
-        hash_visited[node] = clone_node;
-
-        for (Node* neighbor : node->neighbors) {
-            clone_node->neighbors.push_back(cloneGraph(neighbor));
-        }
-
-        return clone_node;
-    }
-};
-*/
-
-
-/*
-// Approach 2: Iterative DFS
 class Solution {
   public:
     Node* cloneGraph(Node* node)
@@ -61,103 +27,32 @@ class Solution {
             return nullptr;
         }
 
-        Node* res;
-        Node** pp_curr = &res;
+        std::stack<Node*> s_src;
+        std::unordered_map<Node*, Node*> src2dst;
 
-        std::unordered_map<Node*, Node*> hash_visited;
+        s_src.push(node);
+        src2dst[node] = new Node{ node->val };
 
-        std::stack<Node*> s;
-        s.push(node);
+        while (s_src.empty() == false) {
 
-        ////////
-        hash_visited[node] = new Node{ node->val };
-        *pp_curr = hash_visited[node];
-        ////////
+            auto* node_src = s_src.top();
+            auto* node_dst = src2dst[node_src];
+            s_src.pop();
 
-        while (s.empty() == false) {
+            node_dst->neighbors.reserve(node_src->neighbors.size());
 
-            Node* curr = s.top();
-            s.pop();
+            for (auto* neighbor_src : node_src->neighbors) {
 
-            ////////
-            pp_curr = &hash_visited[curr];
-            (**pp_curr).neighbors.reserve(curr->neighbors.size());
-            ////////
+                if (src2dst.find(neighbor_src) == src2dst.end()) {
+                    src2dst[neighbor_src] = new Node{ neighbor_src->val };
 
-            for (Node* child : curr->neighbors) {
-
-                if (hash_visited.find(child) == hash_visited.end()) {
-
-                    s.push(child);
-
-                    ////////
-                    hash_visited[child] = new Node{ child->val };
-                    ////////
+                    s_src.push(neighbor_src);
                 }
 
-                ////////
-                (**pp_curr).neighbors.push_back(hash_visited[child]);
-                ////////
+                node_dst->neighbors.push_back(src2dst[neighbor_src]);
             }
         }
 
-        return res;
+        return src2dst[node];
     }
 };
-*/
-
-
-///*
-// Approach 3: Iterative BFS
-class Solution {
-  public:
-    Node* cloneGraph(Node* node)
-    {
-        if (node == nullptr) {
-            return nullptr;
-        }
-
-        Node* res;
-        Node** pp_curr = &res;
-
-        std::unordered_map<Node*, Node*> hash_visited;
-
-        std::queue<Node*> q;
-        q.push(node);
-
-        ////////
-        hash_visited[node] = new Node{ node->val };
-        *pp_curr = hash_visited[node];
-        ////////
-
-        while (q.empty() == false) {
-
-            Node* curr = q.front();
-            q.pop();
-
-            ////////
-            pp_curr = &hash_visited[curr];
-            (**pp_curr).neighbors.reserve(curr->neighbors.size());
-            ////////
-
-            for (Node* child : curr->neighbors) {
-
-                if (hash_visited.find(child) == hash_visited.end()) {
-
-                    q.push(child);
-
-                    ////////
-                    hash_visited[child] = new Node{ child->val };
-                    ////////
-                }
-
-                ////////
-                (**pp_curr).neighbors.push_back(hash_visited[child]);
-                ////////
-            }
-        }
-
-        return res;
-    }
-};
-//*/
