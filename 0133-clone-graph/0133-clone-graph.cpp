@@ -27,17 +27,17 @@ class Solution {
             return nullptr;
         }
 
-        std::stack<Node*> s_src;
+        std::queue<Node*> q;
         std::unordered_map<Node*, Node*> src2dst;
 
-        s_src.push(node);
+        q.push(node);
         src2dst[node] = new Node{ node->val };
 
-        while (s_src.empty() == false) {
+        while (q.empty() == false) {
 
-            auto* node_src = s_src.top();
+            auto* node_src = q.front();
             auto* node_dst = src2dst[node_src];
-            s_src.pop();
+            q.pop();
 
             node_dst->neighbors.reserve(node_src->neighbors.size());
 
@@ -46,7 +46,7 @@ class Solution {
                 if (src2dst.find(neighbor_src) == src2dst.end()) {
                     src2dst[neighbor_src] = new Node{ neighbor_src->val };
 
-                    s_src.push(neighbor_src);
+                    q.push(neighbor_src);
                 }
 
                 node_dst->neighbors.push_back(src2dst[neighbor_src]);
