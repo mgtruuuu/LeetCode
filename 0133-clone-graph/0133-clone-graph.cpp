@@ -121,7 +121,53 @@ class Solution {
 */
 
 
-///*
+
+class Solution {
+  public:
+    Node* cloneGraph(Node* node)
+    {
+        if (node == nullptr) {
+            return nullptr;
+        }
+
+        std::stack<Node*> s;
+        std::unordered_map<Node*, Node*> src2dst;
+        std::unordered_set<Node*> seen;
+
+        s.push(node);
+        src2dst[node] = new Node{ node->val };
+
+        while (s.empty() == false) {
+
+            auto* node_src = s.top();
+            auto* node_dst = src2dst[node_src];
+            s.pop();
+
+            if (seen.find(node_src) != seen.end()) {
+                continue;
+            }
+            seen.insert(node_src);
+
+            node_dst->neighbors.reserve(node_src->neighbors.size());
+
+            for (auto* neighbor_src : node_src->neighbors) {
+
+                if (src2dst.find(neighbor_src) == src2dst.end()) {
+                    src2dst[neighbor_src] = new Node{ neighbor_src->val };
+                }
+
+                node_dst->neighbors.push_back(src2dst[neighbor_src]);
+                s.push(neighbor_src);
+            }
+        }
+
+        return src2dst[node];
+    }
+};
+
+
+
+/*
 // Approach 3: Iterative BFS
 class Solution {
   public:
@@ -160,4 +206,4 @@ class Solution {
         return src2dst[node];
     }
 };
-//*/
+*/
