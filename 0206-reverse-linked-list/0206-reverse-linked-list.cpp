@@ -10,7 +10,7 @@
  */
 
 
-
+/*
 class Solution {
   public:
     ListNode* reverseList(ListNode* head)
@@ -27,6 +27,8 @@ class Solution {
         return end_node;
     }
 };
+*/
+
 
 /*
 class Solution {
@@ -64,3 +66,30 @@ class Solution {
 };
 */
 
+
+
+class Solution {
+  public:
+    ListNode* reverseList(ListNode* head)
+    {
+        if (head == nullptr) {
+            return head;
+        }
+
+        ListNode* prev = nullptr;
+        ListNode* curr = head;
+
+        while (curr->next != nullptr) {
+
+            auto* temp = curr;
+            curr = curr->next;
+
+            temp->next = prev;
+            prev = temp;
+        }
+
+        curr->next = prev;
+
+        return curr;
+    }
+};
