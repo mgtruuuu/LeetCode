@@ -9,6 +9,26 @@
  * };
  */
 
+
+
+class Solution {
+  public:
+    ListNode* reverseList(ListNode* head)
+    {
+        if (head == nullptr || head->next == nullptr) {
+            return head;
+        }
+
+        auto* end_node = reverseList(head->next);
+
+        head->next->next = head;
+        head->next = nullptr;
+
+        return end_node;
+    }
+};
+
+/*
 class Solution {
   private:
     ListNode* kkk;
@@ -42,3 +62,5 @@ class Solution {
         return kkk;
     }
 };
+*/
+
