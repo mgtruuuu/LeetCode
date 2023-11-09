@@ -72,14 +72,10 @@ class Solution {
   public:
     ListNode* reverseList(ListNode* head)
     {
-        if (head == nullptr) {
-            return head;
-        }
-
         ListNode* prev = nullptr;
         ListNode* curr = head;
 
-        while (curr->next != nullptr) {
+        while (curr != nullptr) {
 
             auto* temp = curr;
             curr = curr->next;
@@ -88,8 +84,6 @@ class Solution {
             prev = temp;
         }
 
-        curr->next = prev;
-
-        return curr;
+        return prev;
     }
 };
