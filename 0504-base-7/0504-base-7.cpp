@@ -3,34 +3,31 @@ class Solution {
     string convertToBase7(int num)
     {
         std::string res;
-        auto is_positive = true;
-        
+        bool is_negative = false;
+
         if (num < 0) {
-            is_positive = false;
-            res.push_back('-');
-            
+
+            is_negative = true;
             num = -num;
         }
 
+
+
         do {
-            auto r = num;
-            num /= 7;
-            r -= 7 * num;
 
-            res.push_back(r + static_cast<int>('0'));            
-        } while (num != 0);
+            const auto& quot_rem = div(num, 7);
+
+            res.push_back('0' + quot_rem.rem);
+
+            num = quot_rem.quot;
+        }
+        while (num != 0);
+
+        if (is_negative == true) {
+            res.push_back('-');
+        }
         
-        if (is_positive == true) {
-            for (auto idx = std::size_t(0); idx != res.size() / 2; ++idx) {
-                std::swap(res[idx], res[res.size() - 1 - idx]);
-            }
-        }
-        else {
-            for (auto idx = std::size_t(0); idx != (res.size() - 1) / 2; ++idx) {
-                std::swap(res[idx + 1], res[res.size() - 1 - idx]);
-            }
-        }
-
+        std::reverse(res.begin(), res.end());
         return res;
     }
 };
