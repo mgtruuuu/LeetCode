@@ -2,7 +2,7 @@ class Solution {
   private:
     int64_t get1DIndex(const std::vector<int>& point)
     {
-        return point.front() + int64_t(100'000) * point.back();
+        return point.front() + int64_t(1'000'000'000) * point.back();
     }
 
   public:
