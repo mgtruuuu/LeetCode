@@ -8,60 +8,27 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-
 class Solution {
   public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2)
     {
+        if (list1 == nullptr && list2 == nullptr) {
+            return nullptr;
+        }
+
         if (list1 == nullptr) {
-            return list2;
+            return mergeTwoLists(list2, list1);
         }
 
         if (list2 == nullptr) {
-            return list1;
+            return new ListNode{ list1->val, mergeTwoLists(list1->next, list2) };
         }
 
-        auto* p_list1 = list1;
-        auto* p_list2 = list2;
-        ListNode* res;
-
-        if (p_list1->val <= p_list2->val) {
-            res = p_list1;
-            p_list1 = p_list1->next;
+        if (list1->val < list2->val) {
+            return new ListNode{ list1->val, mergeTwoLists(list1->next, list2) };
         }
         else {
-            res = p_list2;
-            p_list2 = p_list2->next;
+            return new ListNode{ list2->val, mergeTwoLists(list1, list2->next) };
         }
-
-        auto* p_branch = res;
-
-        
-        while (true) {
-            if (p_list1 == nullptr) {
-                p_branch->next = p_list2;
-
-                break;
-            }
-
-            if (p_list2 == nullptr) {
-                p_branch->next = p_list1;
-
-                break;
-            }
-
-            if (p_list1->val <= p_list2->val) {
-                p_branch->next = p_list1;
-                p_branch = p_branch->next;
-                p_list1 = p_list1->next;
-            }
-            else {
-                p_branch->next = p_list2;
-                p_branch = p_branch->next;
-                p_list2 = p_list2->next;
-            }
-        }
-
-        return res;
     }
 };
