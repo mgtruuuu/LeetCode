@@ -11,18 +11,17 @@ class Solution {
             const auto slot1_end = slots1[idx_slots1].back();
             const auto slot2_end = slots2[idx_slots2].back();
             const auto max_start = std::max(slots1[idx_slots1].front(), slots2[idx_slots2].front());
-            const auto min_end = std::min(slot1_end, slot2_end);
 
-            if (min_end - max_start >= duration) {
+            if (std::min(slot1_end, slot2_end) - max_start >= duration) {
                 return { max_start, max_start + duration };
             }
 
             if (slot1_end <= slot2_end) {
-                idx_slots1++;
+                ++idx_slots1;
             }
 
             if (slot1_end >= slot2_end) {
-                idx_slots2++;
+                ++idx_slots2;
             }
         }
 
