@@ -1,4 +1,4 @@
-///*
+/*
 // Approach 1: Three Pointers (Start From the Beginning)
 class Solution {
   public:
@@ -24,9 +24,9 @@ class Solution {
         }
     }
 };
-//*/
+*/
 
-/*
+///*
 // Approach 2: Three Pointers (Start From the End)
 class Solution {
   public:
@@ -42,4 +42,4 @@ class Solution {
         }
     }
 };
-*/
+//*/
