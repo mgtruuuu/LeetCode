@@ -20,6 +20,23 @@ class Solution {
             return list1;
         }
 
+
+        ListNode** ppLeftArgs = &list1;
+        ListNode** ppRightArgs = &list2;
+        ListNode** temp;
+        if (list1->val < list2->val) {
+            temp = ppLeftArgs;
+            ppLeftArgs = &list1->next;
+        }
+        else {
+            temp = ppRightArgs;
+            ppRightArgs = &list2->next;
+        }
+
+        (*temp)->next = mergeTwoLists(*ppLeftArgs, *ppRightArgs);
+        return *temp;
+
+
         if (list1->val < list2->val) {
             list1->next = mergeTwoLists(list1->next, list2);
             return list1;
