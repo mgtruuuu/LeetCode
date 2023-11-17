@@ -1,3 +1,5 @@
+/*
+// Approach 1: Two pointers
 class Solution {
   public:
     vector<int> minAvailableDuration(vector<vector<int>>& slots1, vector<vector<int>>& slots2, int duration)
@@ -22,6 +24,49 @@ class Solution {
 
             if (slot1_end >= slot2_end) {
                 ++idx_slots2;
+            }
+        }
+
+        return {};
+    }
+};
+*/
+
+
+class Solution {
+  public:
+    vector<int> minAvailableDuration(vector<vector<int>>& slots1, vector<vector<int>>& slots2, int duration)
+    {
+        using MyPair = std::vector<int>;
+
+        struct Comp {
+
+            bool operator()(const MyPair& lhs, const MyPair& rhs) const
+            {
+                return lhs.front() > rhs.front();
+            }
+        };
+
+        std::priority_queue<MyPair, std::vector<MyPair>, Comp> pq;
+        for (const auto& slot1 : slots1) {
+            if (slot1.back() >= slot1.front() + duration) {
+                pq.push(slot1);
+            }
+        }
+
+        for (const auto& slot2 : slots2) {
+            if (slot2.back() >= slot2.front() + duration) {
+                pq.push(slot2);
+            }
+        }
+
+        while (pq.size() > 1) {
+
+            const auto temp = pq.top();
+            pq.pop();
+
+            if (temp.back() >= pq.top().front() + duration) {
+                return { pq.top().front(), pq.top().front() + duration };
             }
         }
 
