@@ -46,12 +46,39 @@ class Solution {
         auto maximum_detonation = INT_MIN;
         for (auto i = 0; i != len_bombs; ++i) {
 
+            auto temp = 0;
             std::vector<bool> visited(len_bombs, false);
-            
-            const auto temp = dfs(list_adj, i, visited);
+
+            std::stack<int> s;
+            s.push(i);
+            visited[i] = true;
+            while (s.empty() == false) {
+
+                const auto node = s.top();
+                s.pop();
+
+                ++temp;
+
+                for (const auto neighbor : list_adj[node]) {
+
+                    if (visited[neighbor] == false) {
+
+                        s.push(neighbor);
+                        visited[neighbor] = true;
+                    }
+                }
+            }
+
             if (maximum_detonation < temp) {
                 maximum_detonation = temp;
             }
+
+            // std::vector<bool> visited(len_bombs, false);
+
+            // const auto temp = dfs(list_adj, i, visited);
+            // if (maximum_detonation < temp) {
+            //     maximum_detonation = temp;
+            // }
         }
 
         return maximum_detonation;
