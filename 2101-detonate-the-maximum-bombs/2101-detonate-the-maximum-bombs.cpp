@@ -33,13 +33,13 @@ class Solution {
 
             auto temp = 0;
             std::vector<bool> visited(len_bombs, false);
-            std::stack<int> s;
+            std::queue<int> q;
 
             visited[i] = true;
-            s.push(i);
+            q.push(i);
             do {
-                const auto node = s.top();
-                s.pop();
+                const auto node = q.front();
+                q.pop();
 
                 ++temp;
 
@@ -48,10 +48,10 @@ class Solution {
                     if (visited[neighbor] == false) {
 
                         visited[neighbor] = true;
-                        s.push(neighbor);
+                        q.push(neighbor);
                     }
                 }
-            } while (s.empty() == false);
+            } while (q.empty() == false);
 
             if (maximum_detonation < temp) {
                 maximum_detonation = temp;
