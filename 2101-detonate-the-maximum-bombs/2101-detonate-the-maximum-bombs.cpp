@@ -34,11 +34,10 @@ class Solution {
             auto temp = 0;
             std::vector<bool> visited(len_bombs, false);
             std::stack<int> s;
-            
+
             visited[i] = true;
             s.push(i);
-            while (s.empty() == false) {
-
+            do {
                 const auto node = s.top();
                 s.pop();
 
@@ -52,7 +51,7 @@ class Solution {
                         s.push(neighbor);
                     }
                 }
-            }
+            } while (s.empty() == false);
 
             if (maximum_detonation < temp) {
                 maximum_detonation = temp;
