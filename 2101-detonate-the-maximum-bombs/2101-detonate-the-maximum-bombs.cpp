@@ -10,14 +10,14 @@ class Solution {
 
     int dfs(const std::vector<std::vector<int>>& list_adj, const int node, std::vector<bool>& visited)
     {
+        if (visited[node] == true) {
+            return 0;
+        }
         visited[node] = true;
 
         auto ret = 1;
         for (const auto& neighbor : list_adj[node]) {
-            
-            if (visited[neighbor] == false) {
-                ret += dfs(list_adj, neighbor, visited);    
-            }
+            ret += dfs(list_adj, neighbor, visited);
         }
 
         return ret;
