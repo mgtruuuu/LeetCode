@@ -8,21 +8,6 @@ class Solution {
         return delta_x * delta_x + delta_y * delta_y <= int64_t(from[2]) * from[2];
     }
 
-    int dfs(const std::vector<std::vector<int>>& list_adj, const int node, std::vector<bool>& visited)
-    {
-        if (visited[node] == true) {
-            return 0;
-        }
-        visited[node] = true;
-
-        auto ret = 1;
-        for (const auto& neighbor : list_adj[node]) {
-            ret += dfs(list_adj, neighbor, visited);
-        }
-
-        return ret;
-    }
-
   public:
     int maximumDetonation(vector<vector<int>>& bombs)
     {
@@ -48,10 +33,10 @@ class Solution {
 
             auto temp = 0;
             std::vector<bool> visited(len_bombs, false);
-
             std::stack<int> s;
-            s.push(i);
+            
             visited[i] = true;
+            s.push(i);
             while (s.empty() == false) {
 
                 const auto node = s.top();
@@ -63,8 +48,8 @@ class Solution {
 
                     if (visited[neighbor] == false) {
 
-                        s.push(neighbor);
                         visited[neighbor] = true;
+                        s.push(neighbor);
                     }
                 }
             }
@@ -72,13 +57,6 @@ class Solution {
             if (maximum_detonation < temp) {
                 maximum_detonation = temp;
             }
-
-            // std::vector<bool> visited(len_bombs, false);
-
-            // const auto temp = dfs(list_adj, i, visited);
-            // if (maximum_detonation < temp) {
-            //     maximum_detonation = temp;
-            // }
         }
 
         return maximum_detonation;
