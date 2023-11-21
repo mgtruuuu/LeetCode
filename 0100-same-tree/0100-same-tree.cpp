@@ -14,16 +14,36 @@ class Solution {
   public:
     bool isSameTree(TreeNode* p, TreeNode* q)
     {
-        if (p == nullptr && q == nullptr) {
-            return true;
-        }
-        else if (p == nullptr && q != nullptr) {
-            return false;
-        }
-        else if (p != nullptr && q == nullptr) {
-            return false;
+        std::stack<TreeNode*> s1, s2;
+
+        s1.push(p);
+        s2.push(q);
+        while (s1.empty() == false && s2.empty() == false) {
+
+            auto* node1 = s1.top();
+            s1.pop();
+            auto* node2 = s2.top();
+            s2.pop();
+
+            if (node1 == nullptr || node2 == nullptr) {
+
+                if (node1 == nullptr && node2 == nullptr) {
+                    continue;
+                }
+
+                return false;
+            }
+
+            if (node1->val != node2->val) {
+                return false;
+            }
+
+            s1.push(node1->right);
+            s1.push(node1->left);
+            s2.push(node2->right);
+            s2.push(node2->left);
         }
 
-        return p->val == q->val && isSameTree(p->left, q->left) == true && isSameTree(p->right, q->right) == true;
+        return s1.empty() && s2.empty() ? true : false;
     }
 };
