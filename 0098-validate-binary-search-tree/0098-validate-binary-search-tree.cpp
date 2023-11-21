@@ -1,3 +1,5 @@
+/*
+// Approach 1: Recursive Traversal with Valid Range
 class Solution {
   private:
     bool isValidBSTHelper(TreeNode* node, TreeNode* lower_limit = nullptr, TreeNode* upper_limit = nullptr)
@@ -21,5 +23,41 @@ class Solution {
     bool isValidBST(TreeNode* root)
     {
         return isValidBSTHelper(root);
+    }
+};
+*/
+
+
+// Approach 2: Iterative Traversal with Valid Range
+class Solution {
+  public:
+    bool isValidBST(TreeNode* root)
+    {
+        using MyNode = std::vector<TreeNode*>;
+
+        std::stack<MyNode> s;
+        s.push({root, nullptr, nullptr});
+        while (s.empty() == false) {
+
+            const auto node = s.top();
+            s.pop();
+
+            if (node[0] == nullptr) {
+                continue;
+            }
+
+            if (node[1] != nullptr && node[1]->val >= node[0]->val) {
+                return false;
+            }
+
+            if (node[2] != nullptr && node[0]->val >= node[2]->val) {
+                return false;
+            }
+
+            s.push({node[0]->right, node[0], node[2]});
+            s.push({node[0]->left, node[1], node[0]});
+        }
+
+        return true;
     }
 };
