@@ -66,6 +66,7 @@ class Solution {
 
 
 
+/*
 // Approach 3: Recursive Inorder Traversal
 class Solution {
   private:
@@ -97,5 +98,46 @@ class Solution {
     {
         TreeNode* p_prev = nullptr;
         return inorder(root, &p_prev);
+    }
+};
+*/
+
+
+
+// Approach 4: Iterative Inorder Traversal
+class Solution {
+  public:
+    bool isValidBST(TreeNode* root)
+    {
+        TreeNode* prev = nullptr;
+        std::stack<TreeNode*> s;
+
+        while (true) {
+
+            while (root != nullptr) {
+
+                s.push(root);
+                root = root->left;
+            }
+
+            if (s.empty() == true) {
+                break;
+            }
+
+            auto* node = s.top();
+            s.pop();
+
+            if (prev != nullptr && prev->val >= node->val) {
+                return false;
+            }
+
+            prev = node;
+
+            if (node->right != nullptr) {
+                root = node->right;
+            }
+        }
+
+        return true;
     }
 };
