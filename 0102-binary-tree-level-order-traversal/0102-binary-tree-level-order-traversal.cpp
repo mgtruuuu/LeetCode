@@ -11,6 +11,7 @@
  */
 
 
+/*
 // Approach 2-1: Iteration
 class Solution {
   public:
@@ -51,6 +52,8 @@ class Solution {
         return res; // cannot be run
     }
 };
+*/
+
 
 
 /*
@@ -94,7 +97,7 @@ class Solution {
 */
 
 
-/*
+///*
 // Approach 1: Recursion
 class Solution {
   private:
@@ -107,10 +110,15 @@ class Solution {
         }
 
         if (levels.size() < level + 1) {
+            
+            if (levels.capacity() < level + 1) {
+                levels.reserve(2 * level);
+            }
+            
             levels.resize(level + 1);
         }
-
         levels[level].push_back(node->val);
+        
         levelOrderHelper(node->left, level + 1);
         levelOrderHelper(node->right, level + 1);
     }
@@ -123,4 +131,4 @@ class Solution {
         return levels;
     }
 };
-*/
+//*/
