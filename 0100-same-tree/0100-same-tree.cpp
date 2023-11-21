@@ -10,6 +10,29 @@
  * };
  */
 
+
+///*
+// Approach 1: Recursion
+class Solution {
+  public:
+    bool isSameTree(TreeNode* p, TreeNode* q)
+    {
+        if (p == nullptr) {
+            return (q == nullptr ? true : false);
+        }
+        else if (q == nullptr) {
+            return false;
+        }
+
+        return p->val == q->val && isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
+    }
+};
+//*/
+
+
+
+/*
+// Approach 2: Iteration
 class Solution {
   public:
     bool isSameTree(TreeNode* p, TreeNode* q)
@@ -47,3 +70,4 @@ class Solution {
         return s1.empty() && s2.empty() ? true : false;
     }
 };
+*/
