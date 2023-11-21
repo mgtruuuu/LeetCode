@@ -20,6 +20,7 @@ class Solution {
 
         // ')'
         if (delta * 2 > combination.size()) {
+            
             combination.push_back(')');
             generateParenthesisHelper(n, delta, combination, combinations);
             combination.pop_back();
