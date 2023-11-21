@@ -38,7 +38,7 @@ class Solution {
 };
 */
 
-///*
+/*
 // Approach 2: Iterating method using Stack
 class Solution {
   public:
@@ -71,10 +71,10 @@ class Solution {
         return res;
     }
 };
-//*/
+*/
 
 
-/*
+///*
 // Approach 3: Morris Traversal
 class Solution {
   private:
@@ -92,27 +92,25 @@ class Solution {
   public:
     vector<int> inorderTraversal(TreeNode* root)
     {
-        std::vector<int> res;
+        std::vector<int> vals;
 
-        TreeNode* node = root;
-        while (node != nullptr) {
+        while (root != nullptr) {
 
-            if (node->left == nullptr) {
-                res.push_back(node->val);
-                node = node->right;
+            if (root->left == nullptr) {
 
+                vals.push_back(root->val);
+                root = root->right;
                 continue;
             }
 
-            predecessor(node)->right = node;
+            predecessor(root)->right = root;
 
-            TreeNode* temp = node;
-            node = node->left;
-
+            auto* temp = root;
+            root = root->left;
             temp->left = nullptr;
         }
 
-        return res;
+        return vals;
     }
 };
-*/
+//*/
