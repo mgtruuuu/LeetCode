@@ -1,19 +1,51 @@
 class Solution {
-public:
-    bool winnerOfGame(string colors) {
-        int alice = 0;
-        int bob = 0;
-        
-        for (int i = 1; i < colors.size() - 1; i++) {
-            if (colors[i - 1] == colors[i] && colors[i] == colors[i + 1]) {
-                if (colors[i] == 'A') {
-                    alice++;
-                } else {
-                    bob++;
+  public:
+    bool winnerOfGame(string colors)
+    {
+        auto res = 0;
+
+        auto count = 0;
+        auto prev = colors.front() == 'A' ? 'B' : 'A';
+        for (const auto color : colors) {
+
+            if (prev == color) {
+
+                ++count;
+
+                continue;
+            }
+
+            if (count > 2) {
+
+                count -= 2;
+                
+                if (prev == 'A') {
+                    res += count;
                 }
+                else {
+                    res -= count;
+                }
+            }
+
+            count = 1;
+            prev = color;
+        }
+
+        if (count > 2) {
+
+            count -= 2;
+
+            if (prev == 'A') {
+                res += count;
+            }
+            else {
+                res -= count;
             }
         }
         
-        return alice - bob >= 1;
+        std::cout << res << std::endl;
+
+        
+        return res > 0;
     }
 };
