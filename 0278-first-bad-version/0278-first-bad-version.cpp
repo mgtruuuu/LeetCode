@@ -5,20 +5,22 @@ class Solution {
   public:
     int firstBadVersion(int n)
     {
-        auto left = 1;
-        auto right = n;
-        while (left < right) {
+        auto idx_start = 1;
+        auto idx_end = n;
+        while (idx_start <= idx_end) {
 
-            const auto mid = left + (right - left) / 2;
+            const auto idx_middle = idx_start + (idx_end - idx_start) / 2;
 
-            if (isBadVersion(mid)) {
-                right = mid;
+            const auto temp = isBadVersion(idx_middle);
+
+            if (temp == true) {
+                idx_end = idx_middle - 1;
             }
             else {
-                left = mid + 1;
+                idx_start = idx_middle + 1;
             }
         }
 
-        return left;
+        return idx_start;
     }
 };
