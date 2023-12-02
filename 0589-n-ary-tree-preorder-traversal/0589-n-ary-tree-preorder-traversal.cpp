@@ -19,33 +19,8 @@ public:
 */
 
 
-/*
-class Solution {
-  private:
-    void preorderHelper(Node* node, std::vector<int>& vals)
-    {
-        if (node == nullptr) {
-            return;
-        }
-
-        vals.push_back(node->val);
-        for (auto* neighbor : node->children) {
-            preorderHelper(neighbor, vals);
-        }
-    }
-
-  public:
-    vector<int> preorder(Node* root)
-    {
-        std::vector<int> vals;
-        preorderHelper(root, vals);
-
-        return vals;
-    }
-};
-*/
-
-
+///*
+// Approach 1: Iterations
 class Solution {
   public:
     vector<int> preorder(Node* root)
@@ -74,3 +49,32 @@ class Solution {
         return vals;
     }
 };
+//*/
+
+
+/*
+// Approach 2: Recursive
+class Solution {
+  private:
+    void preorderHelper(Node* node, std::vector<int>& vals)
+    {
+        if (node == nullptr) {
+            return;
+        }
+
+        vals.push_back(node->val);
+        for (auto* neighbor : node->children) {
+            preorderHelper(neighbor, vals);
+        }
+    }
+
+  public:
+    vector<int> preorder(Node* root)
+    {
+        std::vector<int> vals;
+        preorderHelper(root, vals);
+
+        return vals;
+    }
+};
+*/
