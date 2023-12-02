@@ -11,24 +11,25 @@ class Solution {
   public:
     int guessNumber(int n)
     {
-        int64_t min = 1;
-        int64_t max = n;
-        int64_t middle = (min + max) / 2;
-        int64_t det = guess(middle);
-        while (min <= max) {
+        auto left = 1;
+        auto right = n;
+
+        auto middle = 0;
+        auto det = 0;
+        while (left <= right) {
+
+            middle = left + (right - left) / 2;
+            det = guess(middle);
 
             if (det < 0) {
-                max = middle - 1;
+                right = middle - 1;
             }
             else if (det > 0) {
-                min = middle + 1;
+                left = middle + 1;
             }
             else {
                 return middle;
             }
-
-            middle = (min + max) / 2;
-            det = guess(middle);
         }
 
         return -1;
