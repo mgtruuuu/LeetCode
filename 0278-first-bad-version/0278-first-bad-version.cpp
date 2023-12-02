@@ -2,7 +2,7 @@
 // bool isBadVersion(int version);
 
 
-/*
+///*
 class Solution {
   public:
     int firstBadVersion(int n)
@@ -26,9 +26,10 @@ class Solution {
         return idx_start;
     }
 };
-*/
+//*/
 
 
+/*
 class Solution {
   public:
     int firstBadVersion(int n)
@@ -50,4 +51,5 @@ class Solution {
         return idx_left;
     }
 };
+*/
 
