@@ -51,8 +51,6 @@ class Trie {
 
     ~Trie()
     {
-        if (m_children != nullptr) {
-
             for (auto idx = 0; idx != s_num_children; ++idx) {
 
                 if (m_children[idx] != nullptr) {
@@ -61,7 +59,6 @@ class Trie {
             }
 
             delete[] m_children;
-        }
     }
 
   private:
