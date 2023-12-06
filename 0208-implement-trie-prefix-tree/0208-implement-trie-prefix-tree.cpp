@@ -51,14 +51,14 @@ class Trie {
 
     ~Trie()
     {
-            for (auto idx = 0; idx != s_num_children; ++idx) {
+        for (auto idx = 0; idx != s_num_children; ++idx) {
 
-                if (m_children[idx] != nullptr) {
-                    m_children[idx]->~Trie();
-                }
+            if (m_children[idx] != nullptr) {
+                m_children[idx]->~Trie();
             }
+        }
 
-            delete[] m_children;
+        delete[] m_children;
     }
 
   private:
