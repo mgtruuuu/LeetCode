@@ -12,14 +12,14 @@ class Trie {
 
     int countWordsEqualTo(string word)
     {
-        return countWordsEqualToRecursive(word);
-        // return countWordsEqualToIterative(word);
+        // return countWordsEqualToRecursive(word);
+        return countWordsEqualToIterative(word);
     }
 
     int countWordsStartingWith(string prefix)
     {
-        return countWordsStartingWithRecursive(prefix);
-        //return countWordsStartingWithIterative(prefix);
+        // return countWordsStartingWithRecursive(prefix);
+        return countWordsStartingWithIterative(prefix);
     }
 
     void erase(string word)
