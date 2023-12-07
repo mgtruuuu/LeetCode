@@ -1,6 +1,9 @@
-/*
+///*
 // Approach 1: Vertical scanning
-// TC: O(S), where S is the sum of all characters in all strings
+// In the worst case we have n equal strings with length m.
+// in the best case there are at most n * minLen comparisons 
+// where minLen is the length of the shortest string in the array.
+// TC: O(S) where S is the sum of all characters in all strings
 // SC: O(1)
 class Solution {
   public:
@@ -25,13 +28,15 @@ class Solution {
         return res;
     }
 };
-*/
+//*/
 
 
+
+/*
 // Approach 2: Divide and conquer
 // In the worst case we have n equal strings with length m.
-// TC: O(S), where S is the sum of all characters in all strings
-// SC: O(S) = 2 * T(n/2) + O(m)
+// TC: O(S) = 2 * T(n/2) + O(m) where S is the sum of all characters in all strings
+// SC: O(m * log(n)) 
 class Solution {
   private:
     std::string longestCommonPrefixHelper(const std::vector<std::string>& strs, const std::size_t idx_left,
@@ -67,4 +72,6 @@ class Solution {
         return longestCommonPrefixHelper(strs, 0, strs.size() - 1);
     }
 };
+*/
+
 
