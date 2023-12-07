@@ -1,279 +1,189 @@
-///*
-// Approach 1-1: Recursive
 class Trie {
   public:
-    Trie() : m_words_starting_here{ 0 }, m_words_ending_here{ 0 }, m_children{ new Trie* [s_num_children] {} }
+    Trie() : m_children{ new Trie* [s_num_children] {} }, m_starting{ 0 }, m_ending{ 0 }
     {
     }
 
     void insert(string word)
     {
-        insertHelper(word, 0);
+        insertRecursive(word);
+        //insertIterative(word);
     }
 
     int countWordsEqualTo(string word)
     {
-        return countWordsEqualToHelper(word, 0);
+        return countWordsEqualToRecursive(word);
+        // return countWordsEqualToIterative(word);
     }
 
     int countWordsStartingWith(string prefix)
     {
-        return countWordsStartingWithHelper(prefix, 0);
+        return countWordsStartingWithRecursive(prefix);
+        //return countWordsStartingWithIterative(prefix);
     }
 
     void erase(string word)
     {
-        eraseHelper(word, 0);
+        return eraseRecursive(word);
+        //return eraseIterative(word);
     }
 
     ~Trie()
     {
-        if (m_children != nullptr) {
+        for (auto idx = 0; idx != s_num_children; ++idx) {
 
-            for (auto i = 0; i != s_num_children; ++i) {
-
-                if (m_children[i] != nullptr) {
-                    m_children[i]->~Trie();
-                }
+            if (m_children[idx] != nullptr) {
+                m_children[idx]->~Trie();
             }
-
-            delete[] m_children;
-            m_children = nullptr;
         }
+
+        delete[] m_children;
+        m_children = nullptr;
     }
+
+    void insertRecursive(const std::string& word, const std::size_t idx_word = 0);
+    Trie* countWordsRecursiveHelper(const std::string& word, const std::size_t idx_word = 0);
+    int countWordsEqualToRecursive(const std::string& word);
+    int countWordsStartingWithRecursive(const std::string& prefix);
+    void eraseRecursive(const std::string& word, const std::size_t idx_word = 0);
+
+    void insertIterative(const std::string& word);
+    Trie* countWordsIterativeHelper(const std::string& word);
+    int countWordsEqualToIterative(const std::string& word);
+    int countWordsStartingWithIterative(const std::string& prefix);
+    void eraseIterative(const std::string& word);
 
   private:
-    void insertHelper(const std::string& word, const std::size_t idx_word)
-    {
-        if (idx_word == word.size()) {
-
-            ++m_words_starting_here;
-            ++m_words_ending_here;
-
-            return;
-        }
-
-        ++m_words_starting_here;
-
-        const auto idx_children = getChildrenIndex(word[idx_word]);
-
-        if (m_children[idx_children] == nullptr) {
-            m_children[idx_children] = new Trie{};
-        }
-
-        m_children[idx_children]->insertHelper(word, idx_word + 1);
-    }
-
-    int countWordsEqualToHelper(const std::string& word, const std::size_t idx_word)
-    {
-        if (idx_word == word.size()) {
-            return m_words_ending_here;
-        }
-
-        const auto idx_children = getChildrenIndex(word[idx_word]);
-
-        return m_children[idx_children] == nullptr
-                   ? 0
-                   : m_children[idx_children]->countWordsEqualToHelper(word, idx_word + 1);
-    }
-
-    int countWordsStartingWithHelper(const std::string& prefix, const std::size_t idx_word)
-    {
-        if (idx_word == prefix.size()) {
-            return m_words_starting_here;
-        }
-
-        const auto idx_children = getChildrenIndex(prefix[idx_word]);
-
-        return m_children[idx_children] == nullptr
-                   ? 0
-                   : m_children[idx_children]->countWordsStartingWithHelper(prefix, idx_word + 1);
-    }
-
-    bool eraseHelper(const std::string& word, const std::size_t idx_word)
-    {
-        if (idx_word == word.size()) {
-
-            --m_words_ending_here;
-            --m_words_starting_here;
-
-            return true;
-        }
-
-        const auto idx_children = getChildrenIndex(word[idx_word]);
-
-        if (m_children[idx_children] == nullptr) {
-
-            std::cerr << "Cannot find word : " << word << std::endl;
-
-            return false;
-        }
-
-        if (m_children[idx_children]->eraseHelper(word, idx_word + 1) == false) {
-            return false;
-        }
-
-        --m_words_starting_here;
-
-        if (m_words_starting_here == 0) {
-            
-            delete m_children[idx_children];
-            m_children[idx_children] = nullptr;
-        }
-
-        return true;
-    }
-
-    std::size_t getChildrenIndex(const char ch) const
+    std::size_t getIndex(const char ch)
     {
         return ch - 'a';
     }
 
-    int m_words_starting_here;
-    int m_words_ending_here;
+    static constexpr int s_num_children = 'z' - 'a' + 1;
     Trie** m_children;
-    static constexpr int s_num_children = ('z' - 'a') + 1;
+    int m_starting;
+    int m_ending;
 };
-//*/
 
+void Trie::insertRecursive(const std::string& word, const std::size_t idx_word)
+{
+    m_starting += 1;
 
-/*
-// Approach 1-2: Iterative
-class Trie {
-  public:
-    Trie() : m_words_starting_here{ 0 }, m_words_ending_here{ 0 }, m_children{ new Trie* [s_num_children] {} }
-    {
+    if (word.size() == idx_word) {
+
+        m_ending += 1;
+
+        return;
     }
 
-    void insert(string word)
-    {
-        auto* node = this;
+    const auto idx = getIndex(word[idx_word]);
 
-        for (const auto ch : word) {
+    if (m_children[idx] == nullptr) {
+        m_children[idx] = new Trie{};
+    }
 
-            const auto idx = getChildrenIndex(ch);
+    m_children[idx]->insertRecursive(word, idx_word + 1);
+}
 
-            if (node->m_children[idx] == nullptr) {
-                node->m_children[idx] = new Trie{};
-            }
+void Trie::insertIterative(const std::string& word)
+{
+    auto* p = this;
+    for (const auto ch : word) {
 
-            ++node->m_words_starting_here;
+        const auto idx = getIndex(ch);
 
-            node = node->m_children[idx];
+        if (p->m_children[idx] == nullptr) {
+            p->m_children[idx] = new Trie{};
         }
 
-        ++node->m_words_ending_here;
-        ++node->m_words_starting_here;
+        ++(p->m_starting);
+
+        p = p->m_children[idx];
     }
 
-    int countWordsEqualTo(string word)
-    {
-        return countWordsHelper(word) == nullptr ? 0 : countWordsHelper(word)->m_words_ending_here;
-    }
+    ++(p->m_ending);
+}
 
-    int countWordsStartingWith(string prefix)
-    {
-        return countWordsHelper(prefix) == nullptr ? 0 : countWordsHelper(prefix)->m_words_starting_here;
-    }
+Trie* Trie::countWordsIterativeHelper(const std::string& word)
+{
+    auto* p = this;
+    for (const auto ch : word) {
 
-    void erase(string word)
-    {
-        std::stack<std::pair<Trie*, int>> s;
+        const auto idx = getIndex(ch);
+        p = p->m_children[idx];
 
-        auto* node = this;
-
-        for (const auto ch : word) {
-
-            const auto idx = getChildrenIndex(ch);
-
-            if (node->m_children[idx] == nullptr) {
-
-                std::cerr << "Cannot find word : " << word << std::endl;
-
-                while (s.empty() == false) {
-
-                    s.top().first->m_words_starting_here;
-                    s.pop();
-                }
-
-                return;
-            }
-
-            s.emplace(node, idx);
-
-            --node->m_words_starting_here;
-
-            node = node->m_children[idx];
-        }
-
-        --node->m_words_ending_here;
-        --node->m_words_starting_here;
-
-        bool is_node_empty = (node->m_words_starting_here == 0);
-        while (s.empty() == false) {
-
-            node = s.top().first;
-            const auto idx_children = s.top().second;
-
-            if (is_node_empty == true) {
-                delete node->m_children[idx_children];
-                node->m_children[idx_children] = nullptr;
-            }
-
-            is_node_empty = (node->m_words_starting_here == 0);
-
-            s.pop();
+        if (p == nullptr) {
+            return p;
         }
     }
 
-    ~Trie()
-    {
-        if (m_children != nullptr) {
+    return p;
+}
 
-            for (auto i = 0; i != s_num_children; ++i) {
+int Trie::countWordsEqualToIterative(const std::string& word)
+{
+    auto* temp = countWordsIterativeHelper(word);
 
-                if (m_children[i] != nullptr) {
-                    m_children[i]->~Trie();
-                }
-            }
+    return temp ? temp->m_ending : false;
+}
 
-            delete[] m_children;
-            m_children = nullptr;
-        }
+Trie* Trie::countWordsRecursiveHelper(const std::string& word, const std::size_t idx_word)
+{
+    if (word.size() == idx_word) {
+        return this;
     }
 
-  private:
-    Trie* countWordsHelper(const std::string& word)
-    {
-        auto* node = this;
+    const auto idx = getIndex(word[idx_word]);
 
-        for (const auto ch : word) {
+    return m_children[idx] ? m_children[idx]->countWordsRecursiveHelper(word, idx_word + 1) : nullptr;
+}
 
-            const auto idx = getChildrenIndex(ch);
+int Trie::countWordsEqualToRecursive(const std::string& word)
+{
+    auto* temp = countWordsRecursiveHelper(word);
 
-            if (node->m_children[idx] == nullptr) {
-                return nullptr;
-            }
+    return temp ? temp->m_ending : 0;
+}
 
-            node = node->m_children[idx];
-        }
+int Trie::countWordsStartingWithRecursive(const std::string& prefix)
+{
+    auto* temp = countWordsRecursiveHelper(prefix);
 
-        return node;
+    return temp ? temp->m_starting : 0;
+}
+
+int Trie::countWordsStartingWithIterative(const std::string& prefix)
+{
+    auto* temp = countWordsIterativeHelper(prefix);
+
+    return temp ? temp->m_starting : 0;
+}
+
+void Trie::eraseRecursive(const std::string& word, const std::size_t idx_word)
+{
+    --m_starting;
+
+    if (word.size() == idx_word) {
+
+        --m_ending;
+
+        return;
     }
 
-    std::size_t getChildrenIndex(const char ch) const
-    {
-        return ch - 'a';
+    const auto idx = getIndex(word[idx_word]);
+
+    m_children[idx]->eraseRecursive(word, idx_word + 1);
+
+    if (m_children[idx]->m_starting == 0) {
+
+        delete[] m_children[idx]->m_children;
+        m_children[idx] = nullptr;
     }
+}
 
-    int m_words_starting_here;
-    int m_words_ending_here;
-    Trie** m_children;
-    static constexpr int s_num_children = ('z' - 'a') + 1;
-};
-*/
-
-
+void Trie::eraseIterative(const std::string& word)
+{
+}
 
 /**
  * Your Trie object will be instantiated and called as such:
