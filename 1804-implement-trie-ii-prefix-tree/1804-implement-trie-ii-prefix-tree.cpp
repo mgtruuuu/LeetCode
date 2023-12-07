@@ -6,8 +6,8 @@ class Trie {
 
     void insert(string word)
     {
-        insertRecursive(word);
-        //insertIterative(word);
+        // insertRecursive(word);
+        insertIterative(word);
     }
 
     int countWordsEqualTo(string word)
@@ -101,6 +101,7 @@ void Trie::insertIterative(const std::string& word)
         p = p->m_children[idx];
     }
 
+    ++(p->m_starting);
     ++(p->m_ending);
 }
 
