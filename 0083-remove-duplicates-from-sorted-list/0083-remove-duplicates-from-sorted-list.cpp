@@ -18,12 +18,15 @@ class Solution {
         while (curr != nullptr && curr->next != nullptr) {
 
             if (curr->val == curr->next->val) {
-                curr->next = curr->next->next;
+
+                auto* temp = curr->next->next;
+                // delete curr->next;
+
+                curr->next = temp;
             }
             else {
                 curr = curr->next;
             }
-        
         }
 
         return head;
