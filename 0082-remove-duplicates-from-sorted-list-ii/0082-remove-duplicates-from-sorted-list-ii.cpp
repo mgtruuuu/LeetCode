@@ -13,7 +13,7 @@ class Solution {
   public:
     ListNode* deleteDuplicates(ListNode* head)
     {
-        auto* sentinel = new ListNode{ -101, head };
+        auto* sentinel = new ListNode{ 0, head };
 
         auto* prev = sentinel;
         auto* curr = sentinel->next;
@@ -23,10 +23,16 @@ class Solution {
             if (curr->next != nullptr && curr->val == curr->next->val) {
 
                 do {
-                    curr = curr->next;
+
+                    auto* temp = curr->next;
+                    // delete curr;
+                    curr = temp;
+
                 } while (curr->next != nullptr && curr->val == curr->next->val);
 
-                prev->next = curr->next;
+                auto* temp = curr->next;
+                // delete curr;
+                prev->next = temp;
             }
             else {
                 prev = prev->next;
@@ -36,7 +42,7 @@ class Solution {
         }
 
         auto* res = sentinel->next;
-    
+
         delete sentinel;
         sentinel = nullptr;
         return res;
