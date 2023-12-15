@@ -1,3 +1,4 @@
+// Approach 1: Caching Smarter
 class NumMatrix {
   public:
     NumMatrix(vector<vector<int>>& matrix)
