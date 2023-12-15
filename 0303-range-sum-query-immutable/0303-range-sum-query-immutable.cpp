@@ -1,4 +1,4 @@
-///*
+/*
 // Approach 1: Caching
 class NumArray {
   public:
@@ -21,11 +21,11 @@ class NumArray {
   private:
     std::vector<int> m_sums;
 };
-//*/
+*/
 
 
 
-/*
+///*
 // Approach 2: Caching
 class NumArray {
   public:
@@ -35,10 +35,12 @@ class NumArray {
         m_sums = std::vector<std::vector<int>>(nums.size(), std::vector<int>(nums.size()));
 
         for (auto r = std::size_t(0); r != nums.size(); ++r) {
-
-            m_sums[r][r] = nums[r];
-            for (auto c = r + 1; c != nums.size(); ++c) {
-                m_sums[r][c] = m_sums[r][c - 1] + nums[c];
+            
+            auto sum = 0;
+            for (auto c = r; c != nums.size(); ++c) {
+                
+                sum += nums[c];
+                m_sums[r][c] = sum;
             }
         }
     }
@@ -51,7 +53,7 @@ class NumArray {
   private:
     std::vector<std::vector<int>> m_sums;
 };
-*/
+//*/
 
 
 
