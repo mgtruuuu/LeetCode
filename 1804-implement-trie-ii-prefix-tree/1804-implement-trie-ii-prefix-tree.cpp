@@ -24,21 +24,24 @@ class Trie {
 
     void erase(string word)
     {
-        return eraseRecursive(word);
-        //return eraseIterative(word);
+        // eraseRecursive(word);
+        eraseIterative(word);
     }
 
     ~Trie()
     {
-        for (auto idx = 0; idx != s_num_children; ++idx) {
+        if (m_children != nullptr) {
 
-            if (m_children[idx] != nullptr) {
-                m_children[idx]->~Trie();
+            for (auto idx = 0; idx != s_num_children; ++idx) {
+
+                if (m_children[idx] != nullptr) {
+                    m_children[idx]->~Trie();
+                }
             }
-        }
 
-        delete[] m_children;
-        m_children = nullptr;
+            delete[] m_children;
+            m_children = nullptr;
+        }
     }
 
     void insertRecursive(const std::string& word, const std::size_t idx_word = 0);
@@ -125,7 +128,7 @@ int Trie::countWordsEqualToIterative(const std::string& word)
 {
     auto* temp = countWordsIterativeHelper(word);
 
-    return temp ? temp->m_ending : false;
+    return temp ? temp->m_ending : 0;
 }
 
 Trie* Trie::countWordsRecursiveHelper(const std::string& word, const std::size_t idx_word)
@@ -136,7 +139,7 @@ Trie* Trie::countWordsRecursiveHelper(const std::string& word, const std::size_t
 
     const auto idx = getIndex(word[idx_word]);
 
-    return m_children[idx] ? m_children[idx]->countWordsRecursiveHelper(word, idx_word + 1) : nullptr;
+    return m_children[idx] ? m_children[idx]->countWordsRecursiveHelper(word, idx_word + 1) : m_children[idx];
 }
 
 int Trie::countWordsEqualToRecursive(const std::string& word)
@@ -178,54 +181,49 @@ void Trie::eraseRecursive(const std::string& word, const std::size_t idx_word)
     if (m_children[idx]->m_starting == 0) {
 
         delete[] m_children[idx]->m_children;
+        m_children[idx]->m_children = nullptr;
+        delete m_children[idx];
         m_children[idx] = nullptr;
     }
 }
 
-// void Trie::eraseIterative(const std::string& word)
-// {
-//     std::stack<Trie*> s;
+void Trie::eraseIterative(const std::string& word)
+{
+    std::stack<Trie**> s;
 
-//     {
-//         auto* p = this;
-//         s.push(p);
-//         --(p->m_starting);
+    {
+        auto* p = this;
+        --(p->m_starting);
 
-//         for (const auto ch : word) {
+        for (const auto ch : word) {
 
-//             const auto idx = getIndex(ch);
-//             p = p->m_children[idx];
+            const auto idx = getIndex(ch);
+            
+            s.push(&(p->m_children[idx]));
+            
+            p = p->m_children[idx];
+            
+            --(p->m_starting);
+        }
 
-//             s.push(p);
-//             --(p->m_starting);
-//         }
+        --(p->m_ending);
+    }
 
-//         --(p->m_ending);
-//     }
 
-//     auto* prev = s.top();
-//     s.pop();
+    while (s.empty() == false) {
 
-//     while (s.empty() == false) {
+        auto** curr = s.top();
+        s.pop();
 
-//         auto* curr = s.top();
-//         s.pop();
+        if ((**curr).m_starting == 0) {
 
-//         if (prev->m_starting == 0) {
-
-//             delete[] prev->m_children;
-//             prev->m_children = nullptr;
-//         }
-
-//         prev = curr;
-//     }
-// }
-
-/**
- * Your Trie object will be instantiated and called as such:
- * Trie* obj = new Trie();
- * obj->insert(word);
- * int param_2 = obj->countWordsEqualTo(word);
- * int param_3 = obj->countWordsStartingWith(prefix);
- * obj->erase(word);
- */
+            delete[] (**curr).m_children;
+            (**curr).m_children = nullptr;
+            delete *curr;
+            *curr = nullptr;
+        }
+        else {
+            break;
+        }
+    }
+}
