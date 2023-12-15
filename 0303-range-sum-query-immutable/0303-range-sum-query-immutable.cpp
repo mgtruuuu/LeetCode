@@ -1,4 +1,4 @@
-/*
+///*
 // Approach 1: Caching
 class NumArray {
   public:
@@ -21,11 +21,11 @@ class NumArray {
   private:
     std::vector<int> m_sums;
 };
-*/
+//*/
 
 
 
-///*
+/*
 // Approach 2: Caching
 class NumArray {
   public:
@@ -53,7 +53,7 @@ class NumArray {
   private:
     std::vector<std::vector<int>> m_sums;
 };
-//*/
+*/
 
 
 
