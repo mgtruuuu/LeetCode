@@ -8,16 +8,13 @@ class Solution {
         s_int.push(1);
         s_str.push(std::string());
 
-        std::string num;
-        num.reserve(3);
+        auto num = 0;
         for (const auto ch : s) {
 
             if (ch == '[') {
 
-                s_int.push(std::stoi(num));
-
-                num.clear();
-                num.reserve(3);
+                s_int.push(num);
+                num = 0;
 
                 s_str.push(std::string());
             }
@@ -36,7 +33,9 @@ class Solution {
                 s_str.top() += temp;
             }
             else if (ch >= '0' && ch <= '9') {
-                num += ch;
+
+                num *= 10;
+                num += ch - '0';
             }
             else {
                 // 'a' ~ 'z'
