@@ -2,9 +2,10 @@ class Solution {
 public:
     vector<int> runningSum(vector<int> &nums) {
         
-        for (int i = 1; i < nums.size(); i++) {
+        for (auto i = std::size_t(1); i != nums.size(); ++i) {
             nums[i] += nums[i - 1];
         }
+        
         return nums;
     }
 };
