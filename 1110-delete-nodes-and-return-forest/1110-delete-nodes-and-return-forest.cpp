@@ -15,7 +15,7 @@
 // 1-1. Preorder - Recursive
 class Solution {
   private:
-    void delNodesHelper(TreeNode* node, std::unordered_set<int>& to_delete, std::vector<TreeNode*>& nodes)
+    void delNodesHelper(TreeNode* node, const std::unordered_set<int>& to_delete, std::vector<TreeNode*>& nodes)
     {
         if (node == nullptr) {
             return;
@@ -69,7 +69,7 @@ class Solution {
 // 1-2. Preorder - Recursive
 class Solution {
   private:
-    void delNodesHelper(TreeNode** pp_node, std::unordered_set<int>& to_delete, std::vector<TreeNode*>& nodes)
+    void delNodesHelper(TreeNode** pp_node, const std::unordered_set<int>& to_delete, std::vector<TreeNode*>& nodes)
     {
         if (*pp_node == nullptr) {
             return;
