@@ -1,5 +1,3 @@
-///*
-// Approach 1: Caching
 class NumArray {
   public:
     NumArray(vector<int>& nums)
@@ -8,8 +6,8 @@ class NumArray {
         m_sums.resize(nums.size() + 1);
 
         m_sums[0] = 0;
-        for (auto idx = 0; idx != static_cast<int>(nums.size()); ++idx) {
-            m_sums[idx + 1] = m_sums[idx] + nums[idx];
+        for (auto idx = 1; idx != static_cast<int>(m_sums.size()); ++idx) {
+            m_sums[idx] = m_sums[idx - 1] + nums[idx - 1];
         }
     }
 
@@ -21,41 +19,6 @@ class NumArray {
   private:
     std::vector<int> m_sums;
 };
-//*/
-
-
-
-/*
-// Approach 2: Caching
-class NumArray {
-  public:
-    NumArray(vector<int>& nums)
-    {
-        m_sums.clear();
-        m_sums = std::vector<std::vector<int>>(nums.size(), std::vector<int>(nums.size()));
-
-        for (auto r = std::size_t(0); r != nums.size(); ++r) {
-            
-            auto sum = 0;
-            for (auto c = r; c != nums.size(); ++c) {
-                
-                sum += nums[c];
-                m_sums[r][c] = sum;
-            }
-        }
-    }
-
-    int sumRange(int left, int right)
-    {
-        return m_sums[left][right];
-    }
-
-  private:
-    std::vector<std::vector<int>> m_sums;
-};
-*/
-
-
 
 /**
  * Your NumArray object will be instantiated and called as such:
